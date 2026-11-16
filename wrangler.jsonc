@@ -1,5 +1,5 @@
 {
-  "name": "cubecraft",
+  "name": "mancraft",
   "main": "src/worker.js",
   "compatibility_date": "2025-09-01",
   "assets": { "directory": "./public", "binding": "ASSETS" },
