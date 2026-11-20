@@ -2,19 +2,34 @@
 // Protocol matches index.html. Adds: chat (1.5s cooldown), unique 1-12 letter names,
 // and per-account saves (position, inventory, skin) for players signed in with Google.
 const MAX=8,NAME=/^[A-Za-z]{1,12}$/,JWK='https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com';
-const u8=b=>Uint8Array.from(atob(b.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+const decode=b64=>{const s=b64.replace(/-/g,'+').replace(/_/g,'/');return atob(s.padEnd(Math.ceil(s.length/4)*4,'='))};
+const u8=b=>Uint8Array.from(decode(b),c=>c.charCodeAt(0));
 const num=(v,a,b)=>Number.isFinite(v)&&v>=a&&v<=b;
+let jwks=null,jwksExpires=0;
 async function verify(tok,env){try{
-  const[h,p,sg]=String(tok).split('.'),hd=JSON.parse(atob(h.replace(/-/g,'+').replace(/_/g,'/'))),pl=JSON.parse(atob(p.replace(/-/g,'+').replace(/_/g,'/'))),P=env.FIREBASE_PROJECT_ID;
+  const[h,p,sg]=String(tok).split('.');
+  if(!h||!p||!sg)return null;
+  const hd=JSON.parse(decode(h)),pl=JSON.parse(decode(p)),P=env.FIREBASE_PROJECT_ID;
+  if(!P||!pl)return null;
   if(hd.alg!='RS256'||pl.aud!=P||pl.iss!='https://securetoken.google.com/'+P||pl.exp<Date.now()/1e3||!pl.sub)return null;
-  const ks=(await(await fetch(JWK,{cf:{cacheTtl:3600}})).json()).keys,k=ks.find(x=>x.kid==hd.kid);if(!k)return null;
+  const now=Date.now();
+  if(!jwks||now>=jwksExpires){
+    const r=await fetch(JWK,{cf:{cacheTtl:3600}});
+    if(!r.ok)return null;
+    jwks=await r.json();
+    jwksExpires=now+3600000;
+  }
+  const k=jwks.keys&&jwks.keys.find(x=>x.kid==hd.kid);if(!k)return null;
   const key=await crypto.subtle.importKey('jwk',k,{name:'RSASSA-PKCS1-v1_5',hash:'SHA-256'},false,['verify']);
   return await crypto.subtle.verify('RSASSA-PKCS1-v1_5',key,u8(sg),new TextEncoder().encode(h+'.'+p))?pl.sub:null}catch(e){return null}}
 const okSkin=s=>s&&((Number.isInteger(s.p)&&s.p>=0&&s.p<100)||(typeof s.u=='string'&&s.u.startsWith('data:image/png;base64,')&&s.u.length<60000))?(s.u?{u:s.u}:{p:s.p}):null;
 const okInv=a=>Array.isArray(a)&&a.length==46?a.map(v=>Array.isArray(v)&&Number.isInteger(v[0])&&v[0]>0&&v[0]<1000&&Number.isInteger(v[1])&&v[1]>0?[v[0],Math.min(v[1],999)]:0):null;
 
 export default{async fetch(req,env){const u=new URL(req.url),lobby=(u.searchParams.get('lobby')||'').slice(0,32);
-  if(u.pathname!='/ws'||req.headers.get('Upgrade')!='websocket'||!lobby)return new Response('Mancraft server');
+  if(u.pathname!='/ws'){
+    return env.ASSETS?env.ASSETS.fetch(req):new Response('Mancraft server');
+  }
+  if(req.headers.get('Upgrade')?.toLowerCase()!='websocket'||!lobby)return new Response('Mancraft server');
   const mode=u.searchParams.get('mode')=='peace'?'peace':'open';
   return env.LOBBY.get(env.LOBBY.idFromName(mode+':'+lobby)).fetch(req)}};
 

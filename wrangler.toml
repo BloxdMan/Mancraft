@@ -2,6 +2,11 @@ name = "mancraft"
 main = "src/worker.js"
 compatibility_date = "2024-11-01"
 
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+
 [vars]
 FIREBASE_PROJECT_ID = "man-craft-a06db"
 

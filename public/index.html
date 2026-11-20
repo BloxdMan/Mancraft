@@ -140,15 +140,8 @@ Chunk (X / Y / Z)
 <div style="flex:1;min-width:150px"><div id="skl"></div><label><input type="checkbox" id="sko" checked> Show outer layer</label>
 <button class="t" id="sku">Upload skin (PNG)</button><input type="file" id="skf" accept="image/png" style="display:none"><small id="skm"></small></div></div>
 <small>Skins are 64×64 (or 64×32) Minecraft PNGs with the classic arm width. Drag the preview to rotate it. Press N, Tab or Esc to close.</small></div></div>
-<script>window.FIREBASE_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+<script>
+window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyBKC2YESMboKJrF6LXQID4ZRZxhIuCbkOM",
   authDomain: "man-craft-a06db.firebaseapp.com",
   projectId: "man-craft-a06db",
@@ -157,17 +150,14 @@ const firebaseConfig = {
   appId: "1:374640323769:web:20f184c74cc0b5b9fd3f68",
   measurementId: "G-WNBELN5DPG"
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);</script>
+</script>
 <script type="module">
-const C=window.FIREBASE_CONFIG,A={user:null,configured:!!(C&&C.apiKey)};window.MCAuth=A;
+const C=window.FIREBASE_CONFIG,A={user:null,configured:!!(C&&C.apiKey&&C.projectId&&C.appId)};window.MCAuth=A;
 const emit=()=>window.dispatchEvent(new Event('mcauth')),G='https://www.gstatic.com/firebasejs/10.14.1/';
 if(A.configured){try{
  const[{initializeApp},{getAuth,onAuthStateChanged,signInWithPopup,GoogleAuthProvider,signOut},{getFirestore,doc,getDoc,setDoc}]=await Promise.all([import(G+'firebase-app.js'),import(G+'firebase-auth.js'),import(G+'firebase-firestore.js')]);
- const app=initializeApp(C),au=getAuth(app),db=getFirestore(app),ref=k=>doc(db,'players',au.currentUser.uid,'saves',k);
- A.signIn=()=>signInWithPopup(au,new GoogleAuthProvider());A.signOut=()=>signOut(au);A.token=()=>au.currentUser.getIdToken();
+ const app=initializeApp(C),au=getAuth(app),db=getFirestore(app),ref=k=>{const u=au.currentUser;if(!u)throw new Error('Not signed in');return doc(db,'players',u.uid,'saves',k)};
+ A.signIn=()=>signInWithPopup(au,new GoogleAuthProvider());A.signOut=()=>signOut(au);A.token=()=>{const u=au.currentUser;if(!u)return Promise.reject(new Error('Not signed in'));return u.getIdToken()};
  A.load=async k=>{const d=await getDoc(ref(k));return d.exists()?d.data():null};A.save=(k,d)=>setDoc(ref(k),d);
  onAuthStateChanged(au,u=>{A.user=u;emit()})}catch(e){console.error(e);A.configured=false}}
 emit();
