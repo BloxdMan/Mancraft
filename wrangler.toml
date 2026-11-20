@@ -1,9 +1,9 @@
 name = "mancraft"
-main = "worker.js"
+main = "src/worker.js"
 compatibility_date = "2024-11-01"
 
 [vars]
-FIREBASE_PROJECT_ID = "your-firebase-project-id"
+FIREBASE_PROJECT_ID = "man-craft-a06db"
 
 [[durable_objects.bindings]]
 name = "LOBBY"

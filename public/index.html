@@ -140,7 +140,27 @@ Chunk (X / Y / Z)
 <div style="flex:1;min-width:150px"><div id="skl"></div><label><input type="checkbox" id="sko" checked> Show outer layer</label>
 <button class="t" id="sku">Upload skin (PNG)</button><input type="file" id="skf" accept="image/png" style="display:none"><small id="skm"></small></div></div>
 <small>Skins are 64×64 (or 64×32) Minecraft PNGs with the classic arm width. Drag the preview to rotate it. Press N, Tab or Esc to close.</small></div></div>
-<script>window.FIREBASE_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};/* paste your Firebase web config here to enable Google sign-in + saves */</script>
+<script>window.FIREBASE_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBKC2YESMboKJrF6LXQID4ZRZxhIuCbkOM",
+  authDomain: "man-craft-a06db.firebaseapp.com",
+  projectId: "man-craft-a06db",
+  storageBucket: "man-craft-a06db.firebasestorage.app",
+  messagingSenderId: "374640323769",
+  appId: "1:374640323769:web:20f184c74cc0b5b9fd3f68",
+  measurementId: "G-WNBELN5DPG"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);</script>
 <script type="module">
 const C=window.FIREBASE_CONFIG,A={user:null,configured:!!(C&&C.apiKey)};window.MCAuth=A;
 const emit=()=>window.dispatchEvent(new Event('mcauth')),G='https://www.gstatic.com/firebasejs/10.14.1/';
@@ -322,7 +342,6 @@ T('bucket',bucket(0));T('water_bucket',bucket(1));
 T('pine_bark',x=>x%3==0?P(['#4a3a2a','#3f3124']):P(['#5f4a33','#6a5238','#574330']));
 T('pine_rings',(x,y)=>{const d=Math.max(Math.abs(x-3.5),Math.abs(y-3.5));return d>3?'#4f3d29':(d|0)%2?'#b79a6a':'#a58a5c'});
 T('pine_planks',(x,y)=>y%4==3?'#7a4f2c':P(['#a8774a','#a0703f','#b0804f']));
-
 T('cranberries',(x,y)=>y<3||(y==3&&(x<2||x>5))?null:(x+y*2)%5==0?'#c4152b':P(['#2f6b2a','#3b7a30','#357226']));
 T('crafting_top',(x,y)=>x==0||x==7||y==0||y==7?'#6e4a28':x==3||x==4||y==3||y==4?'#8a6a3a':P(['#c9a05e','#c09858']));
 T('crafting_side',(x,y)=>y==0||y==7?'#6e4a28':x>=2&&x<=5&&y>=2&&y<=5&&(x+y)%2==0?'#5a3a1c':y%4==3?'#8a6a3a':P(['#c9a05e','#c09858','#d1a865']));
