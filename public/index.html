@@ -103,11 +103,11 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 /* ---- menu style: bold, square, black outlines ---- */
 :root{--ac:#5aa832}
 .p,#main,#load,#sch{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800}
-.p{background:#1f2630;color:#fff;border:4px solid #000;border-radius:0;box-shadow:8px 8px 0 #00000035;animation:pin .18s ease-out}
+.p{background:#1f2630;color:#fff;border:4px solid #000;border-radius:0;box-shadow:8px 8px 0 #000;animation:pin .18s ease-out}
 @keyframes pin{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
 .p h1{margin:0 -20px 14px;padding:12px 20px;background:var(--ac);color:#000;border-bottom:4px solid #000;font-size:22px;letter-spacing:.08em;text-transform:uppercase}
 .p{padding-top:0}.p>h1{margin-top:0}
-.p button{border:3px solid #000;border-radius:0;box-shadow:4px 4px 0 #00000035;font-weight:900;letter-spacing:.05em;text-transform:uppercase;transition:transform .1s,box-shadow .1s,filter .1s}
+.p button{border:3px solid #000;border-radius:0;box-shadow:4px 4px 0 #000;font-weight:900;letter-spacing:.05em;text-transform:uppercase;transition:transform .1s,box-shadow .1s,filter .1s}
 .p button:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000;filter:brightness(1.15)}
 .p button:active:not(:disabled){transform:translate(3px,3px);box-shadow:1px 1px 0 #000}
 .p button.sk,.p button.s{box-shadow:none}
@@ -115,7 +115,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 .p input[type=text]:focus,.p input[type=number]:focus{outline:3px solid var(--ac)}
 .p input[type=range]{height:20px;cursor:pointer}
 .p label{cursor:default}.p label b{background:#000;padding:1px 7px}
-.tabs{display:flex;margin:0 0 14px;border:3px solid #000;box-shadow:4px 4px 0 #00000035}
+.tabs{display:flex;margin:0 0 14px;border:3px solid #000;box-shadow:4px 4px 0 #000}
 .p .tabs button.tab{width:auto;flex:1;margin:0;border:0;border-right:3px solid #000;box-shadow:none;background:#3a4452;color:#cfd6df;padding:10px 6px}
 .p .tabs button.tab:last-child{border-right:0}
 .p .tabs button.tab:hover{transform:none;box-shadow:none;background:#4a5668;color:#fff}
@@ -125,16 +125,68 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 #main{background:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.45))}
 #main h1{color:#8be04e;-webkit-text-stroke:5px #000;paint-order:stroke fill;text-shadow:6px 6px 0 #000;animation:bob 3.2s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-6px)}}
-.gm{border:4px solid #000;border-radius:0;background:linear-gradient(#5aa832,#3d7a22);color:#000;font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;box-shadow:8px 8px 0 #00000035;transition:transform .12s,box-shadow .12s,filter .12s}
+.gm{border:4px solid #000;border-radius:0;background:linear-gradient(#5aa832,#3d7a22);color:#000;font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;box-shadow:8px 8px 0 #000;transition:transform .12s,box-shadow .12s,filter .12s}
 #gm2{background:linear-gradient(#e8a53a,#b87414)}
-.gm:hover{transform:translate(-4px,-6px);box-shadow:12px 14px 0 #00000035;border-color:#000;filter:brightness(1.12)}
-.gm:active{transform:translate(4px,4px);box-shadow:2px 2px 0 #00000035}
-#gear,#auth button,#schb,#lcancel,#lobname{border:4px solid #000;border-radius:0;background:#1f2630;color:#fff;font-weight:900;box-shadow:4px 4px 0 #00000035;transition:transform .1s,box-shadow .1s,background .1s}
+.gm:hover{transform:translate(-4px,-6px);box-shadow:12px 14px 0 #000;border-color:#000;filter:brightness(1.12)}
+.gm:active{transform:translate(4px,4px);box-shadow:2px 2px 0 #000}
+#gear,#auth button,#schb,#lcancel,#lobname{border:4px solid #000;border-radius:0;background:#1f2630;color:#fff;font-weight:900;box-shadow:4px 4px 0 #000;transition:transform .1s,box-shadow .1s,background .1s}
 #gear:hover,#auth button:hover:not(:disabled),#schb:hover,#lcancel:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000;background:var(--ac);color:#000;border-color:#000}
 #gear:active,#schb:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #000}
 #lobname{color:#fff}#lobname:focus{border-color:#000;outline:4px solid var(--ac)}
-#lfill{background:var(--ac)}#lbar{border:4px solid #000;background:#0c0f12;box-shadow:4px 4px 0 #00000035}
-</style></head><body>
+#lfill{background:var(--ac)}#lbar{border:4px solid #000;background:#0c0f12;box-shadow:4px 4px 0 #000}
+
+/* ---- round 2 style: red inset buttons, soft shadows, side tabs, custom controls ---- */
+:root{--sh:#00000035;--r1:#9be83a;--r2:#5fb81a}
+.p{position:relative;box-shadow:8px 8px 0 var(--sh)}
+.p button,#auth button,#schb,#lcancel,#gear{background:#82d52a;color:#fff;border:3px solid #000;text-shadow:0 1px 0 #ffffff55;box-shadow:inset 0 .4rem 0 0 var(--r1),inset 0 -.4rem 0 0 var(--r2),4px 4px 0 var(--sh)}
+.p button:hover:not(:disabled),#auth button:hover:not(:disabled),#schb:hover,#lcancel:hover,#gear:hover{background:#82d52a;color:#fff;filter:brightness(1.1);transform:translate(-2px,-2px);box-shadow:inset 0 .4rem 0 0 var(--r1),inset 0 -.4rem 0 0 var(--r2),6px 6px 0 var(--sh)}
+.p button:active:not(:disabled),#auth button:active:not(:disabled),#schb:active,#lcancel:active,#gear:active{transform:translate(2px,2px);box-shadow:inset 0 .15rem 0 0 var(--r1),inset 0 -.15rem 0 0 var(--r2),1px 1px 0 var(--sh)}
+.p button.t{background:#7b8798;box-shadow:inset 0 .4rem 0 0 #667184,inset 0 -.4rem 0 0 #475264,4px 4px 0 var(--sh)}
+.p button.t:hover:not(:disabled){background:#7b8798;box-shadow:inset 0 .4rem 0 0 #667184,inset 0 -.4rem 0 0 #475264,6px 6px 0 var(--sh)}
+.p button.t:active:not(:disabled){box-shadow:inset 0 .15rem 0 0 #667184,inset 0 -.15rem 0 0 #475264,1px 1px 0 var(--sh)}
+.p button.sk,.p button.sk:hover:not(:disabled),.p button.sk:active:not(:disabled){box-shadow:none;background:#4a5568;text-shadow:none}
+.p button.sk:hover:not(:disabled){transform:translateY(-2px)}.p button.sk.sel{background:var(--ac)}
+.p button:disabled{opacity:.5}
+.gm{box-shadow:8px 8px 0 var(--sh)}.gm:hover{box-shadow:12px 14px 0 var(--sh)}.gm:active{box-shadow:2px 2px 0 var(--sh)}
+#lobname,#lbar{box-shadow:4px 4px 0 var(--sh)}
+.p .xb{position:absolute;top:8px;right:10px;z-index:2;width:38px;height:38px;margin:0;padding:0;font:900 18px/1 ui-monospace,Menlo,Consolas,monospace;text-transform:none;letter-spacing:0;display:flex;align-items:center;justify-content:center}
+.p .xb:hover:not(:disabled){transform:rotate(90deg) scale(1.08)}.p .xb:active:not(:disabled){transform:scale(.92)}
+.p h1{padding-right:60px}
+.tw{display:flex;gap:16px;align-items:flex-start;margin-bottom:8px}
+.tc{flex:1;min-width:0}
+.tabs.v{flex-direction:column;flex:none;width:136px;margin:0;border:3px solid #000;box-shadow:4px 4px 0 var(--sh)}
+.p .tabs button.tab{background:#3a4452;color:#cfd6df;text-shadow:none;box-shadow:none}
+.p .tabs.v button.tab{border:0;border-bottom:3px solid #000;text-align:left;padding:13px 12px}
+.p .tabs.v button.tab:last-child{border-bottom:0}
+.p .tabs button.tab:hover:not(:disabled){background:#4a5668;color:#fff;filter:none;box-shadow:none;transform:translateX(4px)}
+.p .tabs button.tab.sel,.p .tabs button.tab.sel:hover:not(:disabled){background:#82d52a;color:#fff;text-shadow:0 2px 0 #00000040;transform:none;box-shadow:inset 0 .4rem 0 0 var(--r1),inset 0 -.4rem 0 0 var(--r2)}
+#menu .p,#sch .p{width:min(740px,100%)}
+@media(max-width:560px){.tw{flex-direction:column}.tabs.v{flex-direction:row;width:100%}.p .tabs.v button.tab{flex:1;border-bottom:0;border-right:3px solid #000;text-align:center;padding:10px 4px}.p .tabs.v button.tab:last-child{border-right:0}}
+.p input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:6px 0;padding:0;background:transparent;cursor:pointer}
+.p input[type=range]::-webkit-slider-runnable-track{height:16px;border:3px solid #000;background:linear-gradient(90deg,var(--r1) var(--v,50%),#0b0e12 var(--v,50%))}
+.p input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:28px;margin-top:-9px;background:#fff;border:3px solid #000;box-shadow:inset 0 -.35rem 0 #00000030;transition:transform .1s,background .1s}
+.p input[type=range]::-moz-range-track{height:10px;border:3px solid #000;background:#0b0e12}
+.p input[type=range]::-moz-range-progress{height:10px;background:var(--r1)}
+.p input[type=range]::-moz-range-thumb{width:12px;height:22px;border-radius:0;background:#fff;border:3px solid #000;box-shadow:inset 0 -.35rem 0 #00000030}
+.p input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.12)}.p input[type=range]:active::-webkit-slider-thumb{background:#e4ffc4}
+.p input[type=range]:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.p input[type=checkbox]{-webkit-appearance:none;appearance:none;display:inline-block;width:24px;height:24px;margin:0 10px 0 0;vertical-align:middle;position:relative;top:-1px;border:3px solid #000;border-radius:0;background:#0b0e12;cursor:pointer;transition:transform .1s,background .1s}
+.p input[type=checkbox]:hover{transform:scale(1.12)}.p input[type=checkbox]:active{transform:scale(.92)}
+.p input[type=checkbox]:checked{background:#82d52a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='square'/%3E%3C/svg%3E") center/100% 100% no-repeat;box-shadow:inset 0 .2rem 0 0 var(--r1),inset 0 -.2rem 0 0 var(--r2)}
+.p input[type=checkbox]:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.p input[type=file]{width:100%;box-sizing:border-box;margin:6px 0;color:#cfd6df;font:inherit;font-weight:800}
+.p input[type=file]::file-selector-button{margin-right:12px;padding:8px 12px;border:3px solid #000;border-radius:0;background:#82d52a;color:#fff;font:inherit;font-weight:900;text-transform:uppercase;cursor:pointer;box-shadow:inset 0 .3rem 0 0 var(--r1),inset 0 -.3rem 0 0 var(--r2);transition:filter .1s}
+.p input[type=file]::file-selector-button:hover{filter:brightness(1.12)}
+#splash{position:fixed;inset:0;z-index:5000;background:#0b0e12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .5s}
+#splash.out{opacity:0;pointer-events:none}
+#splash .sw{display:flex;font:900 clamp(44px,12vw,110px)/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em}
+#splash .sw span{display:inline-block;color:#8be04e;-webkit-text-stroke:5px #000;paint-order:stroke fill;text-shadow:5px 5px 0 #00000055;animation:hop 1.1s ease-in-out infinite;animation-delay:calc(var(--i)*.09s)}
+@keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-18px)}}
+#splash .sb{width:min(300px,60vw);height:12px;border:4px solid #000;background:#14181d;overflow:hidden}
+#splash .sb i{display:block;height:100%;width:40%;background:#82d52a;animation:slide 1.1s ease-in-out infinite}
+@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+body.uioff #hb,body.uioff #bn,body.uioff #ch,body.uioff #tl,body.uioff #mps,body.uioff #uw{display:none!important}
+</style></head><body class="mainscr uioff"><div id="splash"><div class="sw"><span style="--i:0">M</span><span style="--i:1">a</span><span style="--i:2">n</span><span style="--i:3">C</span><span style="--i:4">r</span><span style="--i:5">a</span><span style="--i:6">f</span><span style="--i:7">t</span></div><div class="sb"><i></i></div></div>
 <canvas id="c"></canvas><div id="uw"></div><div id="ch"></div>
 <div id="tl"><div id="chl"></div><input id="chi" type="text" maxlength="120" autocomplete="off" spellcheck="false" placeholder="Message or /command"><div id="hud"><div id="h1"></div><div id="h2"></div><div id="h3"></div></div></div>
 <div id="bn"></div><div id="mps"></div><div id="hb"></div>
@@ -147,10 +199,10 @@ Hotbar
 <div class="row" id="isl" style="margin-top:6px"></div>
 <small></small><div id="cur"></div>
 </div></div>
-<div class="ov" id="menu" style="display:none"><div class="p">
+<div class="ov" id="menu" style="display:none"><div class="p"><button class="xb" id="xmenu" aria-label="Close">&#10005;</button>
 <h1>Mancraft</h1>
-<div class="tabs"><button class="tab sel" data-t="v">Video</button><button class="tab" data-t="s">Sky</button><button class="tab" data-t="g">Game</button></div>
-<div class="tp sel" data-p="v"><label>Horizontal render distance <b id="vh"></b><input id="rh" type="range" min="2" max="16" value="6"></label>
+<div class="tw"><div class="tabs v"><button class="tab sel" data-t="v">Video</button><button class="tab" data-t="s">Sky</button><button class="tab" data-t="g">Game</button></div>
+<div class="tc"><div class="tp sel" data-p="v"><label>Horizontal render distance <b id="vh"></b><input id="rh" type="range" min="2" max="16" value="6"></label>
 <label>Vertical render distance <b id="vv"></b><input id="rv" type="range" min="1" max="12" value="3"></label>
 <label>Fog distance <b id="vfd"></b><input id="fd" type="range" min="10" max="200" value="100"></label>
 <label>FOV <b id="vf"></b><input id="fov" type="range" min="55" max="160" value="80"></label>
@@ -159,13 +211,14 @@ Hotbar
 <div class="tp" data-p="s"><label>Cloud distance <b id="vcd"></b><input id="cd" type="range" min="4" max="56" value="28"></label>
 <label>Cloud height <b id="vch"></b><input id="chh" type="range" min="100" max="260" step="5" value="160"></label>
 </div>
-<div class="tp" data-p="g"><label><input type="checkbox" id="shc" checked> Show coordinates</label>
+<div class="tp" data-p="g"><label>Mouse sensitivity <b id="vms"></b><input id="ms" type="range" min="10" max="300" value="100"></label>
+<label><input type="checkbox" id="shc" checked> Show coordinates</label>
 <label><input type="checkbox" id="shk" checked> Show chunk coordinates</label>
 Position (X / Y / Z)
 <div class="g"><input id="ix" type="number" step="any"><input id="iy" type="number" step="any"><input id="iz" type="number" step="any"></div>
 Chunk (X / Y / Z)
 <div class="g"><input id="kx" type="number" step="1"><input id="ky" type="number" step="1" min="0" max="11"><input id="kz" type="number" step="1"></div>
-<button class="t" id="tp">Teleport</button></div>
+<button class="t" id="tp">Teleport</button></div></div></div>
 <button id="play">Resume</button>
 <button class="t" id="mm">Main Menu</button>
 <small>WASD move · Space jump / swim up (double-tap to fly) · Hold Shift to sprint · C crouch (fly down) · V zoom · P view · Q drop · Tab inventory · O settings · Left click break · Right click place / use bucket (hold to repeat) · 1–0 or wheel for hotbar</small>
@@ -175,28 +228,28 @@ Chunk (X / Y / Z)
 <h1>MANCRAFT</h1>
 <div id="nmw"><input type="text" id="lobname" maxlength="12" placeholder="Your name (letters and _)" autocomplete="off" spellcheck="false"></div>
 <div class="gms"><button class="gm" id="gm1">Open World</button><button class="gm" id="gm2">Peaceful</button></div></div>
-<div class="ov" id="lob" style="display:none"><div class="p"><h1 id="lobt">Open World</h1>
+<div class="ov" id="lob" style="display:none"><div class="p"><button class="xb" id="xlob" aria-label="Close">&#10005;</button><h1 id="lobt">Open World</h1>
 <label>Join a lobby<input type="text" id="lobin" placeholder="Lobby name or code (blank = solo)" maxlength="32" autocomplete="off"></label>
 <label id="lobsrvw" style="display:none">Server<input type="text" id="lobsrv" placeholder="wss://play.man-craft.workers.dev" autocomplete="off"></label>
 <small id="lobmsg"></small>
-<button id="lobplay">Play</button><button class="t" id="lobx">Back</button></div></div>
-<div class="ov" id="skn" style="display:none"><div class="p"><h1>Skins</h1>
+<button id="lobplay">Play</button></div></div>
+<div class="ov" id="skn" style="display:none"><div class="p"><button class="xb" id="xskn" aria-label="Close">&#10005;</button><h1>Skins</h1>
 <div class="row" style="gap:14px;align-items:flex-start"><canvas id="skp" width="440" height="560" style="width:220px;height:280px;max-width:100%;background:#0006;border-radius:8px;touch-action:none;cursor:grab"></canvas>
 <div style="flex:1;min-width:150px"><div id="skl"></div><label><input type="checkbox" id="sko" checked> Show outer layer</label>
 <button class="t" id="sku">Upload skin (PNG)</button><input type="file" id="skf" accept="image/png" style="display:none"><small id="skm"></small></div></div>
 <small>Skins are 64×64 (or 64×32) Minecraft PNGs with the classic arm width. Drag the preview to rotate it. Press N, Tab or Esc to close.</small></div></div>
 <button id="schb">Schematic</button>
-<div class="ov" id="sch" style="display:none"><div class="p"><h1>Menu Schematic</h1>
-<div class="tabs"><button class="tab sel" data-t="i">Import</button><button class="tab" data-t="c">Camera</button><button class="tab" data-t="e">Environment</button></div>
-<div class="tp sel" data-p="i"><label>File (.schematic / .schem)<input type="file" id="schf" accept=".schematic,.schem,.nbt"></label>
+<div class="ov" id="sch" style="display:none"><div class="p"><button class="xb" id="xsch" aria-label="Close">&#10005;</button><h1>Menu Schematic</h1>
+<div class="tw"><div class="tabs v"><button class="tab sel" data-t="i">Import</button><button class="tab" data-t="c">Camera</button><button class="tab" data-t="e">Environment</button></div>
+<div class="tc"><div class="tp sel" data-p="i"><label>File (.schematic / .schem)<input type="file" id="schf" accept=".schematic,.schem,.nbt"></label>
 <small>Structure position (X Y Z)</small><div class="g3"><input type="text" id="sch_px"><input type="text" id="sch_py"><input type="text" id="sch_pz"></div></div>
 <div class="tp" data-p="c"><small>Camera position (X Y Z)</small><div class="g3"><input type="text" id="sch_cx"><input type="text" id="sch_cy"><input type="text" id="sch_cz"></div>
 <small>Camera direction: yaw / pitch (degrees)</small><div class="g3"><input type="text" id="sch_cyaw"><input type="text" id="sch_cpitch"><label style="flex-direction:row"><input type="checkbox" id="sch_rot"> Orbit</label></div></div>
 <div class="tp" data-p="e"><small>Render distance: horizontal / vertical (chunks)</small><div class="g3"><input type="text" id="sch_rh"><input type="text" id="sch_rv"><span></span></div>
 <small>Fog distance % / FOV / orbit speed</small><div class="g3"><input type="text" id="sch_fd"><input type="text" id="sch_fov"><input type="text" id="sch_speed"></div>
-<label><input type="checkbox" id="sch_fog"> Fog enabled</label></div>
+<label><input type="checkbox" id="sch_fog"> Fog enabled</label></div></div></div>
 <small id="schm"></small>
-<button id="scha">Apply &amp; save</button><button class="t" id="schauto">Auto camera</button><button class="t" id="schrm">Remove custom</button><button class="t" id="schx">Close</button></div></div>
+<button id="scha">Apply &amp; save</button><button class="t" id="schauto">Auto camera</button><button class="t" id="schrm">Remove custom</button></div></div>
 <div id="load"><div id="lstep">Loading...</div><div id="lbar"><div id="lfill"></div></div><div id="lsub"></div><button id="lcancel">Cancel</button></div>
 <script>
 window.FIREBASE_CONFIG = {
@@ -287,8 +340,6 @@ emit();
 "78":{"n":"Allium","k":"plant","t":["allium","allium","allium"]},
 "79":{"n":"Peony","k":"plant","t":["peony","peony","peony"],"ic":"peony_top"},
 "80":{"n":"Peony (top)","k":"plant","hide":1,"t":["peony_top","peony_top","peony_top"]},
-
-
 "83":{"n":"Sunflower","k":"plant","t":["sunflower","sunflower","sunflower"],"ic":"sunflower_top"},
 "84":{"n":"Sunflower (top)","k":"plant","hide":1,"t":["sunflower_top","sunflower_top","sunflower_top"]},
 "85":{"n":"Golden Pickaxe","k":"item","t":["gold_pickaxe","gold_pickaxe","gold_pickaxe"]},
@@ -544,7 +595,7 @@ function gen(cx,cy,cz){
    for(let X=Math.max(ox,Math.floor(px-r));X<=Math.min(ox+15,Math.ceil(px+r));X++)for(let Z=Math.max(oz,Math.floor(pz-r));Z<=Math.min(oz+15,Math.ceil(pz+r));Z++)for(let Y=Math.max(oy,Math.floor(py-r),5);Y<=Math.min(oy+15,Math.ceil(py+r));Y++)
     if((X-px)**2+(Y-py)**2*1.3+(Z-pz)**2<=r*r){const i=((Y-oy)*16+(Z-oz))*16+(X-ox);if(d[i]&&d[i]!=5&&d[i]!=14&&d[i]!=88)d[i]=0}}}
  return d}
-const MENU={on:true,rot:false,off:[0,64,0],cam:[0,70,40],yaw:0,pitch:-.2,sch:null,bytes:null,name:'',a:0,R:1,ctr:[0,0,0],env:{rh:6,rv:3,fd:100,fog:true,fov:80,speed:1},inside:false,bb:null,pool:null,custom:null};
+const MENU={on:true,rot:false,off:[0,64,0],cam:[0,70,40],yaw:0,pitch:-.2,sch:null,bytes:null,name:'',a:0,R:1,ctr:[0,0,0],env:{rh:6,rv:3,fd:100,fog:true,fov:80,speed:1},inside:false,bb:null,pool:null,custom:null,tok:0};
 const chunk=(cx,cy,cz)=>{const k=cx+','+cy+','+cz;let c=chunks.get(k);if(!c)chunks.set(k,c=MENU.on?new Uint8Array(4096):gen(cx,cy,cz));return c};
 const getB=(x,y,z)=>y<0||y>191?0:chunk(x>>4,y>>4,z>>4)[((y&15)*16+(z&15))*16+(x&15)];
 
@@ -927,7 +978,7 @@ const dc=new Set();
 
 /* ---------- UI + input ---------- */
 let scr='main',setOpen=false,skMode=false,chatOpen=false;
-const updateUI=()=>{const m=scr=='main';$('main').style.display=m&&!setOpen?'flex':'none';$('menu').style.display=(m?setOpen:!locked&&!isInv&&!chatOpen&&scr!='loading')?'flex':'none';$('inv').style.display=isInv&&!skMode?'flex':'none';$('skn').style.display=isInv&&skMode?'flex':'none';$('play').textContent=m?'Back':'Resume';$('mm').style.display=m?'none':'block';document.body.classList.toggle('mainscr',m)};
+const updateUI=()=>{const m=scr=='main';$('main').style.display=m&&!setOpen?'flex':'none';$('schb').style.display=m&&!setOpen?'':'none';$('menu').style.display=(m?setOpen:!locked&&!isInv&&!chatOpen&&scr!='loading')?'flex':'none';$('inv').style.display=isInv&&!skMode?'flex':'none';$('skn').style.display=isInv&&skMode?'flex':'none';$('play').textContent='Resume';$('play').style.display=m?'none':'';$('mm').style.display=m?'none':'block';document.body.classList.toggle('mainscr',m);document.body.classList.toggle('uioff',scr!='game')};
 function closeInv(relock){skMode=false;fkey=null;ckey=null;for(let i=0;i<9;i++)if(cg[i]){addItem(cg[i].id,cg[i].n);cg[i]=null}if(cur){addItem(cur.id,cur.n);cur=null}renderHB();isInv=false;updateUI();if(relock)cv.requestPointerLock()}
 function openInv(sz,fk,ck){uiT=performance.now();skMode=false;csize=sz;csel=-1;fkey=fk||null;ckey=ck||null;if(ckey&&!CH.has(ckey))CH.set(ckey,Array(36).fill(null));if(fkey&&!FUR.has(fkey))FUR.set(fkey,{s:[null,null,null],burn:0,max:0,prog:0});isInv=true;$('palw').style.display=mode=='open'&&!fkey&&!ckey?'block':'none';$('craftw').style.display=mode=='peace'&&!fkey&&!ckey?'flex':'none';$('chw').style.display=ckey?'flex':'none';$('furw').style.display=fkey?'flex':'none';$('invt').textContent=fkey?'Furnace':ckey?'Chest':mode=='open'?'Creative Inventory':'Inventory';renderHB();if(locked)document.exitPointerLock();else updateUI()}
 function toggleInv(){if(isInv)return closeInv(true);openInv(2)}
@@ -964,19 +1015,19 @@ $('gear').onclick=()=>{setOpen=true;updateUI()};
 $('mm').onclick=()=>{soloSave();mpLeave();isInv=false;scr='main';MENU.sch=null;enterMenu();showRandomMenu();updateUI()};
 $('gm1').onclick=()=>{pend='open';$('lobt').textContent='Open World';lobOpen()};
 $('gm2').onclick=()=>{pend='peace';$('lobt').textContent='Peaceful';lobOpen()};
-$('lobx').onclick=()=>{$('lob').style.display='none'};
+$('xlob').onclick=()=>{$('lob').style.display='none'};$('xmenu').onclick=()=>$('play').click();$('xskn').onclick=()=>closeInv(true);
 $('lobplay').onclick=()=>{const lb=signed()?$('lobin').value.trim():'';let url=null;
  if(lb){url=mpUrl(lb,pend);if(!url){$('lobmsg').textContent='Enter your server address (wss://...) to play online, or leave the lobby blank for solo.';$('lobsrvw').style.display='block';return}}
  lsSet('cc_name',cleanName($('lobname').value));if(signed())lsSet('cc_lobby',lb);$('lobmsg').textContent='';$('lob').style.display='none';
  mpLeave();startGame(pend);beginGame(url,lb)};
-function startGame(m){mode=m;SOLO.on=false;EDITS.clear();MENU.on=false;wdirty=true;sl();
+function startGame(m){mode=m;SOLO.on=false;EDITS.clear();MENU.on=false;MENU.tok++;wdirty=true;sl();
  if(wdirty||ents.length){chunks.clear();for(const[,a]of meshes)rm(a);meshes.clear();for(const e of ents){scene.remove(e.m);scene.remove(e.sh);e.m.geometry.dispose()}ents.length=0;wdirty=false;dirty=true}
  inv.fill(null);if(m=='open')D.hotbar.forEach((id,i)=>inv[i]={id,n:999});
  cg.fill(null);FUR.clear();DOORS.clear();CH.clear();ckey=null;fkey=null;csel=-1;cur=null;slot=0;lastSel='';fly=false;pos[0]=SP[0];pos[1]=SP[1];pos[2]=SP[2];vx=vy=vz=0;renderHB()}
 $('lobin').onkeydown=e=>{if(e.key=='Enter')$('lobplay').click()};
 $('tp').onclick=()=>{IP.forEach((id,i)=>{const v=+$(id).value;if(isFinite(v))pos[i]=v});pos[1]=Math.max(1,Math.min(250,pos[1]));vx=vy=vz=0;while(hit()&&pos[1]<250)pos[1]++;syncPos();dirty=true};
 document.addEventListener('pointerlockchange',()=>{locked=document.pointerLockElement===cv;updateUI();if(!locked){for(const k in keys)keys[k]=0;held=-1;spr=sprinting=false;if(!isInv)syncPos()}});
-document.addEventListener('mousemove',e=>{const cs=$('cur').style;cs.left=e.clientX+'px';cs.top=e.clientY+'px';if(!locked)return;const s=.0022*Math.min(1,cf/baseFov);yaw-=e.movementX*s;pitch=Math.max(-1.55,Math.min(1.55,pitch-e.movementY*s))});
+document.addEventListener('mousemove',e=>{const cs=$('cur').style;cs.left=e.clientX+'px';cs.top=e.clientY+'px';if(!locked)return;const s=.0022*sens*Math.min(1,cf/baseFov);yaw-=e.movementX*s;pitch=Math.max(-1.55,Math.min(1.55,pitch-e.movementY*s))});
 addEventListener('mousedown',e=>{if(!locked)return;held=e.button;if(held==2)act(2);cd=.5;if(held==0)swing=1});
 addEventListener('mouseup',()=>held=-1);
 addEventListener('mousedown',e=>{if(chatOpen&&e.button==0&&e.target!==$('chi'))chatClose(true)},true);
@@ -1241,39 +1292,55 @@ function parseSch(root){const r=root.Schematic||root,W=r.Width,H=r.Height,L=r.Le
  return{W,H,L,out}}
 const parseFile=async buf=>parseSch(nbt(await gunzip(buf)));
 const ENV0={rh:6,rv:3,fd:100,fog:true,fov:80,speed:1};
-const MDEF=[{name:'Library',file:'assets/schematics/liblary.schem',pos:[0,0,0],cam:[240,45,240],yaw:0,pitch:15,orbit:true,env:{rh:12,rv:4,fd:100,fog:true,fov:70,speed:1}}];
+const MDEF=[{name:'Library',load:'liblary',cameraX:256,cameraY:37,cameraZ:190,cameraYaw:35,cameraPitch:15,orbit:true,renderX:12,renderY:3,fogDistance:75,FOV:55,speed:0.75},{name:'Library (wide)',load:'liblary',cameraX:240,cameraY:45,cameraZ:240,cameraYaw:0,cameraPitch:15,orbit:true,renderX:12,renderY:4,fogDistance:100,FOV:70,speed:1}];
+const nz=(v,d)=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(+v)?+v:d;
+function normEntry(m){if(m.cam)return{...m};const f=String(m.load||m.file||''),ext=/\.(schem|schematic|nbt)$/i.test(f);
+ return{name:m.name||f,file:ext?f:'assets/schematics/'+f+'.schem',alt:ext?null:'assets/schematics/'+f+'.schematic',pos:[nz(m.posX,0),nz(m.posY,0),nz(m.posZ,0)],cam:[nz(m.cameraX,0),nz(m.cameraY,64),nz(m.cameraZ,0)],yaw:nz(m.cameraYaw,0),pitch:nz(m.cameraPitch,0),orbit:!!m.orbit,
+  env:{rh:nz(m.renderX,6),rv:nz(m.renderY,3),fd:nz(m.fogDistance,100),fov:nz(m.FOV??m.fov,80),speed:nz(m.speed,1),fog:m.fog!==false}}}
 function applyEnv(e){RH=e.rh;RV=e.rv;fogPct=e.fd;fogOn=e.fog!==false;baseFov=cf=e.fov;camera.fov=cf;camera.updateProjectionMatrix();fog();dirty=true}
-function setActive(e){MENU.sch=e._s||null;MENU.name=e.name||'';MENU.off=(e.pos||[0,0,0]).slice();MENU.cam=(e.cam||[0,70,40]).slice();MENU.yaw=(e.yaw||0)*Math.PI/180;MENU.pitch=(e.pitch||0)*Math.PI/180;MENU.rot=!!e.orbit;MENU.env=Object.assign({},ENV0,e.env||{})}
+function setActive(e){MENU.sch=e._s||null;MENU.name=e.name||'';MENU.off=(e.pos||[0,0,0]).slice();MENU.cam=(e.cam||[0,70,40]).slice();MENU.yaw=(e.yaw||0)*Math.PI/180;MENU.pitch=(e.pitch||0)*Math.PI/180;MENU.rot=!!e.orbit;MENU.env=Object.assign({},ENV0,e.env||{});MENU.env.rh=Math.min(12,MENU.env.rh)}
 function placeSch(){const s=MENU.sch,o=MENU.off.map(Math.round);for(let y=0;y<s.H;y++){const Y=o[1]+y;if(Y<0||Y>191)continue;for(let z=0;z<s.L;z++)for(let x=0;x<s.W;x++){const b=s.out[(y*s.L+z)*s.W+x];if(!b)continue;const X=o[0]+x,Z=o[2]+z;chunk(X>>4,Y>>4,Z>>4)[((Y&15)*16+(Z&15))*16+(X&15)]=b}}}
 function enterMenu(){MENU.on=true;chunks.clear();for(const[,a]of meshes)rm(a);meshes.clear();wdirty=true;
  const c=MENU.cam,s=MENU.sch,o=MENU.off.map(Math.round);MENU.bb=null;MENU.inside=false;
  if(s){MENU.ctr=[o[0]+s.W/2,0,o[2]+s.L/2];const dx=c[0]-MENU.ctr[0],dz=c[2]-MENU.ctr[2];MENU.R=Math.hypot(dx,dz)||1;
   MENU.inside=c[0]>=o[0]&&c[0]<=o[0]+s.W&&c[2]>=o[2]&&c[2]<=o[2]+s.L;MENU.a=MENU.inside?MENU.yaw:Math.atan2(dx,dz);
-  MENU.bb=[o[0]>>4,(o[0]+s.W-1)>>4,Math.max(0,o[1]>>4),Math.min(11,(o[1]+s.H-1)>>4),o[2]>>4,(o[2]+s.L-1)>>4];placeSch()}
+  MENU.bb=[o[0]>>4,(o[0]+s.W-1)>>4,Math.max(0,o[1]>>4),Math.min(11,(o[1]+s.H-1)>>4),o[2]>>4,(o[2]+s.L-1)>>4];const tp=performance.now();placeSch();console.log('[menu] placed blocks in '+Math.round(performance.now()-tp)+'ms');const tm=performance.now(),iv=setInterval(()=>{if(!MENU.on||scr!='main')return clearInterval(iv);if(!queue.length&&!dirty){clearInterval(iv);splashDone();console.log('[menu] meshing finished in '+Math.round(performance.now()-tm)+'ms ('+meshes.size+' chunk meshes)')}},100)}
  pos[0]=c[0];pos[1]=c[1]-eyeH;pos[2]=c[2];vx=vy=vz=0;yaw=MENU.rot&&s?MENU.a:MENU.yaw;pitch=MENU.pitch;applyEnv(MENU.env);lastC=null}
-async function loadEntry(e){if(e._s)return e._s;let buf=e.bytes;if(!buf){const r=await fetch(e.file);if(!r.ok)throw Error('missing '+e.file);buf=await r.arrayBuffer()}return e._s=await parseFile(buf)}
-async function menuPool(){if(MENU.pool)return MENU.pool;let list=MDEF;try{const r=await fetch('assets/schematics/index.json');if(r.ok){const j=await r.json();if(Array.isArray(j.menus)&&j.menus.length)list=j.menus}}catch(e){}return MENU.pool=list.map(x=>({...x}))}
-async function showRandomMenu(){const pool=[...await menuPool()];if(MENU.custom)pool.push(MENU.custom);const tried=new Set();
+const SCACHE={};
+async function loadEntry(e){if(e._s)return e._s;const key=e.file;if(key&&SCACHE[key])return e._s=await SCACHE[key];
+ const run=async()=>{const t0=performance.now();let buf=e.bytes;if(!buf){let r=await fetch(e.file);if(!r.ok&&e.alt)r=await fetch(e.alt);if(!r.ok)throw Error('missing '+e.file);buf=await r.arrayBuffer()}const t1=performance.now(),s=await parseFile(buf);console.log('[menu] '+e.name+': download '+Math.round(t1-t0)+'ms, decompress+parse '+Math.round(performance.now()-t1)+'ms, size '+s.W+'x'+s.H+'x'+s.L+' ('+(s.W*s.H*s.L/1e6).toFixed(1)+'M voxels)');return s};
+ const p=run();if(key)SCACHE[key]=p;try{return e._s=await p}catch(er){if(key)delete SCACHE[key];throw er}}
+let poolP=null;const menuPool=()=>poolP||(poolP=menuPool0());
+async function menuPool0(){let list=MDEF;try{const r=await fetch('assets/schematics/index.json');if(r.ok){const j=await r.json();if(Array.isArray(j.menus)&&j.menus.length)list=j.menus}}catch(e){}return MENU.pool=list.map(normEntry)}
+const SPL={t0:performance.now(),done:false};
+function splashDone(){if(SPL.done)return;SPL.done=true;const sp=$('splash');if(!sp)return;setTimeout(()=>{sp.classList.add('out');setTimeout(()=>sp.remove(),600)},Math.max(0,1300-(performance.now()-SPL.t0)))}
+setTimeout(splashDone,25000);
+async function showRandomMenu(){const tok=++MENU.tok,pool=[...await menuPool()];if(MENU.custom)pool.push(MENU.custom);if(tok!=MENU.tok)return;const tried=new Set();
  while(tried.size<pool.length){const i=Math.floor(Math.random()*pool.length);if(tried.has(i))continue;tried.add(i);const e=pool[i];
-  try{await loadEntry(e);if(!MENU.on||scr!='main')return;setActive(e);enterMenu();return}catch(er){console.warn('menu schematic failed',e.name,er)}}
- if(MENU.on&&scr=='main'){MENU.sch=null;enterMenu()}}
+  setActive(e);MENU.sch=null;enterMenu();
+  try{await loadEntry(e);if(tok!=MENU.tok||!MENU.on||scr!='main')return;MENU.sch=e._s;enterMenu();return}catch(er){if(tok!=MENU.tok)return;console.warn('menu schematic failed',e.name,er)}}
+ if(tok==MENU.tok&&MENU.on&&scr=='main'){MENU.sch=null;enterMenu();splashDone()}}
 const SCHF=['px','py','pz','cx','cy','cz','cyaw','cpitch','rh','rv','fd','fov','speed'];
 function schFill(){const e=MENU.custom||{pos:[0,0,0],cam:[0,70,40],yaw:0,pitch:-11,orbit:false,env:ENV0},v=[...e.pos,...e.cam,e.yaw,e.pitch,e.env.rh,e.env.rv,e.env.fd,e.env.fov,e.env.speed];SCHF.forEach((k,i)=>$('sch_'+k).value=+(+v[i]).toFixed(2));$('sch_rot').checked=!!e.orbit;$('sch_fog').checked=e.env.fog!==false}
 function schRead(e){const g=k=>{const v=parseFloat($('sch_'+k).value);return isFinite(v)?v:0},cl=(v,a,b,d)=>Math.max(a,Math.min(b,v||d));e.pos=[g('px'),g('py'),g('pz')];e.cam=[g('cx'),g('cy'),g('cz')];e.yaw=g('cyaw');e.pitch=cl(g('cpitch'),-89,89,0);e.orbit=$('sch_rot').checked;
- e.env={rh:cl(g('rh'),2,32,6),rv:cl(g('rv'),1,12,3),fd:cl(g('fd'),10,400,100),fov:cl(g('fov'),30,160,80),speed:Math.max(0,g('speed')),fog:$('sch_fog').checked}}
-function schAuto(e){const s=e._s,o=e.pos,R=Math.max(s.W,s.L,s.H)*1.2+10;e.cam=[o[0]+s.W/2,o[1]+s.H*.6,o[2]+s.L/2+R];e.yaw=0;e.pitch=-11;e.env.rh=Math.min(32,Math.ceil((R+Math.max(s.W,s.L)/2)/16)+1)}
+ e.env={rh:cl(g('rh'),2,12,6),rv:cl(g('rv'),1,12,3),fd:cl(g('fd'),10,400,100),fov:cl(g('fov'),30,160,80),speed:Math.max(0,g('speed')),fog:$('sch_fog').checked}}
+function schAuto(e){const s=e._s,o=e.pos,R=Math.max(s.W,s.L,s.H)*1.2+10;e.cam=[o[0]+s.W/2,o[1]+s.H*.6,o[2]+s.L/2+R];e.yaw=0;e.pitch=-11;e.env.rh=Math.min(12,Math.ceil((R+Math.max(s.W,s.L)/2)/16)+1)}
 const idb=(m,k,v)=>new Promise(res=>{try{const r=indexedDB.open('mancraft',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onerror=()=>res(null);r.onsuccess=()=>{try{const t=r.result.transaction('kv',m=='get'?'readonly':'readwrite'),st=t.objectStore('kv'),q=m=='get'?st.get(k):m=='set'?st.put(v,k):st.delete(k);q.onsuccess=()=>res(q.result||null);q.onerror=()=>res(null)}catch(e){res(null)}}}catch(e){res(null)}});
 const schSave=()=>{const e=MENU.custom;return e?idb('set','schem',{bytes:e.bytes,name:e.name,entry:{pos:e.pos,cam:e.cam,yaw:e.yaw,pitch:e.pitch,orbit:e.orbit,env:e.env}}):idb('del','schem')};
 $('schb').onclick=()=>{schFill();const e=MENU.custom,s=e&&e._s;$('schm').textContent=s?e.name+' ('+s.W+'x'+s.H+'x'+s.L+') - included in the random menu pool.':'No custom schematic. Built-in menu schematics are chosen at random.';$('sch').style.display='flex'};
-$('schx').onclick=()=>{$('sch').style.display='none'};
+$('xsch').onclick=()=>{$('sch').style.display='none'};
 $('schf').onchange=async()=>{const f=$('schf').files[0];if(!f)return;$('schm').textContent='Reading...';
- try{const buf=await f.arrayBuffer(),s=await parseFile(buf),e={name:f.name,custom:1,bytes:buf,_s:s,pos:[0,0,0],orbit:false,env:{...ENV0}};schAuto(e);MENU.custom=e;setActive(e);schFill();enterMenu();schSave();$('schm').textContent=f.name+' ('+s.W+'x'+s.H+'x'+s.L+') loaded.'}
+ try{const buf=await f.arrayBuffer(),s=await parseFile(buf);MENU.tok++;const e={name:f.name,custom:1,bytes:buf,_s:s,pos:[0,0,0],orbit:false,env:{...ENV0}};schAuto(e);MENU.custom=e;setActive(e);schFill();enterMenu();schSave();$('schm').textContent=f.name+' ('+s.W+'x'+s.H+'x'+s.L+') loaded.'}
  catch(e){$('schm').textContent='Could not read that file: '+e.message}$('schf').value=''};
-$('scha').onclick=()=>{const e=MENU.custom;if(!e)return $('schm').textContent='Import a file first.';schRead(e);setActive(e);enterMenu();schSave();$('schm').textContent='Applied and saved.'};
+$('scha').onclick=()=>{const e=MENU.custom;if(!e)return $('schm').textContent='Import a file first.';MENU.tok++;schRead(e);setActive(e);enterMenu();schSave();$('schm').textContent='Applied and saved.'};
 $('schauto').onclick=()=>{const e=MENU.custom;if(!e)return $('schm').textContent='Import a file first.';schRead(e);schAuto(e);schFill()};
 $('schrm').onclick=()=>{MENU.custom=null;schSave();MENU.sch=null;enterMenu();showRandomMenu();$('schm').textContent='Custom schematic removed.'};
-document.querySelectorAll('.tabs').forEach(t=>t.addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;t.querySelectorAll('.tab').forEach(x=>x.classList.toggle('sel',x===b));t.parentElement.querySelectorAll(':scope>.tp').forEach(p=>p.classList.toggle('sel',p.dataset.p==b.dataset.t))}));
-idb('get','schem').then(d=>{if(d&&d.bytes&&d.entry)MENU.custom={...d.entry,name:d.name,custom:1,bytes:d.bytes};showRandomMenu()});
+document.querySelectorAll('.tabs').forEach(t=>t.addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;t.querySelectorAll('.tab').forEach(x=>x.classList.toggle('sel',x===b));(t.closest('.tw')||t.parentElement).querySelectorAll('.tp').forEach(p=>p.classList.toggle('sel',p.dataset.p==b.dataset.t))}));
+let sens=1;try{sens=Math.max(.1,Math.min(3,+localStorage.getItem('cc_sens')||1))}catch(e){}
+$('ms').value=Math.round(sens*100);$('vms').textContent=$('ms').value+'%';
+$('ms').oninput=()=>{sens=$('ms').value/100;$('vms').textContent=$('ms').value+'%';try{localStorage.setItem('cc_sens',sens)}catch(e){}};
+document.querySelectorAll('.p input[type=range]').forEach(r=>{const u=()=>r.style.setProperty('--v',(r.value-r.min)/(r.max-r.min)*100+'%');r.addEventListener('input',u);u()});
+menuPool();idb('get','schem').then(d=>{if(d&&d.bytes&&d.entry)MENU.custom={...d.entry,name:d.name,custom:1,bytes:d.bytes};showRandomMenu()});
 /* ---------- external textures: textures/texture_atlas.png (BLOCK_TILES order) + textures/item_atlas.png (ITEM_TILES order) ---------- */
 const ANIM=new Set([TI.lava]);
 function refreshIcons(){for(const id in BL){try{const c=document.createElement('canvas');c.width=c.height=8;const t=BL[id].ic||BL[id].t[1];c.getContext('2d').drawImage(A,t%8*8,(t>>3)*8,8,8,0,0,8,8);IC[id]=c.toDataURL()}catch(e){}}
