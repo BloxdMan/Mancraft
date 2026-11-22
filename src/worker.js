@@ -24,7 +24,7 @@ export default{async fetch(req,env){const u=new URL(req.url);
     const r=await env.REG.get(env.REG.idFromName('main')).fetch('https://registry/list?mode='+mode);
     return new Response(r.body,{headers:{...CORS,'content-type':'application/json'}})}
   const lobby=(u.searchParams.get('lobby')||'').slice(0,32);
-  if(u.pathname!='/ws'||req.headers.get('Upgrade')!='websocket'||!lobby)return new Response('Mancraft server',{headers:CORS});
+  if(u.pathname!='/ws'||req.headers.get('Upgrade')!='websocket'||!lobby)return env.ASSETS.fetch(req);
   const mode=u.searchParams.get('mode')=='peace'?'peace':'open';
   return env.LOBBY.get(env.LOBBY.idFromName(mode+':'+lobby)).fetch(req)}};
 
