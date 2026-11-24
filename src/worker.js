@@ -19,14 +19,17 @@ const pub=o=>({id:o.id,name:o.name,skin:o.skin,x:o.x,y:o.y,z:o.z,yaw:o.yaw,pitch
 const colKey=k=>{const p=k.split(',');return(Number(p[0])>>4)+','+(Number(p[2])>>4)};
 
 export default{async fetch(req,env){const u=new URL(req.url);
-  if(req.method=='OPTIONS')return new Response(null,{headers:CORS});
+  if(req.method=='OPTIONS'&&(u.pathname=='/lobbies'||u.pathname=='/ws'))return new Response(null,{headers:CORS});
   if(u.pathname=='/lobbies'){const mode=u.searchParams.get('mode')=='peace'?'peace':'open';
     const r=await env.REG.get(env.REG.idFromName('main')).fetch('https://registry/list?mode='+mode);
     return new Response(r.body,{headers:{...CORS,'content-type':'application/json'}})}
-  const lobby=(u.searchParams.get('lobby')||'').slice(0,32);
-  if(u.pathname!='/ws'||req.headers.get('Upgrade')!='websocket'||!lobby)return new Response('Mancraft server',{headers:CORS});
-  const mode=u.searchParams.get('mode')=='peace'?'peace':'open';
-  return env.LOBBY.get(env.LOBBY.idFromName(mode+':'+lobby)).fetch(req)}};
+  if(u.pathname=='/ws'){
+    const lobby=(u.searchParams.get('lobby')||'').slice(0,32);
+    if(req.headers.get('Upgrade')!='websocket')return new Response('WebSocket upgrade required',{status:426,headers:CORS});
+    if(!lobby)return new Response('Lobby is required',{status:400,headers:CORS});
+    const mode=u.searchParams.get('mode')=='peace'?'peace':'open';
+    return env.LOBBY.get(env.LOBBY.idFromName(mode+':'+lobby)).fetch(req)}
+  return env.ASSETS.fetch(req)}};
 
 // Keeps a list of lobbies that currently have players (in memory; lobbies re-report every 60s).
 export class Registry{
