@@ -1,0 +1,559 @@
+{
+  "_readme": [
+    "Items share the id space with blocks.json (same ids as index.html).",
+    "type: tool | material | bucket | door.  toolType: pickaxe | axe | shovel | shears | null.",
+    "breakSpeed is a multiplier on mining speed, 1 = bare hand. normal = blocks with no special tool, plant / wood / stone / dirt / leaf = blocks of that type (see blocks.json).",
+    "Example: a Stone Pickaxe with stone: 4 mines a stone-type block 4x faster than a hand.",
+    "maxStack is 1 for every item. places.blockId = the block placed when you use the item (doors, buckets).",
+    "Hovering an item shows a tooltip window built from settings.tooltip."
+  ],
+  "settings": {
+    "maxStackDefault": 1,
+    "tooltip": {
+      "showOnHover": true,
+      "fields": [
+        "name",
+        "description",
+        "type"
+      ],
+      "showBreakSpeeds": true,
+      "delayMs": 150,
+      "offsetPx": [
+        14,
+        14
+      ]
+    }
+  },
+  "breakSpeedKeys": [
+    "normal",
+    "plant",
+    "wood",
+    "stone",
+    "dirt",
+    "leaf"
+  ],
+  "items": [
+    {
+      "id": 15,
+      "key": "bucket",
+      "name": "Bucket",
+      "description": "An empty bucket for carrying liquids.",
+      "type": "bucket",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "bucket"
+    },
+    {
+      "id": 16,
+      "key": "water_bucket",
+      "name": "Water Bucket",
+      "description": "A bucket filled with water.",
+      "type": "bucket",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "water_bucket",
+      "places": {
+        "blockId": 14
+      }
+    },
+    {
+      "id": 31,
+      "key": "wood_pickaxe",
+      "name": "Wood Pickaxe",
+      "description": "A basic wooden pickaxe. Mines stone faster than bare hands.",
+      "type": "tool",
+      "toolType": "pickaxe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 2.5,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "wood_pickaxe"
+    },
+    {
+      "id": 32,
+      "key": "wood_axe",
+      "name": "Wood Axe",
+      "description": "A basic wooden axe. Chops wood faster than bare hands.",
+      "type": "tool",
+      "toolType": "axe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 2.5,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "wood_axe"
+    },
+    {
+      "id": 33,
+      "key": "wood_shovel",
+      "name": "Wood Shovel",
+      "description": "A basic wooden shovel. Digs dirt and sand faster than bare hands.",
+      "type": "tool",
+      "toolType": "shovel",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 2.5,
+        "leaf": 1
+      },
+      "texture": "wood_shovel"
+    },
+    {
+      "id": 34,
+      "key": "stone_pickaxe",
+      "name": "Stone Pickaxe",
+      "description": "A sturdy stone pickaxe.",
+      "type": "tool",
+      "toolType": "pickaxe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 4,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "stone_pickaxe"
+    },
+    {
+      "id": 35,
+      "key": "stone_axe",
+      "name": "Stone Axe",
+      "description": "A sturdy stone axe.",
+      "type": "tool",
+      "toolType": "axe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 4,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "stone_axe"
+    },
+    {
+      "id": 36,
+      "key": "stone_shovel",
+      "name": "Stone Shovel",
+      "description": "A sturdy stone shovel.",
+      "type": "tool",
+      "toolType": "shovel",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 4,
+        "leaf": 1
+      },
+      "texture": "stone_shovel"
+    },
+    {
+      "id": 39,
+      "key": "coal",
+      "name": "Coal",
+      "description": "A crafting material and fuel. Burns for 40 seconds.",
+      "type": "material",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "coal"
+    },
+    {
+      "id": 40,
+      "key": "iron",
+      "name": "Iron",
+      "description": "A refined iron ingot used for tools and blocks.",
+      "type": "material",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "iron"
+    },
+    {
+      "id": 41,
+      "key": "iron_pickaxe",
+      "name": "Iron Pickaxe",
+      "description": "A strong iron pickaxe.",
+      "type": "tool",
+      "toolType": "pickaxe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 6,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "iron_pickaxe"
+    },
+    {
+      "id": 42,
+      "key": "iron_shovel",
+      "name": "Iron Shovel",
+      "description": "A strong iron shovel.",
+      "type": "tool",
+      "toolType": "shovel",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 6,
+        "leaf": 1
+      },
+      "texture": "iron_shovel"
+    },
+    {
+      "id": 43,
+      "key": "iron_axe",
+      "name": "Iron Axe",
+      "description": "A strong iron axe.",
+      "type": "tool",
+      "toolType": "axe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 6,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "iron_axe"
+    },
+    {
+      "id": 48,
+      "key": "maple_door",
+      "name": "Maple Door",
+      "description": "A maple door. Place it to make a doorway.",
+      "type": "door",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "maple_door_item",
+      "places": {
+        "blockId": 60
+      }
+    },
+    {
+      "id": 49,
+      "key": "pine_door",
+      "name": "Pine Door",
+      "description": "A pine door. Place it to make a doorway.",
+      "type": "door",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "pine_door_item",
+      "places": {
+        "blockId": 64
+      }
+    },
+    {
+      "id": 56,
+      "key": "gold",
+      "name": "Gold",
+      "description": "A refined gold ingot used for tools and blocks.",
+      "type": "material",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "gold"
+    },
+    {
+      "id": 69,
+      "key": "cotton",
+      "name": "Cotton",
+      "description": "Soft fibres from the cotton plant. Used to craft bookshelves.",
+      "type": "material",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "cotton"
+    },
+    {
+      "id": 85,
+      "key": "golden_pickaxe",
+      "name": "Golden Pickaxe",
+      "description": "A very fast golden pickaxe.",
+      "type": "tool",
+      "toolType": "pickaxe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 7,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "gold_pickaxe"
+    },
+    {
+      "id": 86,
+      "key": "golden_axe",
+      "name": "Golden Axe",
+      "description": "A very fast golden axe.",
+      "type": "tool",
+      "toolType": "axe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 7,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "gold_axe"
+    },
+    {
+      "id": 87,
+      "key": "golden_shovel",
+      "name": "Golden Shovel",
+      "description": "A very fast golden shovel.",
+      "type": "tool",
+      "toolType": "shovel",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 7,
+        "leaf": 1
+      },
+      "texture": "gold_shovel"
+    },
+    {
+      "id": 89,
+      "key": "lava_bucket",
+      "name": "Lava Bucket",
+      "description": "A bucket filled with molten lava. Handle with care.",
+      "type": "bucket",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "lava_bucket",
+      "places": {
+        "blockId": 88
+      }
+    },
+    {
+      "id": 100,
+      "key": "diamond",
+      "name": "Diamond",
+      "description": "A brilliant gem used for the best tools.",
+      "type": "material",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "diamond"
+    },
+    {
+      "id": 101,
+      "key": "diamond_pickaxe",
+      "name": "Diamond Pickaxe",
+      "description": "The best pickaxe there is.",
+      "type": "tool",
+      "toolType": "pickaxe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 8,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "diamond_pickaxe"
+    },
+    {
+      "id": 102,
+      "key": "diamond_axe",
+      "name": "Diamond Axe",
+      "description": "The best axe there is.",
+      "type": "tool",
+      "toolType": "axe",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 8,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "diamond_axe"
+    },
+    {
+      "id": 103,
+      "key": "diamond_shovel",
+      "name": "Diamond Shovel",
+      "description": "The best shovel there is.",
+      "type": "tool",
+      "toolType": "shovel",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 8,
+        "leaf": 1
+      },
+      "texture": "diamond_shovel"
+    },
+    {
+      "id": 104,
+      "key": "shears",
+      "name": "Shears",
+      "description": "Cuts leaves and short grass quickly.",
+      "type": "tool",
+      "toolType": "shears",
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 5
+      },
+      "texture": "shears"
+    },
+    {
+      "id": 105,
+      "key": "cherry_door",
+      "name": "Cherry Door",
+      "description": "A cherry door. Place it to make a doorway.",
+      "type": "door",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "cherry_door_item",
+      "places": {
+        "blockId": 116
+      }
+    },
+    {
+      "id": 106,
+      "key": "aspen_door",
+      "name": "Aspen Door",
+      "description": "An aspen door. Place it to make a doorway.",
+      "type": "door",
+      "toolType": null,
+      "maxStack": 1,
+      "breakSpeed": {
+        "normal": 1,
+        "plant": 1,
+        "wood": 1,
+        "stone": 1,
+        "dirt": 1,
+        "leaf": 1
+      },
+      "texture": "aspen_door_item",
+      "places": {
+        "blockId": 120
+      }
+    }
+  ]
+}

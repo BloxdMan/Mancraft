@@ -1,0 +1,1573 @@
+{
+  "_readme": [
+    "Blocks and items share ONE id space (same ids as index.html). Never reuse an id between blocks.json and items.json.",
+    "type: stone | wood | plant | dirt | leaf | glass | liquid. It decides which item breakSpeed key applies (see typeRules).",
+    "hardness: base mining difficulty. Break time (seconds) = max(0.06, hardness * 0.5 / speed). speed comes from the held item's breakSpeed for this block's type (1 = bare hand).",
+    "hardness 0 = instant (plants). unbreakable = true means it cannot be mined in survival.",
+    "drops: what you get when broken. null = nothing. requiresTool = only drops when that tool is held.",
+    "textures: top / side / bottom tile names from the texture atlas. hidden = true hides it from the creative inventory.",
+    "maxStack: how many fit in one inventory slot."
+  ],
+  "settings": {
+    "maxStackDefault": 999
+  },
+  "typeRules": {
+    "stone": {
+      "breakSpeedKey": "stone",
+      "bestTool": "pickaxe"
+    },
+    "wood": {
+      "breakSpeedKey": "wood",
+      "bestTool": "axe"
+    },
+    "plant": {
+      "breakSpeedKey": "plant",
+      "bestTool": null
+    },
+    "dirt": {
+      "breakSpeedKey": "dirt",
+      "bestTool": "shovel"
+    },
+    "leaf": {
+      "breakSpeedKey": "leaf",
+      "bestTool": "shears"
+    },
+    "glass": {
+      "breakSpeedKey": "normal",
+      "bestTool": null
+    },
+    "liquid": {
+      "breakSpeedKey": "normal",
+      "bestTool": null
+    }
+  },
+  "blocks": [
+    {
+      "id": 1,
+      "key": "grass_block",
+      "name": "Grass Block",
+      "description": "Soil covered in living grass. Quick to dig with a shovel.",
+      "type": "dirt",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 1,
+        "count": 1
+      },
+      "textures": {
+        "top": "grass_top",
+        "side": "grass_side",
+        "bottom": "dirt"
+      },
+      "hidden": false
+    },
+    {
+      "id": 2,
+      "key": "dirt",
+      "name": "Dirt",
+      "description": "Loose brown soil. Good for building and digging.",
+      "type": "dirt",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 2,
+        "count": 1
+      },
+      "textures": {
+        "top": "dirt",
+        "side": "dirt",
+        "bottom": "dirt"
+      },
+      "hidden": false
+    },
+    {
+      "id": 3,
+      "key": "stone",
+      "name": "Stone",
+      "description": "Solid grey rock. Breaks into cobblestone.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 45,
+        "count": 1
+      },
+      "textures": {
+        "top": "stone",
+        "side": "stone",
+        "bottom": "stone"
+      },
+      "hidden": false
+    },
+    {
+      "id": 4,
+      "key": "stone",
+      "name": "Stone",
+      "description": "A stone variant used by world generation. Behaves like Stone.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 45,
+        "count": 1
+      },
+      "textures": {
+        "top": "stone",
+        "side": "stone",
+        "bottom": "stone"
+      },
+      "hidden": true
+    },
+    {
+      "id": 5,
+      "key": "bedrock",
+      "name": "Bedrock",
+      "description": "The unbreakable bottom of the world.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": true,
+      "drops": null,
+      "textures": {
+        "top": "bedrock",
+        "side": "bedrock",
+        "bottom": "bedrock"
+      },
+      "hidden": false
+    },
+    {
+      "id": 6,
+      "key": "maple_wood",
+      "name": "Maple Wood",
+      "description": "A log from a maple tree. Craft it into planks.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 6,
+        "count": 1
+      },
+      "textures": {
+        "top": "maple_rings",
+        "side": "maple_bark",
+        "bottom": "maple_rings"
+      },
+      "hidden": false
+    },
+    {
+      "id": 7,
+      "key": "maple_planks",
+      "name": "Maple Planks",
+      "description": "Smooth planks cut from maple wood. Great for building and crafting.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 7,
+        "count": 1
+      },
+      "textures": {
+        "top": "maple_planks",
+        "side": "maple_planks",
+        "bottom": "maple_planks"
+      },
+      "hidden": false
+    },
+    {
+      "id": 8,
+      "key": "maple_leaf",
+      "name": "Maple Leaf",
+      "description": "Leaves from a maple tree. Shears break them fastest.",
+      "type": "leaf",
+      "shape": "leaf",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 8,
+        "count": 1
+      },
+      "textures": {
+        "top": "maple_leaf",
+        "side": "maple_leaf",
+        "bottom": "maple_leaf"
+      },
+      "hidden": false
+    },
+    {
+      "id": 9,
+      "key": "short_grass",
+      "name": "Short Grass",
+      "description": "Tufts of wild grass. Needs shears to harvest.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 9,
+        "count": 1,
+        "requiresTool": "shears"
+      },
+      "textures": {
+        "top": "short_grass",
+        "side": "short_grass",
+        "bottom": "short_grass"
+      },
+      "hidden": false
+    },
+    {
+      "id": 10,
+      "key": "poppy",
+      "name": "Poppy",
+      "description": "A bright red wildflower.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 10,
+        "count": 1
+      },
+      "textures": {
+        "top": "poppy",
+        "side": "poppy",
+        "bottom": "poppy"
+      },
+      "hidden": false
+    },
+    {
+      "id": 11,
+      "key": "dandelion",
+      "name": "Dandelion",
+      "description": "A cheerful yellow wildflower.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 11,
+        "count": 1
+      },
+      "textures": {
+        "top": "dandelion",
+        "side": "dandelion",
+        "bottom": "dandelion"
+      },
+      "hidden": false
+    },
+    {
+      "id": 12,
+      "key": "sand",
+      "name": "Sand",
+      "description": "Soft grains of sand. Can be smelted into glass.",
+      "type": "dirt",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 12,
+        "count": 1
+      },
+      "textures": {
+        "top": "sand",
+        "side": "sand",
+        "bottom": "sand"
+      },
+      "hidden": false
+    },
+    {
+      "id": 13,
+      "key": "snow",
+      "name": "Snow",
+      "description": "A block of packed snow.",
+      "type": "dirt",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 13,
+        "count": 1
+      },
+      "textures": {
+        "top": "snow",
+        "side": "snow",
+        "bottom": "snow"
+      },
+      "hidden": false
+    },
+    {
+      "id": 14,
+      "key": "water",
+      "name": "Water",
+      "description": "Clear water. You can swim in it.",
+      "type": "liquid",
+      "shape": "liquid",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": true,
+      "drops": null,
+      "textures": {
+        "top": "water",
+        "side": "water",
+        "bottom": "water"
+      },
+      "hidden": true
+    },
+    {
+      "id": 17,
+      "key": "pine_wood",
+      "name": "Pine Wood",
+      "description": "A log from a pine tree. Craft it into planks.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 17,
+        "count": 1
+      },
+      "textures": {
+        "top": "pine_rings",
+        "side": "pine_bark",
+        "bottom": "pine_rings"
+      },
+      "hidden": false
+    },
+    {
+      "id": 18,
+      "key": "pine_planks",
+      "name": "Pine Planks",
+      "description": "Sturdy planks cut from pine wood.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 18,
+        "count": 1
+      },
+      "textures": {
+        "top": "pine_planks",
+        "side": "pine_planks",
+        "bottom": "pine_planks"
+      },
+      "hidden": false
+    },
+    {
+      "id": 19,
+      "key": "pine_leaf",
+      "name": "Pine Leaf",
+      "description": "Needle-covered pine leaves. Shears break them fastest.",
+      "type": "leaf",
+      "shape": "leaf",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 19,
+        "count": 1
+      },
+      "textures": {
+        "top": "pine_leaf",
+        "side": "pine_leaf",
+        "bottom": "pine_leaf"
+      },
+      "hidden": false
+    },
+    {
+      "id": 20,
+      "key": "cranberries",
+      "name": "Cranberries",
+      "description": "Tart red berries growing on a low bush.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 20,
+        "count": 1
+      },
+      "textures": {
+        "top": "cranberries",
+        "side": "cranberries",
+        "bottom": "cranberries"
+      },
+      "hidden": false
+    },
+    {
+      "id": 29,
+      "key": "crafting_table",
+      "name": "Crafting Table",
+      "description": "Unlocks bigger recipes such as tools, chests and furnaces.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 29,
+        "count": 1
+      },
+      "textures": {
+        "top": "crafting_top",
+        "side": "crafting_side",
+        "bottom": "maple_planks"
+      },
+      "hidden": false
+    },
+    {
+      "id": 30,
+      "key": "furnace",
+      "name": "Furnace",
+      "description": "Smelts ores, sand and cobblestone when given fuel.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 30,
+        "count": 1
+      },
+      "textures": {
+        "top": "furnace_top",
+        "side": "furnace_front",
+        "bottom": "furnace_top"
+      },
+      "hidden": false
+    },
+    {
+      "id": 37,
+      "key": "coal_ore",
+      "name": "Coal Ore",
+      "description": "Stone veined with coal. Drops Coal.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 39,
+        "count": 1
+      },
+      "textures": {
+        "top": "coal_ore",
+        "side": "coal_ore",
+        "bottom": "coal_ore"
+      },
+      "hidden": false
+    },
+    {
+      "id": 38,
+      "key": "iron_ore",
+      "name": "Iron Ore",
+      "description": "Stone veined with iron. Smelt it in a furnace to get Iron.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 38,
+        "count": 1
+      },
+      "textures": {
+        "top": "iron_ore",
+        "side": "iron_ore",
+        "bottom": "iron_ore"
+      },
+      "hidden": false
+    },
+    {
+      "id": 44,
+      "key": "furnace_lit",
+      "name": "Furnace (lit)",
+      "description": "A furnace that is currently burning.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 30,
+        "count": 1
+      },
+      "textures": {
+        "top": "furnace_top",
+        "side": "furnace_front_lit",
+        "bottom": "furnace_top"
+      },
+      "hidden": true
+    },
+    {
+      "id": 45,
+      "key": "cobblestone",
+      "name": "Cobblestone",
+      "description": "Rough broken stone. Cheap building material and a furnace ingredient.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 45,
+        "count": 1
+      },
+      "textures": {
+        "top": "cobblestone",
+        "side": "cobblestone",
+        "bottom": "cobblestone"
+      },
+      "hidden": false
+    },
+    {
+      "id": 46,
+      "key": "glass",
+      "name": "Glass",
+      "description": "A transparent block. Lets light through.",
+      "type": "glass",
+      "shape": "leaf",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 46,
+        "count": 1
+      },
+      "textures": {
+        "top": "glass",
+        "side": "glass",
+        "bottom": "glass"
+      },
+      "hidden": false
+    },
+    {
+      "id": 47,
+      "key": "chest",
+      "name": "Chest",
+      "description": "Stores up to 36 items.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 47,
+        "count": 1
+      },
+      "textures": {
+        "top": "chest_top",
+        "side": "chest_front",
+        "bottom": "chest_top"
+      },
+      "hidden": false
+    },
+    {
+      "id": 50,
+      "key": "ice",
+      "name": "Ice",
+      "description": "Slippery frozen water.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 50,
+        "count": 1
+      },
+      "textures": {
+        "top": "ice",
+        "side": "ice",
+        "bottom": "ice"
+      },
+      "hidden": false
+    },
+    {
+      "id": 51,
+      "key": "maple_ladder",
+      "name": "Maple Ladder",
+      "description": "A maple ladder for climbing walls.",
+      "type": "wood",
+      "shape": "ladder",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 51,
+        "count": 1
+      },
+      "textures": {
+        "top": "maple_ladder",
+        "side": "maple_ladder",
+        "bottom": "maple_ladder"
+      },
+      "hidden": false
+    },
+    {
+      "id": 52,
+      "key": "maple_trapdoor",
+      "name": "Maple Trapdoor",
+      "description": "A hinged maple hatch. Click to open or close.",
+      "type": "wood",
+      "shape": "trapdoor",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 52,
+        "count": 1
+      },
+      "textures": {
+        "top": "maple_trapdoor",
+        "side": "maple_trapdoor",
+        "bottom": "maple_trapdoor"
+      },
+      "hidden": false
+    },
+    {
+      "id": 53,
+      "key": "maple_trapdoor_open",
+      "name": "Maple Trapdoor (open)",
+      "description": "A maple trapdoor that is currently open.",
+      "type": "wood",
+      "shape": "trapdoor",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 52,
+        "count": 1
+      },
+      "textures": {
+        "top": "maple_trapdoor",
+        "side": "maple_trapdoor",
+        "bottom": "maple_trapdoor"
+      },
+      "hidden": true
+    },
+    {
+      "id": 54,
+      "key": "mushroom",
+      "name": "Mushroom",
+      "description": "A small forest mushroom.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 54,
+        "count": 1
+      },
+      "textures": {
+        "top": "mushroom",
+        "side": "mushroom",
+        "bottom": "mushroom"
+      },
+      "hidden": false
+    },
+    {
+      "id": 55,
+      "key": "gold_ore",
+      "name": "Gold Ore",
+      "description": "Stone veined with gold. Smelt it in a furnace to get Gold.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 55,
+        "count": 1
+      },
+      "textures": {
+        "top": "gold_ore",
+        "side": "gold_ore",
+        "bottom": "gold_ore"
+      },
+      "hidden": false
+    },
+    {
+      "id": 57,
+      "key": "iron_block",
+      "name": "Iron Block",
+      "description": "Nine irons packed into one solid block.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 57,
+        "count": 1
+      },
+      "textures": {
+        "top": "iron_block",
+        "side": "iron_block",
+        "bottom": "iron_block"
+      },
+      "hidden": false
+    },
+    {
+      "id": 58,
+      "key": "gold_block",
+      "name": "Gold Block",
+      "description": "Nine golds packed into one shiny block.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 58,
+        "count": 1
+      },
+      "textures": {
+        "top": "gold_block",
+        "side": "gold_block",
+        "bottom": "gold_block"
+      },
+      "hidden": false
+    },
+    {
+      "id": 59,
+      "key": "coal_block",
+      "name": "Coal Block",
+      "description": "Nine coal packed into one dark block.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 59,
+        "count": 1
+      },
+      "textures": {
+        "top": "coal_block",
+        "side": "coal_block",
+        "bottom": "coal_block"
+      },
+      "hidden": false
+    },
+    {
+      "id": 68,
+      "key": "cotton_plant",
+      "name": "Cotton Plant",
+      "description": "A fluffy cotton bush. Drops Cotton.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 69,
+        "count": 1
+      },
+      "textures": {
+        "top": "cotton_plant",
+        "side": "cotton_plant",
+        "bottom": "cotton_plant"
+      },
+      "hidden": false
+    },
+    {
+      "id": 70,
+      "key": "red_tulip",
+      "name": "Red Tulip",
+      "description": "A bright red tulip.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 70,
+        "count": 1
+      },
+      "textures": {
+        "top": "red_tulip",
+        "side": "red_tulip",
+        "bottom": "red_tulip"
+      },
+      "hidden": false
+    },
+    {
+      "id": 71,
+      "key": "orange_tulip",
+      "name": "Orange Tulip",
+      "description": "A warm orange tulip.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 71,
+        "count": 1
+      },
+      "textures": {
+        "top": "orange_tulip",
+        "side": "orange_tulip",
+        "bottom": "orange_tulip"
+      },
+      "hidden": false
+    },
+    {
+      "id": 72,
+      "key": "white_tulip",
+      "name": "White Tulip",
+      "description": "A clean white tulip.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 72,
+        "count": 1
+      },
+      "textures": {
+        "top": "white_tulip",
+        "side": "white_tulip",
+        "bottom": "white_tulip"
+      },
+      "hidden": false
+    },
+    {
+      "id": 73,
+      "key": "pink_tulip",
+      "name": "Pink Tulip",
+      "description": "A soft pink tulip.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 73,
+        "count": 1
+      },
+      "textures": {
+        "top": "pink_tulip",
+        "side": "pink_tulip",
+        "bottom": "pink_tulip"
+      },
+      "hidden": false
+    },
+    {
+      "id": 74,
+      "key": "cornflower",
+      "name": "Cornflower",
+      "description": "A deep blue wildflower.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 74,
+        "count": 1
+      },
+      "textures": {
+        "top": "cornflower",
+        "side": "cornflower",
+        "bottom": "cornflower"
+      },
+      "hidden": false
+    },
+    {
+      "id": 75,
+      "key": "daisy",
+      "name": "Daisy",
+      "description": "A small white and yellow daisy.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 75,
+        "count": 1
+      },
+      "textures": {
+        "top": "daisy",
+        "side": "daisy",
+        "bottom": "daisy"
+      },
+      "hidden": false
+    },
+    {
+      "id": 76,
+      "key": "lily_of_the_valley",
+      "name": "Lily of the Valley",
+      "description": "A delicate bell-shaped white flower.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 76,
+        "count": 1
+      },
+      "textures": {
+        "top": "lily_of_the_valley",
+        "side": "lily_of_the_valley",
+        "bottom": "lily_of_the_valley"
+      },
+      "hidden": false
+    },
+    {
+      "id": 77,
+      "key": "blue_orchid",
+      "name": "Blue Orchid",
+      "description": "A rare light blue orchid.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 77,
+        "count": 1
+      },
+      "textures": {
+        "top": "blue_orchid",
+        "side": "blue_orchid",
+        "bottom": "blue_orchid"
+      },
+      "hidden": false
+    },
+    {
+      "id": 78,
+      "key": "allium",
+      "name": "Allium",
+      "description": "A round purple flower.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 78,
+        "count": 1
+      },
+      "textures": {
+        "top": "allium",
+        "side": "allium",
+        "bottom": "allium"
+      },
+      "hidden": false
+    },
+    {
+      "id": 79,
+      "key": "peony",
+      "name": "Peony",
+      "description": "A tall flower with large pink blooms.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 79,
+        "count": 1
+      },
+      "textures": {
+        "top": "peony",
+        "side": "peony",
+        "bottom": "peony",
+        "icon": "peony_top"
+      },
+      "hidden": false
+    },
+    {
+      "id": 80,
+      "key": "peony_top",
+      "name": "Peony (top)",
+      "description": "The upper half of a peony.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 79,
+        "count": 1
+      },
+      "textures": {
+        "top": "peony_top",
+        "side": "peony_top",
+        "bottom": "peony_top"
+      },
+      "hidden": true
+    },
+    {
+      "id": 83,
+      "key": "sunflower",
+      "name": "Sunflower",
+      "description": "A tall flower that follows the sun.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 83,
+        "count": 1
+      },
+      "textures": {
+        "top": "sunflower",
+        "side": "sunflower",
+        "bottom": "sunflower",
+        "icon": "sunflower_top"
+      },
+      "hidden": false
+    },
+    {
+      "id": 84,
+      "key": "sunflower_top",
+      "name": "Sunflower (top)",
+      "description": "The upper half of a sunflower.",
+      "type": "plant",
+      "shape": "plant",
+      "maxStack": 999,
+      "hardness": 0.5,
+      "unbreakable": false,
+      "drops": {
+        "id": 83,
+        "count": 1
+      },
+      "textures": {
+        "top": "sunflower_top",
+        "side": "sunflower_top",
+        "bottom": "sunflower_top"
+      },
+      "hidden": true
+    },
+    {
+      "id": 88,
+      "key": "lava",
+      "name": "Lava",
+      "description": "Dangerous molten rock. Burns anything that touches it.",
+      "type": "liquid",
+      "shape": "liquid",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": true,
+      "drops": null,
+      "textures": {
+        "top": "lava",
+        "side": "lava",
+        "bottom": "lava"
+      },
+      "hidden": true
+    },
+    {
+      "id": 90,
+      "key": "bookshelf",
+      "name": "Bookshelf",
+      "description": "Shelves packed with books.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 90,
+        "count": 1
+      },
+      "textures": {
+        "top": "maple_planks",
+        "side": "bookshelf",
+        "bottom": "maple_planks"
+      },
+      "hidden": false
+    },
+    {
+      "id": 91,
+      "key": "cherry_wood",
+      "name": "Cherry Wood",
+      "description": "A log from a cherry tree. Craft it into planks.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 91,
+        "count": 1
+      },
+      "textures": {
+        "top": "cherry_rings",
+        "side": "cherry_bark",
+        "bottom": "cherry_rings"
+      },
+      "hidden": false
+    },
+    {
+      "id": 92,
+      "key": "cherry_planks",
+      "name": "Cherry Planks",
+      "description": "Pink-tinted planks cut from cherry wood.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 92,
+        "count": 1
+      },
+      "textures": {
+        "top": "cherry_planks",
+        "side": "cherry_planks",
+        "bottom": "cherry_planks"
+      },
+      "hidden": false
+    },
+    {
+      "id": 93,
+      "key": "cherry_leaf",
+      "name": "Cherry Leaf",
+      "description": "Blossoming cherry leaves. Shears break them fastest.",
+      "type": "leaf",
+      "shape": "leaf",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 93,
+        "count": 1
+      },
+      "textures": {
+        "top": "cherry_leaf",
+        "side": "cherry_leaf",
+        "bottom": "cherry_leaf"
+      },
+      "hidden": false
+    },
+    {
+      "id": 94,
+      "key": "diamond_block",
+      "name": "Diamond Block",
+      "description": "Nine diamonds packed into one brilliant block.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 94,
+        "count": 1
+      },
+      "textures": {
+        "top": "diamond_block",
+        "side": "diamond_block",
+        "bottom": "diamond_block"
+      },
+      "hidden": false
+    },
+    {
+      "id": 95,
+      "key": "diamond_ore",
+      "name": "Diamond Ore",
+      "description": "Stone veined with diamond. Drops Diamond.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 100,
+        "count": 1
+      },
+      "textures": {
+        "top": "diamond_ore",
+        "side": "diamond_ore",
+        "bottom": "diamond_ore"
+      },
+      "hidden": false
+    },
+    {
+      "id": 96,
+      "key": "aspen_wood",
+      "name": "Aspen Wood",
+      "description": "A log from an aspen tree. Craft it into planks.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 96,
+        "count": 1
+      },
+      "textures": {
+        "top": "aspen_rings",
+        "side": "aspen_bark",
+        "bottom": "aspen_rings"
+      },
+      "hidden": false
+    },
+    {
+      "id": 97,
+      "key": "aspen_planks",
+      "name": "Aspen Planks",
+      "description": "Pale planks cut from aspen wood.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 97,
+        "count": 1
+      },
+      "textures": {
+        "top": "aspen_planks",
+        "side": "aspen_planks",
+        "bottom": "aspen_planks"
+      },
+      "hidden": false
+    },
+    {
+      "id": 98,
+      "key": "aspen_leaf",
+      "name": "Aspen Leaf",
+      "description": "Light green aspen leaves. Shears break them fastest.",
+      "type": "leaf",
+      "shape": "leaf",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 98,
+        "count": 1
+      },
+      "textures": {
+        "top": "aspen_leaf",
+        "side": "aspen_leaf",
+        "bottom": "aspen_leaf"
+      },
+      "hidden": false
+    },
+    {
+      "id": 99,
+      "key": "autumn_maple_leaf",
+      "name": "Autumn Maple Leaf",
+      "description": "Orange-red maple leaves of autumn. Shears break them fastest.",
+      "type": "leaf",
+      "shape": "leaf",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 99,
+        "count": 1
+      },
+      "textures": {
+        "top": "autumn_maple_leaf",
+        "side": "autumn_maple_leaf",
+        "bottom": "autumn_maple_leaf"
+      },
+      "hidden": false
+    },
+    {
+      "id": 107,
+      "key": "pine_trapdoor",
+      "name": "Pine Trapdoor",
+      "description": "A hinged pine hatch. Click to open or close.",
+      "type": "wood",
+      "shape": "trapdoor",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 107,
+        "count": 1
+      },
+      "textures": {
+        "top": "pine_trapdoor",
+        "side": "pine_trapdoor",
+        "bottom": "pine_trapdoor"
+      },
+      "hidden": false
+    },
+    {
+      "id": 108,
+      "key": "pine_trapdoor_open",
+      "name": "Pine Trapdoor (open)",
+      "description": "A pine trapdoor that is currently open.",
+      "type": "wood",
+      "shape": "trapdoor",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 107,
+        "count": 1
+      },
+      "textures": {
+        "top": "pine_trapdoor",
+        "side": "pine_trapdoor",
+        "bottom": "pine_trapdoor"
+      },
+      "hidden": true
+    },
+    {
+      "id": 109,
+      "key": "cherry_trapdoor",
+      "name": "Cherry Trapdoor",
+      "description": "A hinged cherry hatch. Click to open or close.",
+      "type": "wood",
+      "shape": "trapdoor",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 109,
+        "count": 1
+      },
+      "textures": {
+        "top": "cherry_trapdoor",
+        "side": "cherry_trapdoor",
+        "bottom": "cherry_trapdoor"
+      },
+      "hidden": false
+    },
+    {
+      "id": 110,
+      "key": "cherry_trapdoor_open",
+      "name": "Cherry Trapdoor (open)",
+      "description": "A cherry trapdoor that is currently open.",
+      "type": "wood",
+      "shape": "trapdoor",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 109,
+        "count": 1
+      },
+      "textures": {
+        "top": "cherry_trapdoor",
+        "side": "cherry_trapdoor",
+        "bottom": "cherry_trapdoor"
+      },
+      "hidden": true
+    },
+    {
+      "id": 111,
+      "key": "aspen_trapdoor",
+      "name": "Aspen Trapdoor",
+      "description": "A hinged aspen hatch. Click to open or close.",
+      "type": "wood",
+      "shape": "trapdoor",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 111,
+        "count": 1
+      },
+      "textures": {
+        "top": "aspen_trapdoor",
+        "side": "aspen_trapdoor",
+        "bottom": "aspen_trapdoor"
+      },
+      "hidden": false
+    },
+    {
+      "id": 112,
+      "key": "aspen_trapdoor_open",
+      "name": "Aspen Trapdoor (open)",
+      "description": "An aspen trapdoor that is currently open.",
+      "type": "wood",
+      "shape": "trapdoor",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 111,
+        "count": 1
+      },
+      "textures": {
+        "top": "aspen_trapdoor",
+        "side": "aspen_trapdoor",
+        "bottom": "aspen_trapdoor"
+      },
+      "hidden": true
+    },
+    {
+      "id": 113,
+      "key": "pine_ladder",
+      "name": "Pine Ladder",
+      "description": "A pine ladder for climbing walls.",
+      "type": "wood",
+      "shape": "ladder",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 113,
+        "count": 1
+      },
+      "textures": {
+        "top": "pine_ladder",
+        "side": "pine_ladder",
+        "bottom": "pine_ladder"
+      },
+      "hidden": false
+    },
+    {
+      "id": 114,
+      "key": "cherry_ladder",
+      "name": "Cherry Ladder",
+      "description": "A cherry ladder for climbing walls.",
+      "type": "wood",
+      "shape": "ladder",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 114,
+        "count": 1
+      },
+      "textures": {
+        "top": "cherry_ladder",
+        "side": "cherry_ladder",
+        "bottom": "cherry_ladder"
+      },
+      "hidden": false
+    },
+    {
+      "id": 115,
+      "key": "aspen_ladder",
+      "name": "Aspen Ladder",
+      "description": "An aspen ladder for climbing walls.",
+      "type": "wood",
+      "shape": "ladder",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 115,
+        "count": 1
+      },
+      "textures": {
+        "top": "aspen_ladder",
+        "side": "aspen_ladder",
+        "bottom": "aspen_ladder"
+      },
+      "hidden": false
+    },
+    {
+      "id": 124,
+      "key": "cactus",
+      "name": "Cactus",
+      "description": "A prickly desert plant.",
+      "type": "wood",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 124,
+        "count": 1
+      },
+      "textures": {
+        "top": "cactus_top",
+        "side": "cactus_side",
+        "bottom": "cactus_top"
+      },
+      "hidden": false
+    },
+    {
+      "id": 125,
+      "key": "magma",
+      "name": "Magma",
+      "description": "Glowing hot rock.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 125,
+        "count": 1
+      },
+      "textures": {
+        "top": "magma",
+        "side": "magma",
+        "bottom": "magma"
+      },
+      "hidden": false
+    },
+    {
+      "id": 126,
+      "key": "claimstone",
+      "name": "Claimstone",
+      "description": "Claims the chunk it is placed in for you. Max 8 per player.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 126,
+        "count": 1
+      },
+      "textures": {
+        "top": "claimstone",
+        "side": "claimstone",
+        "bottom": "claimstone"
+      },
+      "hidden": false
+    },
+    {
+      "id": 127,
+      "key": "obsidian",
+      "name": "Obsidian",
+      "description": "Extremely tough volcanic glass. Very slow to mine.",
+      "type": "stone",
+      "shape": "cube",
+      "maxStack": 999,
+      "hardness": 1,
+      "unbreakable": false,
+      "drops": {
+        "id": 127,
+        "count": 1
+      },
+      "textures": {
+        "top": "obsidian",
+        "side": "obsidian",
+        "bottom": "obsidian"
+      },
+      "hidden": false
+    }
+  ]
+}

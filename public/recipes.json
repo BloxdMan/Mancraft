@@ -1,0 +1,965 @@
+{
+  "_readme": [
+    "station: 'hand' = craftable in the inventory (2x2). 'crafting_table' = needs a Crafting Table (3x3).",
+    "ingredients: what is needed. Use {id, count} for one exact block/item or {group, count} for any member of a group (see groups).",
+    "result: what you get and how many (count).",
+    "Ids match blocks.json and items.json. Names are only for readability; the game should read ids.",
+    "smelting: use a Furnace. Each smelt takes cookSeconds and consumes 1 input and 1 unit of fuel time (see fuels)."
+  ],
+  "stations": {
+    "hand": {
+      "gridSize": 2
+    },
+    "crafting_table": {
+      "gridSize": 3,
+      "blockId": 29
+    },
+    "furnace": {
+      "blockId": 30
+    }
+  },
+  "groups": {
+    "planks": {
+      "name": "Planks (any)",
+      "ids": [
+        7,
+        18,
+        92,
+        97
+      ]
+    },
+    "stone": {
+      "name": "Stone (any)",
+      "ids": [
+        3,
+        4,
+        45
+      ]
+    }
+  },
+  "recipes": [
+    {
+      "key": "maple_planks",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 6,
+          "name": "Maple Wood",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 7,
+        "name": "Maple Planks",
+        "count": 4
+      }
+    },
+    {
+      "key": "pine_planks",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 17,
+          "name": "Pine Wood",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 18,
+        "name": "Pine Planks",
+        "count": 4
+      }
+    },
+    {
+      "key": "crafting_table",
+      "station": "hand",
+      "ingredients": [
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 4
+        }
+      ],
+      "result": {
+        "id": 29,
+        "name": "Crafting Table",
+        "count": 1
+      }
+    },
+    {
+      "key": "furnace",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "stone",
+          "name": "Stone (any)",
+          "count": 8
+        }
+      ],
+      "result": {
+        "id": 30,
+        "name": "Furnace",
+        "count": 1
+      }
+    },
+    {
+      "key": "wood_pickaxe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 4
+        }
+      ],
+      "result": {
+        "id": 31,
+        "name": "Wood Pickaxe",
+        "count": 1
+      }
+    },
+    {
+      "key": "wood_axe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 4
+        }
+      ],
+      "result": {
+        "id": 32,
+        "name": "Wood Axe",
+        "count": 1
+      }
+    },
+    {
+      "key": "wood_shovel",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 2
+        }
+      ],
+      "result": {
+        "id": 33,
+        "name": "Wood Shovel",
+        "count": 1
+      }
+    },
+    {
+      "key": "stone_pickaxe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "stone",
+          "name": "Stone (any)",
+          "count": 3
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 34,
+        "name": "Stone Pickaxe",
+        "count": 1
+      }
+    },
+    {
+      "key": "stone_axe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "stone",
+          "name": "Stone (any)",
+          "count": 3
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 35,
+        "name": "Stone Axe",
+        "count": 1
+      }
+    },
+    {
+      "key": "stone_shovel",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "stone",
+          "name": "Stone (any)",
+          "count": 1
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 36,
+        "name": "Stone Shovel",
+        "count": 1
+      }
+    },
+    {
+      "key": "iron_pickaxe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 40,
+          "name": "Iron",
+          "count": 3
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 41,
+        "name": "Iron Pickaxe",
+        "count": 1
+      }
+    },
+    {
+      "key": "iron_shovel",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 40,
+          "name": "Iron",
+          "count": 1
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 42,
+        "name": "Iron Shovel",
+        "count": 1
+      }
+    },
+    {
+      "key": "iron_axe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 40,
+          "name": "Iron",
+          "count": 3
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 43,
+        "name": "Iron Axe",
+        "count": 1
+      }
+    },
+    {
+      "key": "chest",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 8
+        }
+      ],
+      "result": {
+        "id": 47,
+        "name": "Chest",
+        "count": 1
+      }
+    },
+    {
+      "key": "maple_door",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 7,
+          "name": "Maple Planks",
+          "count": 6
+        }
+      ],
+      "result": {
+        "id": 48,
+        "name": "Maple Door",
+        "count": 1
+      }
+    },
+    {
+      "key": "pine_door",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 18,
+          "name": "Pine Planks",
+          "count": 6
+        }
+      ],
+      "result": {
+        "id": 49,
+        "name": "Pine Door",
+        "count": 1
+      }
+    },
+    {
+      "key": "maple_trapdoor",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 6
+        }
+      ],
+      "result": {
+        "id": 52,
+        "name": "Maple Trapdoor",
+        "count": 2
+      }
+    },
+    {
+      "key": "maple_ladder",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 7
+        }
+      ],
+      "result": {
+        "id": 51,
+        "name": "Maple Ladder",
+        "count": 3
+      }
+    },
+    {
+      "key": "iron_block",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 40,
+          "name": "Iron",
+          "count": 9
+        }
+      ],
+      "result": {
+        "id": 57,
+        "name": "Iron Block",
+        "count": 1
+      }
+    },
+    {
+      "key": "iron_from_iron_block",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 57,
+          "name": "Iron Block",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 40,
+        "name": "Iron",
+        "count": 9
+      }
+    },
+    {
+      "key": "gold_block",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 56,
+          "name": "Gold",
+          "count": 9
+        }
+      ],
+      "result": {
+        "id": 58,
+        "name": "Gold Block",
+        "count": 1
+      }
+    },
+    {
+      "key": "gold_from_gold_block",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 58,
+          "name": "Gold Block",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 56,
+        "name": "Gold",
+        "count": 9
+      }
+    },
+    {
+      "key": "coal_block",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 39,
+          "name": "Coal",
+          "count": 9
+        }
+      ],
+      "result": {
+        "id": 59,
+        "name": "Coal Block",
+        "count": 1
+      }
+    },
+    {
+      "key": "coal_from_coal_block",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 59,
+          "name": "Coal Block",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 39,
+        "name": "Coal",
+        "count": 9
+      }
+    },
+    {
+      "key": "golden_pickaxe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 56,
+          "name": "Gold",
+          "count": 3
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 85,
+        "name": "Golden Pickaxe",
+        "count": 1
+      }
+    },
+    {
+      "key": "golden_axe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 56,
+          "name": "Gold",
+          "count": 3
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 86,
+        "name": "Golden Axe",
+        "count": 1
+      }
+    },
+    {
+      "key": "golden_shovel",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 56,
+          "name": "Gold",
+          "count": 1
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 87,
+        "name": "Golden Shovel",
+        "count": 1
+      }
+    },
+    {
+      "key": "cherry_planks",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 91,
+          "name": "Cherry Wood",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 92,
+        "name": "Cherry Planks",
+        "count": 4
+      }
+    },
+    {
+      "key": "aspen_planks",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 96,
+          "name": "Aspen Wood",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 97,
+        "name": "Aspen Planks",
+        "count": 4
+      }
+    },
+    {
+      "key": "bookshelf",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 6
+        },
+        {
+          "id": 69,
+          "name": "Cotton",
+          "count": 3
+        }
+      ],
+      "result": {
+        "id": 90,
+        "name": "Bookshelf",
+        "count": 1
+      }
+    },
+    {
+      "key": "cherry_door",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 92,
+          "name": "Cherry Planks",
+          "count": 6
+        }
+      ],
+      "result": {
+        "id": 105,
+        "name": "Cherry Door",
+        "count": 1
+      }
+    },
+    {
+      "key": "aspen_door",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 97,
+          "name": "Aspen Planks",
+          "count": 6
+        }
+      ],
+      "result": {
+        "id": 106,
+        "name": "Aspen Door",
+        "count": 1
+      }
+    },
+    {
+      "key": "pine_trapdoor",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 18,
+          "name": "Pine Planks",
+          "count": 6
+        }
+      ],
+      "result": {
+        "id": 107,
+        "name": "Pine Trapdoor",
+        "count": 2
+      }
+    },
+    {
+      "key": "cherry_trapdoor",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 92,
+          "name": "Cherry Planks",
+          "count": 6
+        }
+      ],
+      "result": {
+        "id": 109,
+        "name": "Cherry Trapdoor",
+        "count": 2
+      }
+    },
+    {
+      "key": "aspen_trapdoor",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 97,
+          "name": "Aspen Planks",
+          "count": 6
+        }
+      ],
+      "result": {
+        "id": 111,
+        "name": "Aspen Trapdoor",
+        "count": 2
+      }
+    },
+    {
+      "key": "pine_ladder",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 18,
+          "name": "Pine Planks",
+          "count": 7
+        }
+      ],
+      "result": {
+        "id": 113,
+        "name": "Pine Ladder",
+        "count": 3
+      }
+    },
+    {
+      "key": "cherry_ladder",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 92,
+          "name": "Cherry Planks",
+          "count": 7
+        }
+      ],
+      "result": {
+        "id": 114,
+        "name": "Cherry Ladder",
+        "count": 3
+      }
+    },
+    {
+      "key": "aspen_ladder",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 97,
+          "name": "Aspen Planks",
+          "count": 7
+        }
+      ],
+      "result": {
+        "id": 115,
+        "name": "Aspen Ladder",
+        "count": 3
+      }
+    },
+    {
+      "key": "diamond_block",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 100,
+          "name": "Diamond",
+          "count": 9
+        }
+      ],
+      "result": {
+        "id": 94,
+        "name": "Diamond Block",
+        "count": 1
+      }
+    },
+    {
+      "key": "diamond_from_diamond_block",
+      "station": "hand",
+      "ingredients": [
+        {
+          "id": 94,
+          "name": "Diamond Block",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 100,
+        "name": "Diamond",
+        "count": 9
+      }
+    },
+    {
+      "key": "diamond_pickaxe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 100,
+          "name": "Diamond",
+          "count": 3
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 101,
+        "name": "Diamond Pickaxe",
+        "count": 1
+      }
+    },
+    {
+      "key": "diamond_axe",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 100,
+          "name": "Diamond",
+          "count": 3
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 102,
+        "name": "Diamond Axe",
+        "count": 1
+      }
+    },
+    {
+      "key": "diamond_shovel",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 100,
+          "name": "Diamond",
+          "count": 1
+        },
+        {
+          "group": "planks",
+          "name": "Planks (any)",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 103,
+        "name": "Diamond Shovel",
+        "count": 1
+      }
+    },
+    {
+      "key": "shears",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 40,
+          "name": "Iron",
+          "count": 2
+        }
+      ],
+      "result": {
+        "id": 104,
+        "name": "Shears",
+        "count": 1
+      }
+    },
+    {
+      "key": "claimstone",
+      "station": "crafting_table",
+      "ingredients": [
+        {
+          "id": 127,
+          "name": "Obsidian",
+          "count": 4
+        },
+        {
+          "id": 100,
+          "name": "Diamond",
+          "count": 1
+        }
+      ],
+      "result": {
+        "id": 126,
+        "name": "Claimstone",
+        "count": 1
+      }
+    }
+  ],
+  "smelting": {
+    "cookSeconds": 5,
+    "recipes": [
+      {
+        "key": "smelt_iron",
+        "station": "furnace",
+        "input": {
+          "id": 38,
+          "name": "Iron Ore",
+          "count": 1
+        },
+        "result": {
+          "id": 40,
+          "name": "Iron",
+          "count": 1
+        }
+      },
+      {
+        "key": "smelt_stone",
+        "station": "furnace",
+        "input": {
+          "id": 45,
+          "name": "Cobblestone",
+          "count": 1
+        },
+        "result": {
+          "id": 3,
+          "name": "Stone",
+          "count": 1
+        }
+      },
+      {
+        "key": "smelt_glass",
+        "station": "furnace",
+        "input": {
+          "id": 12,
+          "name": "Sand",
+          "count": 1
+        },
+        "result": {
+          "id": 46,
+          "name": "Glass",
+          "count": 1
+        }
+      },
+      {
+        "key": "smelt_gold",
+        "station": "furnace",
+        "input": {
+          "id": 55,
+          "name": "Gold Ore",
+          "count": 1
+        },
+        "result": {
+          "id": 56,
+          "name": "Gold",
+          "count": 1
+        }
+      }
+    ],
+    "fuels": [
+      {
+        "id": 39,
+        "name": "Coal",
+        "burnSeconds": 40
+      },
+      {
+        "id": 7,
+        "name": "Maple Planks",
+        "burnSeconds": 5
+      },
+      {
+        "id": 18,
+        "name": "Pine Planks",
+        "burnSeconds": 5
+      },
+      {
+        "id": 92,
+        "name": "Cherry Planks",
+        "burnSeconds": 5
+      },
+      {
+        "id": 97,
+        "name": "Aspen Planks",
+        "burnSeconds": 5
+      },
+      {
+        "id": 8,
+        "name": "Maple Leaf",
+        "burnSeconds": 2
+      },
+      {
+        "id": 19,
+        "name": "Pine Leaf",
+        "burnSeconds": 2
+      },
+      {
+        "id": 93,
+        "name": "Cherry Leaf",
+        "burnSeconds": 2
+      },
+      {
+        "id": 98,
+        "name": "Aspen Leaf",
+        "burnSeconds": 2
+      },
+      {
+        "id": 99,
+        "name": "Autumn Maple Leaf",
+        "burnSeconds": 2
+      },
+      {
+        "id": 6,
+        "name": "Maple Wood",
+        "burnSeconds": 20
+      },
+      {
+        "id": 17,
+        "name": "Pine Wood",
+        "burnSeconds": 20
+      },
+      {
+        "id": 91,
+        "name": "Cherry Wood",
+        "burnSeconds": 20
+      },
+      {
+        "id": 96,
+        "name": "Aspen Wood",
+        "burnSeconds": 20
+      }
+    ]
+  }
+}

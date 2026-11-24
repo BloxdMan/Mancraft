@@ -1,0 +1,19 @@
+{
+  "menus": [
+    {
+      "name": "Library",
+      "load": "library",
+      "cameraX": 256,
+      "cameraY": 45,
+      "cameraZ": 192,
+      "cameraYaw": 35,
+      "cameraPitch": 12,
+      "orbit": true,
+      "renderX": 10,
+      "renderY": 3,
+      "fogDistance": 70,
+      "FOV": 70,
+      "speed": 0.7
+    }
+  ]
+}
