@@ -4,6 +4,13 @@
 // - Per-lobby world seed; on join only NEARBY world edits are sent, the rest is sent per chunk column on request ("need")
 // - /lobbies?mode=open|peace lists lobbies with players (used by the Play button)
 const MAX=20,NEAR=8,SAFE_CH=1,RESET_MS=7*864e5,NAME=/^[A-Za-z_]{1,12}$/,JWK='https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com';
+const RANKS=['bt','yt'],CAPES=['beta','discord']; // must match RANKS / CAPES in index.html
+async function loadProfile(uid,tok,env){try{
+  const r=await fetch('https://firestore.googleapis.com/v1/projects/'+env.FIREBASE_PROJECT_ID+'/databases/(default)/documents/players/'+uid+'/profile/main',{headers:{Authorization:'Bearer '+tok}});
+  if(!r.ok)return{rank:'',capes:[]};const f=(await r.json()).fields||{};
+  const rank=f.rank&&f.rank.stringValue,capes=((f.capes&&f.capes.arrayValue&&f.capes.arrayValue.values)||[]).map(v=>v.stringValue);
+  return{rank:RANKS.includes(rank)?rank:'',capes:capes.filter(c=>CAPES.includes(c))}}catch(e){return{rank:'',capes:[]}}}
+const okCape=(c,v)=>typeof v=='string'&&c.capes.includes(v)?v:'';
 const CORS={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'*'};
 const b64=b=>b.replace(/-/g,'+').replace(/_/g,'/'),u8=b=>Uint8Array.from(atob(b64(b)),c=>c.charCodeAt(0));
 const num=(v,a,b)=>Number.isFinite(v)&&v>=a&&v<=b;
@@ -15,7 +22,7 @@ async function verify(tok,env){try{
   return await crypto.subtle.verify('RSASSA-PKCS1-v1_5',key,u8(sg),new TextEncoder().encode(h+'.'+p))?pl.sub:null}catch(e){return null}}
 const okSkin=s=>s&&((Number.isInteger(s.p)&&s.p>=0&&s.p<100)||(typeof s.u=='string'&&s.u.startsWith('data:image/png;base64,')&&s.u.length<60000))?(s.u?{u:s.u}:{p:s.p}):null;
 const okInv=a=>Array.isArray(a)&&a.length==46?a.map(v=>Array.isArray(v)&&Number.isInteger(v[0])&&v[0]>0&&v[0]<1000&&Number.isInteger(v[1])&&v[1]>0?[v[0],Math.min(v[1],999)]:0):null;
-const pub=o=>({id:o.id,name:o.name,skin:o.skin,x:o.x,y:o.y,z:o.z,yaw:o.yaw,pitch:o.pitch,h:o.h,c:o.c});
+const pub=o=>({id:o.id,name:o.name,skin:o.skin,x:o.x,y:o.y,z:o.z,yaw:o.yaw,pitch:o.pitch,h:o.h,c:o.c,rank:o.rank||'',cape:o.cape||''});
 const colKey=k=>{const p=k.split(',');return(Number(p[0])>>4)+','+(Number(p[2])>>4)};
 
 export default{async fetch(req,env){const u=new URL(req.url);
@@ -85,6 +92,7 @@ export class Lobby{
     if(this.S.size+this.P.size>=MAX)return c.ws.close(4001,'full');
     for(const o of [...this.S.values(),...this.P.values()])if(o.name.toLowerCase()==m.name.toLowerCase())return c.ws.close(4002,'taken');
     c.name=m.name;c.skin=okSkin(m.skin)||{p:0};
+    {const pr=await loadProfile(c.uid,m.tok,this.env);c.rank=pr.rank;c.capes=pr.capes;c.cape=okCape(c,m.cape)}
     c.me=true;this.P.set(c.id,c);
     const s=await this.st.storage.get('u:'+c.uid);let me=null;
     if(s){me=s;c.skin=s.skin||c.skin;c.inv=s.inv;Object.assign(c,{x:s.x,y:s.y,z:s.z,yaw:s.yaw,pitch:s.pitch})}
@@ -116,9 +124,9 @@ export class Lobby{
         this.claims.set(col,{o:c.uid,n:c.name,x:m.x,y:m.y,z:m.z});await this.saveClaims();this.all({t:'claim',c:col,o:c.uid,n:c.name,x:m.x,y:m.y,z:m.z})}
        else if(same&&m.b!=126){this.claims.delete(col);await this.saveClaims();this.all({t:'unclaim',c:col})}}
       {const d=Number.isInteger(m.d)&&m.b?m.d:undefined,k=m.x+','+m.y+','+m.z;this.edits[k]=d===undefined?[m.b]:[m.b,d];this.index(k);this.dirty=true;this.all({t:'b',x:m.x,y:m.y,z:m.z,b:m.b,d},c)}break;
-    case'sk':{const s=okSkin(m.skin);if(!s)return;c.skin=s;this.all({t:'sk',id:c.id,skin:s},c);break}
+    case'sk':{const s=okSkin(m.skin);if(!s)return;c.skin=s;c.cape=okCape(c,m.cape);this.all({t:'sk',id:c.id,skin:s,cape:c.cape},c);break}
     case'ch':if(typeof m.k!='string'||m.k.length>40||!Array.isArray(m.a)||m.a.length!=36)return;{const p=m.k.split(',').map(Number);if(p.length>=3){if(this.safe(p[0],p[2]))return;const cl=this.claims.get((p[0]>>4)+','+(p[2]>>4));if(cl&&cl.o!==c.uid){this.deny(c,'This chunk is claimed by '+cl.n+'.');return}}}this.chests[m.k]=m.a;this.dirty=true;this.all({t:'ch',k:m.k,a:m.a},c);break;
     case'tpr':{const t=this.S.get(m.to),n=Date.now();if(!t||!t.live||t===c||n-(c.lastTpr||0)<5000)return;c.lastTpr=n;this.send(t,{t:'tpr',from:c.id,name:c.name});break}
     case'tpa':{const t=this.S.get(m.to);if(t&&t.live&&t!==c)this.send(t,{t:'tpa',from:c.id,name:c.name,ok:!!m.ok});break}
-    case'c':{const t=String(m.m||'').replace(/[\u0000-\u001f]/g,'').trim().slice(0,120),n=Date.now();if(!t||n-c.last<1500)return;c.last=n;this.all({t:'c',id:c.id,name:c.name,m:t});break}
+    case'c':{const t=String(m.m||'').replace(/[\u0000-\u001f]/g,'').trim().slice(0,120),n=Date.now();if(!t||n-c.last<1500)return;c.last=n;this.all({t:'c',id:c.id,name:c.name,m:t,rank:c.rank||''});break}
     }}}

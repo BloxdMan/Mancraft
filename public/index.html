@@ -222,8 +222,8 @@ body.uioff #hb,body.uioff #bn,body.uioff #ch,body.uioff #tl,body.uioff #mps,body
 body.uioff #tpt{display:none!important}
 #mob{display:none;position:fixed;inset:0;z-index:12;pointer-events:none}
 #mob>*{pointer-events:auto;position:absolute;touch-action:none;-webkit-user-select:none;user-select:none}
-#joy{left:calc(env(safe-area-inset-left,0px) + 24px);bottom:calc(env(safe-area-inset-bottom,0px) + 24px);width:140px;height:140px;border-radius:50%;background:#00000040;border:2px solid #000}
-#knob{position:absolute;left:42px;top:42px;width:56px;height:56px;border-radius:50%;background:#82d52a;border:2px solid #000;box-shadow:inset 0 .4rem 0 0 var(--r1),inset 0 -.4rem 0 0 var(--r2);pointer-events:none}
+#joy{left:calc(env(safe-area-inset-left,0px) + 24px);bottom:calc(env(safe-area-inset-bottom,0px) + 24px);width:var(--jz,140px);height:var(--jz,140px);box-sizing:border-box;border-radius:50%;background:#00000040;border:2px solid #000}
+#knob{position:absolute;left:30%;top:30%;width:40%;height:40%;box-sizing:border-box;border-radius:50%;background:#82d52a;border:2px solid #000;box-shadow:inset 0 .4rem 0 0 var(--r1),inset 0 -.4rem 0 0 var(--r2);pointer-events:none}
 .mb{width:68px;height:68px;border:2px solid #000;border-radius:0;background:#82d52a;color:#fff;font:900 13px ui-monospace,Menlo,Consolas,monospace;text-shadow:0 2px 0 #00000040;box-shadow:inset 0 .4rem 0 0 var(--r1),inset 0 -.4rem 0 0 var(--r2),3px 3px 0 var(--sh);touch-action:none}
 .mb.on{filter:brightness(.8)}.mb:active{transform:translate(2px,2px)}
 #mjp{right:calc(env(safe-area-inset-right,0px) + 28px);bottom:calc(env(safe-area-inset-bottom,0px) + 110px);width:84px;height:84px}
@@ -303,6 +303,19 @@ body.nonum .s i{display:none}
 .p button.swb.cx{font-size:12px;line-height:1;color:#fff}
 .p button.swb:disabled{opacity:.35;cursor:not-allowed}
 .skr .sw small{flex:1 1 100%}
+.p button.cpb{width:56px;height:56px;margin:0;padding:3px;border:3px solid transparent;border-radius:0;background-color:#4a5568;background-size:contain;background-position:center;background-repeat:no-repeat;image-rendering:auto;line-height:46px;font-size:22px;color:#fff;box-sizing:border-box;box-shadow:none;text-shadow:none}
+.p button.cpb:hover:not(:disabled),.p button.cpb:active:not(:disabled){box-shadow:none;text-shadow:none;background-color:#4a5568;filter:none}
+.p button.cpb:hover:not(:disabled){transform:translateY(-2px)}
+.p button.cpb.sel,.p button.cpb.sel:hover:not(:disabled){border-color:#fff;background-color:var(--ac)}
+.p button.cpb:disabled{opacity:.35;filter:grayscale(1);cursor:not-allowed}
+.p button.sk.sel.pend,.p button.cpb.sel.pend{border-style:dashed}
+.p button.swb.sel.pend{outline-style:dashed}
+.p .s{transition:background .08s,border-color .08s}
+.p .s:hover{background:rgba(255,255,255,.3);border-color:#c8c8c8}
+.mb svg,.hbb svg{display:block;width:60%;height:60%;margin:auto;pointer-events:none}
+body.mobile .ov{box-sizing:border-box;width:200%;height:200%;transform:scale(.5);transform-origin:0 0}
+body.mobile #menu .p,body.mobile #bmenu .p,body.mobile #sch .p{max-height:92%}
+body.mobile #cur{width:22px;height:22px}
 .p button.swb:hover:not(:disabled){box-shadow:none;transform:scale(1.18);filter:none}
 .p button.swb:active:not(:disabled){box-shadow:none;transform:scale(.95)}
 #auth button.login,#auth button.login:hover:not(:disabled),#auth button.login:active:not(:disabled){display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 16px;background:#fff;color:#000;border:0;border-radius:0;box-shadow: 0px 4px 10px #00000070;;text-shadow:none;font:500 14px Arial,sans-serif;text-transform:none;letter-spacing:normal;transform:none;filter:none}
@@ -339,8 +352,8 @@ body.nonum .s i{display:none}
 <div id="tl"><div id="chl"></div><input id="chi" type="text" maxlength="120" autocomplete="off" spellcheck="false" placeholder="Message or /command"><div id="hud"><div id="h1"></div><div id="h2"></div><div id="h3"></div></div></div>
 <div id="bn"></div><div id="mps"></div><div id="hb"></div>
 <div id="tpt" style="display:none"><b id="tptn"></b> wants to teleport to you. <button id="tpy">Accept (Y)</button><button id="tpx">Deny (X)</button></div>
-<div id="mob"><div id="joy"><div id="knob"></div></div><button class="mb" id="mjp">Jump</button><button class="mb" id="mcr">Crouch</button>
-<div class="s hbb" id="mut">&#129517;</div><div class="s hbb" id="minv">&#127890;</div>
+<div id="mob"><div id="joy"><div id="knob"></div></div><button class="mb" id="mjp" aria-label="Jump"><svg viewBox="0 0 24 24"><path d="M12 4 4 13h5v7h6v-7h5z" fill="#fff" stroke="#222" stroke-width="1.4" stroke-linejoin="round"/></svg></button><button class="mb" id="mcr" aria-label="Crouch"><svg viewBox="0 0 24 24"><path d="M12 20 4 11h5V4h6v7h5z" fill="#fff" stroke="#222" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+<div class="s hbb" id="mut" aria-label="Utilities"></div><div class="s hbb" id="minv" aria-label="Inventory"><svg viewBox="0 0 24 24"><path d="M3 9a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v10H3z" fill="#b9792b" stroke="#222" stroke-width="1.4" stroke-linejoin="round"/><path d="M3 12.5h18" stroke="#222" stroke-width="1.4"/><rect x="10" y="11" width="4" height="4.2" fill="#fff" stroke="#222" stroke-width="1.2"/></svg></div>
 <button id="mps2" aria-label="Pause"><span class="bars"><i></i><i></i><i></i></span></button>
 <button id="msk" aria-label="Skins"></button><button id="mcm" aria-label="Camera"></button><button id="mch" aria-label="Chat"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M3 4h18v12H9l-5 4v-4H3z" fill="#fff" stroke="#000" stroke-width="1.5" stroke-linejoin="round"/></svg></button></div>
 <div id="stoast"></div>
@@ -407,7 +420,7 @@ body.nonum .s i{display:none}
 <div class="skr"><b>Body</b><select id="skbs"></select><div class="sw" id="skbc"></div></div>
 <div class="skr"><b>Legs</b><select id="skls"></select><div class="sw" id="sklc"></div></div>
 <div class="skr"><b>Skin</b><div class="sw" id="sksk"></div></div></div><div class="skr"><b>Cape</b><div class="sw" id="skcp"></div></div><label><input type="checkbox" id="sko" checked> Show outer layer</label>
-<button class="t" id="sku">Upload skin (PNG)</button><input type="file" id="skf" accept="image/png" style="display:none"><small id="skm"></small></div></div>
+<button class="t" id="sku">Upload skin (PNG)</button><button class="t" id="ska" disabled>Apply</button><input type="file" id="skf" accept="image/png" style="display:none"><small id="skm"></small></div></div>
 <small>Pick a named skin or customize Head, Body, Legs and Skin. You can also upload a 64×64 (or 64×32) Minecraft PNG with the classic arm width. Drag the preview to rotate it. Press N, Tab or Esc to close.</small></div></div>
 <button id="schb"></button><button id="fsb">Fullscreen</button>
 <div class="ov" id="sch" style="display:none"><div class="p"><button class="xb" id="xsch" aria-label="Close">&#10005;</button><h1>Menu Schematic</h1>
@@ -630,7 +643,7 @@ T('sand',()=>P(['#e6d49a','#dcc98c','#efe0a8','#e0cf96']));
 T('snow',()=>P(['#f4f8fb','#e8eff5','#ffffff','#dde8f0']));
 T('water',()=>P(['#2d6be0','#2f72ea','#2a64d4','#3a7bf0']));
 const bucket=w=>(x,y)=>{if(y==1&&(x==1||x==6))return'#7d8189';if(y<2||y>6)return null;const s=y>4?1:0;if(x<1+s||x>6-s)return null;
-if(y==2)return w&&x>1&&x<6?'#3a78e6':'#d4d7db';return x==1+s||x==6-s?'#8b8f96':P(['#aeb2b8','#a3a7ae'])};
+ if(y==2)return w&&x>1&&x<6?'#3a78e6':'#d4d7db';return x==1+s||x==6-s?'#8b8f96':P(['#aeb2b8','#a3a7ae'])};
 T('bucket',bucket(0));T('water_bucket',bucket(1));
 T('pine_bark',x=>x%3==0?P(['#4a3a2a','#3f3124']):P(['#5f4a33','#6a5238','#574330']));
 T('pine_rings',(x,y)=>{const d=Math.max(Math.abs(x-3.5),Math.abs(y-3.5));return d>3?'#4f3d29':(d|0)%2?'#b79a6a':'#a58a5c'});
@@ -970,10 +983,12 @@ limb(.45,.675,.225,mSh,0,.3375,0,pUp);
 const pArmR=limb(.225,.675,.225,mArm,.3375,.675,-1,pUp),pArmL=limb(.225,.675,.225,mArm,-.3375,.675,-1,pUp),pLegR=limb(.225,.675,.225,mLeg,.1125,.675,-1),pLegL=limb(.225,.675,.225,mLeg,-.1125,.675,-1);
 const pCape=mkCape(pUp);
 const tpItem=new THREE.Mesh(new THREE.BufferGeometry(),MAT);tpItem.position.set(0,-.66,-.2);tpItem.visible=false;pArmR.add(tpItem);
-/* skin menu preview: its own scene/renderer, same model + skin texture */
+const PVC=document.createElement('canvas');PVC.width=PVC.height=64;const PVX=PVC.getContext('2d'),pvTx=new THREE.CanvasTexture(PVC);pvTx.magFilter=pvTx.minFilter=THREE.NearestFilter;pvTx.generateMipmaps=false;const PVM=new THREE.MeshBasicMaterial({map:pvTx,vertexColors:true,alphaTest:.1});
+/* skin menu preview: its own scene/renderer + its own skin texture (shows pending choices before Apply) */
 const pv={cv:$('skp'),sc:new THREE.Scene(),cam:new THREE.PerspectiveCamera(30,440/560,.1,30),pivot:new THREE.Group(),root:new THREE.Group(),outer:[],r:null,fail:false,yaw:Math.PI-.55,pitch:.1,drag:false,t0:0,lx:0,ly:0};
 pv.pivot.rotation.order='YXZ';pv.root.position.y=-.9;pv.pivot.add(pv.root);pv.sc.add(pv.pivot);pv.cam.position.set(0,0,4.7);
 [[.45,.45,.45,'head',0,1.35,1],[.45,.675,.225,mSh,0,1.0125,0],[.225,.675,.225,mArm,.3375,1.35,-1],[.225,.675,.225,mArm,-.3375,1.35,-1],[.225,.675,.225,mLeg,.1125,.675,-1],[.225,.675,.225,mLeg,-.1125,.675,-1]].forEach(a=>limb(...a,pv.root,pv.outer));
+pv.root.traverse(o=>{if(o.isMesh)o.material=PVM});
 const pvCape=mkCape(pv.root,1.35);pvCape.pv.rotation.x=-.14;
 
 const box=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.004,1.004,1.004)),new THREE.LineBasicMaterial({color:0x000000}));box.visible=false;scene.add(box);
@@ -1244,7 +1259,7 @@ function mineTick(dt){const h=held==0&&locked?pray(false):null;
  mp+=dt/Math.max(.06,blockHardness(b)*.5/toolMul(b));msw-=dt;if(msw<=0){swing=1;msw=.38}
  if(mp>=1){breakBlock(h.x,h.y,h.z);mine=null;mp=0;crackM.visible=false;return}
  crackM.position.set(h.x+.5,h.y+.5,h.z+.5);crackM.material.map=CT[Math.min(9,mp*10|0)];crackM.visible=mp>.03}
-function act(btn){swing=1;
+function act(btn){if(TOUCH&&view==2&&btn==2&&TAPDIR){const dv=dirv();if(TAPDIR[0]*dv[0]+TAPDIR[2]*dv[2]<0)return}swing=1;
  {const g=pray(true);if(g){const px=g.x+g.n[0],pz=g.z+g.n[2],pm=protMsg(g.x,g.z)||protMsg(px,pz)||claimPlaceMsg(btn,px,pz);if(pm){safeMsg(pm);return}}}
  if(btn==0){const h=pray(false);if(!h)return;const b=getB(h.x,h.y,h.z);if(b==5&&mode!='open')return;setB(h.x,h.y,h.z,0);const u=getB(h.x,h.y+1,h.z);if(u&&BL[u].k=='plant')setB(h.x,h.y+1,h.z,0);return}
  if(btn!=2)return;if(!crouching){const tb=pray(false),tk=tb&&getB(tb.x,tb.y,tb.z);if(mode=='peace'&&tk==29){openInv(3);return}if(tk==30||tk==44){openInv(2,tb.x+','+tb.y+','+tb.z);return}if(tk==47){openInv(2,null,tb.x+','+tb.y+','+tb.z);return}if(TOPEN[tk]||TCL[tk]){setB(tb.x,tb.y,tb.z,TOPEN[tk]||TCL[tk]);return}if(DBASE(tk)>=0){toggleDoor(tb.x,tb.y,tb.z);return}}const s=inv[slot];if(!s)return;const id=s.id;
@@ -1284,13 +1299,13 @@ const dc=new Set();
 /* ---------- UI + input ---------- */
 let scr='main',setOpen=false,skMode=false,chatOpen=false,bOpen=false,gSet=false;
 const updateUI=()=>{const m=scr=='main';$('main').style.display=m&&!setOpen?'flex':'none';$('schb').style.display=m&&!setOpen?'':'none';$('fsb').style.display=m&&!setOpen&&FSOK?'':'none';$('bmenu').style.display=bOpen?'flex':'none';$('mob').style.display=TOUCH&&scr=='game'&&locked&&!isInv&&!bOpen&&!chatOpen?'block':'none';$('menu').style.display=(m?setOpen:gSet&&scr=='game')?'flex':'none';$('inv').style.display=isInv&&!skMode?'flex':'none';$('skn').style.display=isInv&&skMode?'flex':'none';$('play').textContent='Resume';$('play').style.display=m?'none':'';$('mm').style.display=m?'none':'block';document.body.classList.toggle('mainscr',m);document.body.classList.toggle('uioff',scr!='game');if(!bOpen)$('cfm').style.display='none';placeMob()};
-function closeInv(relock){skMode=false;fkey=null;ckey=null;for(let i=0;i<9;i++)if(cg[i]){addItem(cg[i].id,cg[i].n);cg[i]=null}if(cur){addItem(cur.id,cur.n);cur=null}renderHB();isInv=false;updateUI();if(relock)cv.requestPointerLock()}
+function closeInv(relock){skMode=false;PD=null;fkey=null;ckey=null;for(let i=0;i<9;i++)if(cg[i]){addItem(cg[i].id,cg[i].n);cg[i]=null}if(cur){addItem(cur.id,cur.n);cur=null}renderHB();isInv=false;updateUI();if(relock)cv.requestPointerLock()}
 function openInv(sz,fk,ck){uiT=performance.now();skMode=false;csize=sz;csel=-1;fkey=fk||null;ckey=ck||null;if(ckey&&!CH.has(ckey))CH.set(ckey,Array(36).fill(null));if(fkey&&!FUR.has(fkey))FUR.set(fkey,{s:[null,null,null],burn:0,max:0,prog:0});isInv=true;$('palw').style.display=mode=='open'&&!fkey&&!ckey?'block':'none';$('craftw').style.display=mode=='peace'&&!fkey&&!ckey?'flex':'none';$('chw').style.display=ckey?'flex':'none';$('furw').style.display=fkey?'flex':'none';$('invt').textContent=fkey?'Furnace':ckey?'Chest':mode=='open'?'Creative Inventory':'Inventory';renderHB();if(locked)document.exitPointerLock();else updateUI()}
 function toggleInv(){if(isInv)return closeInv(true);closeWins('inv');openInv(2)}
 /* ---------- skins menu ---------- */
 let skSel=0,skUp=false,skSpec={...SKP[0]};
-function flipCopy(img,sx,sy,w,h,dx,dy){SKX.save();SKX.translate(dx+w,dy);SKX.scale(-1,1);SKX.drawImage(img,sx,sy,w,h,0,0,w,h);SKX.restore()}
-function legacyLimb(img,sx,sy,dx,dy){for(const[a,b,w,h,c,d]of[[4,0,4,4,4,0],[8,0,4,4,8,0],[0,4,4,12,8,4],[4,4,4,12,4,4],[8,4,4,12,0,4],[12,4,4,12,12,4]])flipCopy(img,sx+a,sy+b,w,h,dx+c,dy+d)}
+function flipCopy(img,sx,sy,w,h,dx,dy,G){G=G||SKX;G.save();G.translate(dx+w,dy);G.scale(-1,1);G.drawImage(img,sx,sy,w,h,0,0,w,h);G.restore()}
+function legacyLimb(img,sx,sy,dx,dy,G){for(const[a,b,w,h,c,d]of[[4,0,4,4,4,0],[8,0,4,4,8,0],[0,4,4,12,8,4],[4,4,4,12,4,4],[8,4,4,12,0,4],[12,4,4,12,12,4]])flipCopy(img,sx+a,sy+b,w,h,dx+c,dy+d,G)}
 function applySkin(){skinTx.needsUpdate=true;
  const px=(x,y)=>{const d=SKX.getImageData(x,y,1,1).data;return(d[0]<<16)|(d[1]<<8)|d[2]};fpArm.children[0].material.color.setHex(px(46,21));fpArm.children[1].material.color.setHex(px(46,28))}
 function saveSkin(){try{localStorage.setItem('cc_skin',JSON.stringify(skUp?{u:SKC.toDataURL()}:skSel>=0?{p:skSel}:{c:SKN_KEYS.map(k=>skSpec[k])}))}catch(e){}mpSendSkin()}
@@ -1298,17 +1313,17 @@ const SKT=document.createElement('canvas');SKT.width=SKT.height=64;
 function headIcon(src){const c=document.createElement('canvas');c.width=c.height=8;const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.drawImage(src,8,8,8,8,0,0,8,8);g.drawImage(src,40,8,8,8,0,0,8,8);return c}
 const skIsPreset=()=>SKP.findIndex(p=>SKN_KEYS.every(k=>p[k]==skSpec[k]));
 function setSpec(sp,save){skSpec={};for(const k of SKN_KEYS)skSpec[k]=sp[k];skUp=false;skSel=skIsPreset();drawSkin(skSpec);applySkin();if(save!==false)saveSkin();if(isInv&&skMode)renderSkins()}
-function swRow(el,pal,key){el.textContent='';pal.forEach((col,i)=>{const b=document.createElement('button');b.className='swb'+(!skUp&&skSpec[key]==i?' sel':'');b.style.background=col;b.title=col;b.onclick=()=>{skSpec[key]=i;setSpec(skSpec)};el.append(b)})}
-function renderSkins(){const L=$('skl');L.innerHTML='';
- $('skc').style.display=skUp?'none':'';
- const add=(icon,name,sel,fn)=>{const w=document.createElement('div');w.className='skw';const b=document.createElement('button');b.className='sk'+(sel?' sel':'');b.append(icon);if(fn)b.onclick=fn;const n=document.createElement('span');n.textContent=name;w.append(b,n);L.append(w)};
- SKP.forEach((p,i)=>{drawSkin(p,SKT.getContext('2d'));add(headIcon(SKT),p.n,!skUp&&i==skSel,()=>setSpec(p))});
- if(skUp)add(headIcon(SKC),'Upload',true);else if(skSel<0){drawSkin(skSpec,SKT.getContext('2d'));add(headIcon(SKT),'Custom',true)}
- for(const[id,arr,key]of[['skhs',SKN_HEADS,'hs'],['skbs',SKN_BODIES,'bs'],['skls',SKN_LEGS,'ls']]){const el=$(id);if(!el.options.length)arr.forEach((n,i)=>{const o=document.createElement('option');o.value=i;o.textContent=n;el.append(o)});el.value=skSpec[key];el.onchange=()=>{skSpec[key]=+el.value;setSpec(skSpec)}}
+function swRow(el,pal,key){el.textContent='';pal.forEach((col,i)=>{const b=document.createElement('button');b.className='swb'+(!PD.up&&PD.spec[key]==i?' sel'+(skinDirty()?' pend':''):'');b.style.background=col;b.title=col;b.onclick=()=>{pdInit();PD.spec[key]=i;pdSet(PD.spec)};el.append(b)})}
+function renderSkins(){const L=$('skl');L.innerHTML='';pdInit();
+ $('skc').style.display=PD.up?'none':'';
+ const add=(icon,name,sel,fn)=>{const w=document.createElement('div');w.className='skw';const b=document.createElement('button');b.className='sk'+(sel?' sel':'')+(sel&&skinDirty()?' pend':'');b.append(icon);if(fn)b.onclick=fn;const n=document.createElement('span');n.textContent=name;w.append(b,n);L.append(w)};
+ SKP.forEach((p,i)=>{drawSkin(p,SKT.getContext('2d'));add(headIcon(SKT),p.n,!PD.up&&i==PD.sel,()=>pdSet(p))});
+ if(PD.up)add(headIcon(PD.upC),'Upload',true);else if(PD.sel<0){drawSkin(PD.spec,SKT.getContext('2d'));add(headIcon(SKT),'Custom',true)}
+ for(const[id,arr,key]of[['skhs',SKN_HEADS,'hs'],['skbs',SKN_BODIES,'bs'],['skls',SKN_LEGS,'ls']]){const el=$(id);if(!el.options.length)arr.forEach((n,i)=>{const o=document.createElement('option');o.value=i;o.textContent=n;el.append(o)});el.value=PD.spec[key];el.onchange=()=>{PD.spec[key]=+el.value;pdSet(PD.spec)}}
  swRow($('skhc'),SKN_HAIR,'hc');swRow($('skbc'),SKN_COL,'bc');swRow($('sklc'),SKN_COL,'lc');swRow($('sksk'),SKN_TONES,'sk');
- $('skm').textContent=skUp?'Uploaded skin loaded.':'Skin: '+(skSel>=0?SKP[skSel].n:'Custom');renderCapes();applySkin()}
+ $('skm').textContent=(PD.up?'Uploaded skin':'Skin: '+(PD.sel>=0?SKP[PD.sel].n:'Custom'))+(pdDirty()?' (preview - not applied yet)':'');renderCapes();$('ska').disabled=!pdDirty();pdPreview();applySkin()}
 function pvRender(dt){if(pv.fail||!pv.r){if(!pv.fail)try{pv.r=new THREE.WebGLRenderer({canvas:pv.cv,antialias:true,alpha:true});pv.r.setPixelRatio(1);pv.r.setSize(440,560,false);pv.r.setClearColor(0,0)}catch(e){pv.fail=true}
-  if(pv.fail){try{const g=pv.cv.getContext('2d');g.imageSmoothingEnabled=false;g.clearRect(0,0,440,560);g.drawImage(SKC,0,0,440,440)}catch(e){}return}}
+  if(pv.fail){try{const g=pv.cv.getContext('2d');g.imageSmoothingEnabled=false;g.clearRect(0,0,440,560);g.drawImage(PVC,0,0,440,440)}catch(e){}return}}
  if(!pv.drag&&performance.now()-pv.t0>2500)pv.yaw+=dt*.6;
  pv.pivot.rotation.set(pv.pitch,pv.yaw,0);pv.r.render(pv.sc,pv.cam)}
 {const c=pv.cv,end=()=>{pv.drag=false;pv.t0=performance.now();c.style.cursor='grab'};
@@ -1316,20 +1331,42 @@ function pvRender(dt){if(pv.fail||!pv.r){if(!pv.fail)try{pv.r=new THREE.WebGLRen
  c.addEventListener('pointermove',e=>{if(!pv.drag)return;pv.yaw+=(e.clientX-pv.lx)*.012;pv.pitch=Math.max(-.6,Math.min(.6,pv.pitch-(e.clientY-pv.ly)*.008));pv.lx=e.clientX;pv.ly=e.clientY});
  c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end)}
 function loadSkinImg(src,user){const img=new Image();img.onload=()=>{if(img.width!=64||(img.height!=64&&img.height!=32)){if(user)$('skm').textContent='Skin must be a 64×64 or 64×32 PNG.';return}
- SKX.clearRect(0,0,64,64);SKX.drawImage(img,0,0);if(img.height==32){legacyLimb(img,0,16,16,48);legacyLimb(img,40,16,32,48)}
+ if(user){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');g.drawImage(img,0,0);if(img.height==32){legacyLimb(img,0,16,16,48,g);legacyLimb(img,40,16,32,48,g)}pdInit();PD.up=true;PD.upC=c;PD.sel=-1;renderSkins();return}
+ SKX.clearRect(0,0,64,64);SKX.drawImage(img,0,0);if(img.height==32){legacyLimb(img,0,16,16,48,SKX);legacyLimb(img,40,16,32,48,SKX)}
  skUp=true;applySkin();saveSkin();if(user)renderSkins()};img.src=src}
 function loadSkin(){try{const s=JSON.parse(localStorage.getItem('cc_skin')||'null');if(s&&s.u)loadSkinImg(s.u,false);else if(s&&Array.isArray(s.c)&&s.c.length==7){skSpec={};SKN_KEYS.forEach((k,i)=>skSpec[k]=(+s.c[i]||0));skUp=false;skSel=skIsPreset();drawSkin(skSpec)}else if(s&&s.p>=0&&s.p<SKP.length){skSpec={...SKP[s.p]};skSel=s.p;drawSkin(skSpec)}}catch(e){}applySkin()}
-$('sku').onclick=()=>$('skf').click();
+$('sku').onclick=()=>$('skf').click();$('ska').onclick=pdApply;
 /* ---------- cape selection + profile (capes/rank come from the signed-in account's profile) ---------- */
-function renderCapes(){const el=$('skcp');el.textContent='';const mk=(id,name,bg,ok)=>{const b=document.createElement('button');b.className='swb'+(id===''?' cx':'')+(myCape===id?' sel':'');b.style.background=bg;b.title=ok?name:name+' (locked)';b.disabled=!ok;if(id==='')b.textContent='\u2715';b.onclick=()=>capeEquip(id);el.append(b)};
- mk('','No cape','#222',true);CAPES.forEach(c=>mk(c.id,c.n,'linear-gradient(90deg,'+c.a+' 50%,'+c.b+' 50%)',PROFILE.capes.includes(c.id)));
- const sm=document.createElement('small');sm.textContent=!signed()?'Sign in to unlock capes.':PROFILE.capes.length?(myCape?CAPES[capeIdx(myCape)].n+' cape':'No cape equipped'):'No capes unlocked yet.';el.append(sm)}
-function capeEquip(id,nosave){if(id&&!PROFILE.capes.includes(id))id='';myCape=id;capeSet(pCape,id);capeSet(pvCape,id);if(!nosave)try{localStorage.setItem('cc_cape',id||'none')}catch(e){}mpSendSkin();if(isInv&&skMode)renderCapes()}
+/* pending (not yet applied) skin menu state: choices are previewed only; Apply commits + saves them */
+let PD=null;
+function pdInit(){if(PD)return;PD={spec:{...skSpec},sel:skSel,up:skUp,upC:null,cape:myCape};if(skUp){const c=document.createElement('canvas');c.width=c.height=64;c.getContext('2d').drawImage(SKC,0,0);PD.upC=c}}
+const skinDirty=()=>{if(!PD)return false;if(PD.up!==skUp)return true;if(PD.up)return PD.upC.toDataURL()!==SKC.toDataURL();return!SKN_KEYS.every(k=>PD.spec[k]==skSpec[k])};
+const pdDirty=()=>!!PD&&(skinDirty()||PD.cape!==myCape);
+function pdSet(sp){pdInit();const o={};for(const k of SKN_KEYS)o[k]=sp[k];PD.spec=o;PD.up=false;PD.sel=SKP.findIndex(p=>SKN_KEYS.every(k=>p[k]==o[k]));renderSkins()}
+function pdPreview(){if(!PD)return;PVX.clearRect(0,0,64,64);if(PD.up)PVX.drawImage(PD.upC,0,0);else drawSkin(PD.spec,PVX);pvTx.needsUpdate=true;capeSet(pvCape,PD.cape)}
+function pdApply(){if(!pdDirty())return;if(PD.up){SKX.clearRect(0,0,64,64);SKX.drawImage(PD.upC,0,0);skUp=true;applySkin();saveSkin()}else setSpec(PD.spec);capeEquip(PD.cape);PD=null;renderSkins()}
+/* cape buttons show a small 3D render of the cape (rendered once, cached; rebuilt when cape_atlas.png loads) */
+const CAPEIC=[];
+function buildCapeIcons(){CAPEIC.length=0;let r=null;
+ try{r=new THREE.WebGLRenderer({antialias:false,alpha:true,preserveDrawingBuffer:true});r.setSize(112,112,false);r.setClearColor(0,0);
+  const sc=new THREE.Scene(),cm=new THREE.PerspectiveCamera(28,1,.1,20),g=new THREE.Group(),
+   torso=new THREE.Mesh(new THREE.BoxGeometry(.45,.675,.225),new THREE.MeshBasicMaterial({color:0x5b6678})),cp=new THREE.Mesh(CAPEG,CAPEMAT[0]);
+  cm.position.set(0,0,2.5);torso.position.set(0,.1125,0);cp.rotation.y=Math.PI;cp.position.set(0,0,3*SKS);g.add(torso,cp);g.rotation.set(.12,.6,0);sc.add(g);
+  CAPES.forEach((c,i)=>{cp.material=CAPEMAT[i];r.render(sc,cm);CAPEIC[i]=r.domElement.toDataURL()})}
+ catch(e){CAPEIC.length=0;CAPES.forEach((c,i)=>{const k=document.createElement('canvas');k.width=k.height=56;const x=k.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(CAPEC[i],1,1,10,16,10,0,35,56);CAPEIC[i]=k.toDataURL()})}
+ if(r){try{r.dispose();r.forceContextLoss()}catch(e){}}}
+function renderCapes(){pdInit();const el=$('skcp');el.textContent='';if(CAPEIC.length!=CAPES.length)buildCapeIcons();
+ const mk=(id,name,ok,i)=>{const w=document.createElement('div');w.className='skw';const b=document.createElement('button'),sel=PD.cape===id;
+  b.className='cpb'+(sel?' sel'+(PD.cape!==myCape?' pend':''):'');if(id==='')b.textContent='\u2715';else b.style.backgroundImage='url('+CAPEIC[i]+')';
+  b.title=ok?name:name+' (locked)';b.disabled=!ok;b.onclick=()=>{PD.cape=id;renderSkins()};const n=document.createElement('span');n.textContent=name;w.append(b,n);el.append(w)};
+ mk('','None',true,-1);CAPES.forEach((c,i)=>mk(c.id,c.n,PROFILE.capes.includes(c.id),i));
+ const sm=document.createElement('small');sm.textContent=!signed()?'Sign in to unlock capes.':PROFILE.capes.length?'':'No capes unlocked yet.';if(sm.textContent)el.append(sm)}
+function capeEquip(id,nosave){if(id&&!PROFILE.capes.includes(id))id='';myCape=id;capeSet(pCape,id);if(!nosave)try{localStorage.setItem('cc_cape',id||'none')}catch(e){}mpSendSkin();if(isInv&&skMode)renderSkins()}
 function capeApply(){let s=null;try{s=localStorage.getItem('cc_cape')}catch(e){}if(s===null)s=PROFILE.capes[0]||'';else if(s=='none')s='';capeEquip(PROFILE.capes.includes(s)?s:'',true)}
 let profFor='';
 function loadProfile(){const A=window.MCAuth;if(!signed()){PROFILE={capes:[],rank:''};profFor='';capeApply();return}if(!A.profile||profFor==A.user.uid)return;profFor=A.user.uid;
  A.profile().then(p=>{PROFILE={capes:p.capes||[],rank:p.rank||''};capeApply()}).catch(e=>{console.error('profile',e);profFor=''})}
-addEventListener('mcauth',loadProfile);loadProfile();
+addEventListener('mcauth',loadProfile);
 
 $('skf').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>loadSkinImg(r.result,true);r.readAsDataURL(f);e.target.value=''};
 $('sko').onchange=()=>[...OUTER,...pv.outer].forEach(m=>{m.visible=$('sko').checked});
@@ -1421,8 +1458,7 @@ function runCmd(t){const a=t.slice(1).trim().split(/\s+/),c=(a.shift()||'').toLo
   if(!q)say('Player not found: '+w);else if(!q.has)say(q.name+"'s position is not known yet.");else{tpTo(q.tx_,q.ty,q.tz);say('Teleported to '+q.name+'.')}}
  else say('Unknown command. Type /help')}
 /* ---------- accounts + cloud saves ---------- */
-const SOLO={on:false};
-function signed(){return !!(window.MCAuth&&MCAuth.user)}
+const SOLO={on:false},signed=()=>!!(window.MCAuth&&MCAuth.user);
 const packItems=a=>a.map(s=>s?[s.id,s.n]:0),unpackItems=(a,n)=>{const r=[];for(let i=0;i<n;i++){const v=a&&a[i];r.push(Array.isArray(v)&&BL[v[0]]?{id:v[0]|0,n:Math.max(1,Math.min(ms(v[0]),v[1]|0))}:null)}return r};
 function applySkinMsg(s){if(s&&typeof s.u=='string')loadSkinImg(s.u,false);else if(s&&s.p>=0&&s.p<SKP.length){setSpec(SKP[s.p],false)}applySkin()}
 function applyMe(s){if(Array.isArray(s.inv)){unpackItems(s.inv,46).forEach((v,i)=>inv[i]=v);renderHB()}
@@ -1488,7 +1524,7 @@ function hudKeys(){for(const[id,act]of[['hsk','skins'],['hut','utils'],['hcm','v
 $('ctlreset').onclick=()=>{for(const a of ACTS)BIND[a[0]]=a[3].slice();REB.act=null;bindSave();renderControls()};
 const ICO={shirt:'<svg viewBox="0 0 24 24"><path d="M8 3 3 6l2 4 2-1v12h10V9l2 1 2-4-5-3c-.5 1.5-2 2.4-4 2.4S8.5 4.5 8 3z" fill="#fff" stroke="#222" stroke-width="1.4" stroke-linejoin="round"/></svg>',list:'<svg viewBox="0 0 24 24"><g fill="#fff" stroke="#222" stroke-width="1.2"><rect x="3" y="5" width="3.5" height="3.5"/><rect x="9" y="5" width="12" height="3.5"/><rect x="3" y="10.3" width="3.5" height="3.5"/><rect x="9" y="10.3" width="12" height="3.5"/><rect x="3" y="15.6" width="3.5" height="3.5"/><rect x="9" y="15.6" width="12" height="3.5"/></g></svg>',cam:'<svg viewBox="0 0 24 24"><path d="M3 8h4l2-3h6l2 3h4v11H3z" fill="#fff" stroke="#222" stroke-width="1.4" stroke-linejoin="round"/><circle cx="12" cy="13.3" r="3.6" fill="#9fb4c8" stroke="#222" stroke-width="1.3"/></svg>'};
 $('hsk').innerHTML=ICO.shirt+'<b></b>';$('hut').innerHTML=ICO.list+'<b></b>';$('hcm').innerHTML=ICO.cam+'<b></b>';
-$('msk').innerHTML=ICO.shirt;$('mcm').innerHTML=ICO.cam;
+$('mut').innerHTML=ICO.list;$('msk').innerHTML=ICO.shirt;$('mcm').innerHTML=ICO.cam;
  $('hsk').onclick=()=>synK('keydown','KeyN');$('hut').onclick=()=>{if(bOpen)bClose(true);else openWin('b')};$('hcm').onclick=()=>synK('keydown','KeyP');
 renderControls();
 /* ---------- fullscreen ---------- */
@@ -1540,7 +1576,10 @@ function resetArea(){for(const k of [...chunks.keys()]){const p=k.split(',');if(
  for(const M of [CH,FUR,DOORS])for(const k of [...M.keys()]){const p=k.split(',');if(inReset(+p[0],+p[2]))M.delete(k)}
  dirty=true;while(hit()&&pos[1]<250)pos[1]++;chatAdd('','The spawn area was reset.',1)}
 /* ---------- touch controls ---------- */
-let TOUCH=false;try{const v=localStorage.getItem('cc_touch');TOUCH=v===null?matchMedia('(pointer:coarse)').matches:v=='1'}catch(e){}
+/* auto mobile detector: phones/tablets get touch controls by default and a half-size menu GUI (body.mobile) */
+const IS_MOBILE=(()=>{try{const ua=navigator.userAgent||'';return/Android|iPhone|iPad|iPod|Mobile|Silk/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)||(matchMedia('(pointer:coarse)').matches&&navigator.maxTouchPoints>0&&!matchMedia('(hover:hover)').matches)}catch(e){return false}})();
+document.body.classList.toggle('mobile',IS_MOBILE);document.body.append($('cur')); /* keep the cursor item outside the scaled overlays */
+let TOUCH=false;try{const v=localStorage.getItem('cc_touch');TOUCH=v===null?IS_MOBILE:v=='1'}catch(e){}
 const JK={};function synK(t,c,k){const ev=new KeyboardEvent(t,{code:c,key:k||''});ev._r=1;window.dispatchEvent(ev)}
 function jkey(code,key,on){on=on?1:0;if((JK[code]|0)==on)return;JK[code]=on;synK(on?'keydown':'keyup',code,key)}
 let cOn=false;
@@ -1567,7 +1606,8 @@ tb('minv',()=>synK('keydown','Tab'));
 tb('mut',()=>{if(bOpen)bClose(true);else openWin('b')});
 tb('mch',()=>synK('keydown','KeyT'));
 tb('mps2',()=>document.exitPointerLock());
-function placeMob(){if(!TOUCH)return;const r=$('hb').getBoundingClientRect();if(!r.width)return;const z=r.height;$('mut').style.cssText='left:'+(r.left-z-6)+'px;top:'+r.top+'px';$('minv').style.cssText='left:'+(r.right+6)+'px;top:'+r.top+'px'}
+function placeMob(){if(!TOUCH)return;const r=$('hb').getBoundingClientRect();if(!r.width)return;const z=r.height;$('mut').style.cssText='left:'+(r.left-z-6)+'px;top:'+r.top+'px';$('minv').style.cssText='left:'+(r.right+6)+'px;top:'+r.top+'px';
+ const jz=Math.round(Math.max(96,Math.min(140,innerHeight*.34))),base=Math.max(0,innerHeight-r.top)+14;document.documentElement.style.setProperty('--jz',jz+'px');$('joy').style.bottom=base+'px';$('mcr').style.bottom=base+'px';$('mjp').style.bottom=(base+Math.round(jz*.36))+'px'}
 addEventListener('resize',placeMob);
 var AUTOJ=false;try{const v=localStorage.getItem('cc_aj');AUTOJ=v===null?TOUCH:v=='1'}catch(e){}
 $('aj').checked=AUTOJ;$('aj').onchange=()=>{AUTOJ=$('aj').checked;try{localStorage.setItem('cc_aj',AUTOJ?'1':'0')}catch(e){}};
@@ -1607,7 +1647,9 @@ function mpRender(){const el=$('mps');if(!MP.url){el.textContent='';return}
 function mpJoin(url,lobby){mpLeave();claims.clear();MP.rdy=false;MP.joined=false;mpWantFn=null;MP.have.clear();MP.want.length=0;MP.url=url;MP.lobby=lobby;MP.tries=0;$('chl').style.display='flex';mpOpen()}
 function mpOpen(){let ws;try{ws=new WebSocket(MP.url)}catch(e){mpStatus('Bad server address');MP.url='';return}
  MP.ws=ws;MP.ready=false;mpStatus('Connecting...');
- ws.onopen=async()=>{MP.tries=0;MP.lastInv='';let tok='';try{if(signed())tok=await MCAuth.token()}catch(e){}if(MP.ws!==ws)return;ws.send(JSON.stringify({t:'hi',name:MP.name=cleanName($('lobname').value)||'Player',skin:mpSkinMsg(),cape:myCape,tok}))};
+ ws.onopen=async()=>{MP.tries=0;MP.lastInv='';let tok='';try{if(signed())tok=await MCAuth.token()}catch(e){}
+  try{if(signed()&&MCAuth.profile){const pr=await MCAuth.profile();PROFILE={capes:pr.capes||[],rank:pr.rank||''};capeApply()}}catch(e){}
+  if(MP.ws!==ws)return;ws.send(JSON.stringify({t:'hi',name:MP.name=cleanName($('lobname').value)||'Player',skin:mpSkinMsg(),cape:myCape,tok}))};
  ws.onmessage=e=>{if(MP.ws===ws)mpMsg(e.data)};
  ws.onclose=ev=>{if(MP.ws!==ws)return;MP.ws=null;MP.ready=false;mpClear();
   if(ev.code==4001){MP.url='';mpStatus('Lobby is full');return}
@@ -1865,7 +1907,7 @@ function loadExtTextures(){X.imageSmoothingEnabled=false;
  /* lava_atlas.png: animation frames, 8 columns of 8x8 tiles, played in order (empty tiles are skipped) */
  loadImg('textures/lava_atlas.png',im=>{const f=grabCells(im,8,sqRows(im),8,8).filter(Boolean);if(f.length){LAVAF=f;lavaT=0}});
  /* cape_atlas.png: one 64x32 cape (Minecraft layout) per row, in CAPES order */
- loadImg('textures/cape_atlas.png',im=>{grabCells(im,1,Math.max(1,Math.round(im.height/(im.width/2))),64,32).forEach((c,i)=>{if(i<CAPES.length&&c){const g=CAPEC[i].getContext('2d');g.clearRect(0,0,64,32);g.drawImage(c,0,0);CAPETEX[i].needsUpdate=true}})});
+ loadImg('textures/cape_atlas.png',im=>{grabCells(im,1,Math.max(1,Math.round(im.height/(im.width/2))),64,32).forEach((c,i)=>{if(i<CAPES.length&&c){const g=CAPEC[i].getContext('2d');g.clearRect(0,0,64,32);g.drawImage(c,0,0);CAPETEX[i].needsUpdate=true}});CAPEIC.length=0;if(isInv&&skMode)renderSkins()});
  /* skin_atlas.png: one 64x64 Minecraft skin per tile, 8 columns, in SKP order (Max, Jack, Luna, Ruby, Finn, Zoe, Kai, Nova) */
  loadImg('textures/skin_atlas.png',im=>{grabCells(im,8,sqRows(im),64,64).forEach((c,i)=>{if(i<SKP.length)SKAT[i]=c});if(!skUp){drawSkin(skSpec);applySkin()}if(isInv&&skMode)renderSkins()})}
 loadExtTextures();
@@ -1951,6 +1993,6 @@ document.addEventListener('mousemove',e=>{tipX=e.clientX;tipY=e.clientY;tipUpdat
 document.addEventListener('mouseout',e=>{if(!e.relatedTarget)tipHide()});
 window.addEventListener('blur',tipHide);
 setInterval(()=>{if(tipKey)tipUpdate(document.elementFromPoint(tipX,tipY))},250);
-loadSkin();updateUI();syncPos();
+loadSkin();updateUI();syncPos();loadProfile();
 loadGameData().catch(e=>console.warn('[data]',e)).then(()=>requestAnimationFrame(frame));
 </script></body></html>
