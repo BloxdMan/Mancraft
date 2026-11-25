@@ -300,6 +300,9 @@ body.nonum .s i{display:none}
 .skr .sw{display:flex;flex-wrap:wrap;gap:3px;flex:1 1 100%}
 .p button.swb{width:22px;height:22px;margin:0;padding:0;border:2px solid #000;border-radius:0;box-shadow:none;transition:transform .08s}
 .p button.swb.sel{outline:2px solid #fff;outline-offset:1px}
+.p button.swb.cx{font-size:12px;line-height:1;color:#fff}
+.p button.swb:disabled{opacity:.35;cursor:not-allowed}
+.skr .sw small{flex:1 1 100%}
 .p button.swb:hover:not(:disabled){box-shadow:none;transform:scale(1.18);filter:none}
 .p button.swb:active:not(:disabled){box-shadow:none;transform:scale(.95)}
 #auth button.login,#auth button.login:hover:not(:disabled),#auth button.login:active:not(:disabled){display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 16px;background:#fff;color:#000;border:0;border-radius:0;box-shadow: 0px 4px 10px #00000070;;text-shadow:none;font:500 14px Arial,sans-serif;text-transform:none;letter-spacing:normal;transform:none;filter:none}
@@ -403,7 +406,7 @@ body.nonum .s i{display:none}
 <div id="skc"><div class="skr"><b>Head</b><select id="skhs"></select><div class="sw" id="skhc"></div></div>
 <div class="skr"><b>Body</b><select id="skbs"></select><div class="sw" id="skbc"></div></div>
 <div class="skr"><b>Legs</b><select id="skls"></select><div class="sw" id="sklc"></div></div>
-<div class="skr"><b>Skin</b><div class="sw" id="sksk"></div></div></div><label><input type="checkbox" id="sko" checked> Show outer layer</label>
+<div class="skr"><b>Skin</b><div class="sw" id="sksk"></div></div></div><div class="skr"><b>Cape</b><div class="sw" id="skcp"></div></div><label><input type="checkbox" id="sko" checked> Show outer layer</label>
 <button class="t" id="sku">Upload skin (PNG)</button><input type="file" id="skf" accept="image/png" style="display:none"><small id="skm"></small></div></div>
 <small>Pick a named skin or customize Head, Body, Legs and Skin. You can also upload a 64×64 (or 64×32) Minecraft PNG with the classic arm width. Drag the preview to rotate it. Press N, Tab or Esc to close.</small></div></div>
 <button id="schb"></button><button id="fsb">Fullscreen</button>
@@ -432,12 +435,18 @@ window.FIREBASE_CONFIG = {
 </script>
 <script type="module">
 const C=window.FIREBASE_CONFIG,A={user:null,configured:!!(C&&C.apiKey&&C.projectId&&C.appId)};window.MCAuth=A;
-const emit=()=>window.dispatchEvent(new Event('mcauth')),G='https://www.gstatic.com/firebasejs/10.14.1/';
+const BETA_LIMIT=50,emit=()=>window.dispatchEvent(new Event('mcauth')),G='https://www.gstatic.com/firebasejs/10.14.1/';
 if(A.configured){try{
- const[{initializeApp},{getAuth,onAuthStateChanged,signInWithPopup,GoogleAuthProvider,signOut},{getFirestore,doc,getDoc,setDoc}]=await Promise.all([import(G+'firebase-app.js'),import(G+'firebase-auth.js'),import(G+'firebase-firestore.js')]);
+ const[{initializeApp},{getAuth,onAuthStateChanged,signInWithPopup,GoogleAuthProvider,signOut},{getFirestore,doc,getDoc,setDoc,runTransaction,serverTimestamp}]=await Promise.all([import(G+'firebase-app.js'),import(G+'firebase-auth.js'),import(G+'firebase-firestore.js')]);
  const app=initializeApp(C),au=getAuth(app),db=getFirestore(app),ref=k=>{const u=au.currentUser;if(!u)throw new Error('Not signed in');return doc(db,'players',u.uid,'saves',k)};
  A.signIn=()=>signInWithPopup(au,new GoogleAuthProvider());A.signOut=()=>signOut(au);A.token=()=>{const u=au.currentUser;if(!u)return Promise.reject(new Error('Not signed in'));return u.getIdToken()};
  A.load=async k=>{const d=await getDoc(ref(k));return d.exists()?d.data():null};A.save=(k,d)=>setDoc(ref(k),d);
+ /* profile (capes + rank). First sign-in creates it; the first BETA_LIMIT accounts get the Beta Tester cape + [BT] rank. Counter and profile are written in ONE transaction. */
+ A.profile=()=>{const u=au.currentUser;if(!u)return Promise.reject(new Error('Not signed in'));const pr=doc(db,'players',u.uid,'profile','main'),ct=doc(db,'meta','betaCounter');
+  return runTransaction(db,async tx=>{const ps=await tx.get(pr);if(ps.exists()){const d=ps.data();return{capes:Array.isArray(d.capes)?d.capes:[],rank:d.rank||''}}
+   const cs=await tx.get(ct),n=cs.exists()?(cs.data().n|0):0;
+   if(n<BETA_LIMIT){tx.set(ct,{n:n+1});tx.set(pr,{capes:['beta'],rank:'bt',betaNo:n+1,joined:serverTimestamp()});return{capes:['beta'],rank:'bt'}}
+   tx.set(pr,{capes:[],rank:'',joined:serverTimestamp()});return{capes:[],rank:''}})};
  onAuthStateChanged(au,u=>{A.user=u;emit()})}catch(e){console.error(e);A.configured=false}}
 emit();
 </script>
@@ -555,7 +564,11 @@ const INFO={},DROPD={},BTYPE={},ISPD={},IDATA={},TIPCFG={showOnHover:true,fields
 /* ---------- texture atlas order (single source of truth) ----------
    Blocks first (nature -> trees -> wood parts -> crafted -> stone -> ores -> metal blocks -> bedrock), then items.
    textures/texture_atlas.png = the BLOCK list in this order, 8 columns, left-to-right, top-to-bottom.
-   textures/item_atlas.png    = the ITEM list in this order, 8 columns. Edit the lists to re-sort. */
+   textures/item_atlas.png    = the ITEM list in this order, 8 columns. Edit the lists to re-sort.
+   textures/breakblock_atlas.png = destroy_stage_0..9 (8 columns of 8x8 tiles).
+   textures/lava_atlas.png    = lava animation frames (8 columns of 8x8 tiles, played in order).
+   textures/cape_atlas.png    = one 64x32 Minecraft-layout cape per row, in CAPES order (beta, discord).
+   textures/skin_atlas.png    = one 64x64 skin per tile (8 columns), in SKP order. Missing/empty tiles fall back to the generated art. */
 const BLOCK_TILES=['grass_top','grass_side','dirt','sand','snow','ice','water','lava','short_grass','poppy','dandelion','red_tulip','orange_tulip','white_tulip','pink_tulip','cornflower','daisy','lily_of_the_valley','blue_orchid','allium','peony','peony_top','sunflower','sunflower_top','cotton_plant','mushroom','cranberries','maple_rings','maple_bark','maple_planks','maple_leaf','autumn_maple_leaf','pine_rings','pine_bark','pine_planks','pine_leaf','cherry_rings','cherry_bark','cherry_planks','cherry_leaf','aspen_rings','aspen_bark','aspen_planks','aspen_leaf','maple_door_lo','maple_door_up','pine_door_lo','pine_door_up','cherry_door_lo','cherry_door_up','aspen_door_lo','aspen_door_up','maple_trapdoor','pine_trapdoor','cherry_trapdoor','aspen_trapdoor','maple_ladder','pine_ladder','cherry_ladder','aspen_ladder','crafting_top','crafting_side','furnace_front','furnace_front_lit','furnace_top','chest_front','chest_side','chest_top','glass','bookshelf','stone','cobblestone','furnace_side','coal_ore','iron_ore','gold_ore','diamond_ore','coal_block','iron_block','gold_block','diamond_block','bedrock','cactus_side','cactus_top','magma','claimstone','obsidian'],
 ITEM_TILES=['wood_pickaxe','wood_axe','wood_shovel','stone_pickaxe','stone_axe','stone_shovel','iron_pickaxe','iron_axe','iron_shovel','gold_pickaxe','gold_axe','gold_shovel','diamond_pickaxe','diamond_axe','diamond_shovel','shears','coal','iron','gold','diamond','cotton','bucket','water_bucket','lava_bucket','maple_door_item','pine_door_item','cherry_door_item','aspen_door_item'],
 TILES=[...BLOCK_TILES,...ITEM_TILES],TI={},NB=BLOCK_TILES.length,NI=ITEM_TILES.length,ROWS=Math.ceil(TILES.length/8);
@@ -617,7 +630,7 @@ T('sand',()=>P(['#e6d49a','#dcc98c','#efe0a8','#e0cf96']));
 T('snow',()=>P(['#f4f8fb','#e8eff5','#ffffff','#dde8f0']));
 T('water',()=>P(['#2d6be0','#2f72ea','#2a64d4','#3a7bf0']));
 const bucket=w=>(x,y)=>{if(y==1&&(x==1||x==6))return'#7d8189';if(y<2||y>6)return null;const s=y>4?1:0;if(x<1+s||x>6-s)return null;
- if(y==2)return w&&x>1&&x<6?'#3a78e6':'#d4d7db';return x==1+s||x==6-s?'#8b8f96':P(['#aeb2b8','#a3a7ae'])};
+if(y==2)return w&&x>1&&x<6?'#3a78e6':'#d4d7db';return x==1+s||x==6-s?'#8b8f96':P(['#aeb2b8','#a3a7ae'])};
 T('bucket',bucket(0));T('water_bucket',bucket(1));
 T('pine_bark',x=>x%3==0?P(['#4a3a2a','#3f3124']):P(['#5f4a33','#6a5238','#574330']));
 T('pine_rings',(x,y)=>{const d=Math.max(Math.abs(x-3.5),Math.abs(y-3.5));return d>3?'#4f3d29':(d|0)%2?'#b79a6a':'#a58a5c'});
@@ -893,8 +906,8 @@ const body=new THREE.Group();body.visible=false;scene.add(body);let wk=0;
 const SKS=.05625,SKC=document.createElement('canvas');SKC.width=SKC.height=64;const SKX=SKC.getContext('2d'),skinTx=new THREE.CanvasTexture(SKC);skinTx.magFilter=skinTx.minFilter=THREE.NearestFilter;skinTx.generateMipmaps=false;
 const SKM=new THREE.MeshBasicMaterial({map:skinTx,vertexColors:true,alphaTest:.1}),OUTER=[];
 const SPEC={head:[8,8,8,0,0,32,0],torso:[8,12,4,16,16,16,32],armR:[4,12,4,40,16,40,32],armL:[4,12,4,32,48,48,48],legR:[4,12,4,0,16,0,32],legL:[4,12,4,16,48,0,48]};
-function skinBox(w,h,d,u,v,gr){const rects=[[u,v+d,d,h],[u+d+w,v+d,d,h],[u+d,v,w,d],[u+d+w,v,w,d],[u+2*d+w,v+d,w,h],[u+d,v+d,w,h]],Pp=[],U=[],C=[],I=[];let n=0;
- F.forEach(([nn,vt,sh],fi)=>{const[x0,y0,rw,rh]=rects[fi],xa=x0/64,xb=(x0+rw)/64,ya=1-y0/64,yb=1-(y0+rh)/64;
+function skinBox(w,h,d,u,v,gr,TH){TH=TH||64;const rects=[[u,v+d,d,h],[u+d+w,v+d,d,h],[u+d,v,w,d],[u+d+w,v,w,d],[u+2*d+w,v+d,w,h],[u+d,v+d,w,h]],Pp=[],U=[],C=[],I=[];let n=0;
+ F.forEach(([nn,vt,sh],fi)=>{const[x0,y0,rw,rh]=rects[fi],xa=x0/64,xb=(x0+rw)/64,ya=1-y0/TH,yb=1-(y0+rh)/TH;
   const uv=fi==2||fi==3?[[xb,ya],[xa,ya],[xa,yb],[xb,yb]]:[[xa,yb],[xb,yb],[xb,ya],[xa,ya]];
   for(let k=0;k<4;k++){Pp.push((vt[k*3]-.5)*(w+gr)*SKS,(vt[k*3+1]-.5)*(h+gr)*SKS,(vt[k*3+2]-.5)*(d+gr)*SKS);U.push(uv[k][0],uv[k][1]);C.push(sh,sh,sh)}
   I.push(n,n+1,n+2,n,n+2,n+3);n+=4});
@@ -902,7 +915,9 @@ function skinBox(w,h,d,u,v,gr){const rects=[[u,v+d,d,h],[u+d+w,v+d,d,h],[u+d,v,w
 const SKN_TONES=['#f1c9a5','#e0ac84','#c68863','#a86b45','#7c4a2e','#5a3420'],SKN_HAIR=['#1d1612','#4a3320','#7a4a24','#c8923a','#e6cf7a','#a02a1e','#6c6c74','#3b2a6e'],SKN_COL=['#c0392b','#e07a1a','#f0c030','#3a8a3a','#2f9ab5','#3b3b8a','#7a3aa8','#d8478f','#2a2a3a','#e8e8ec','#6a4a2a','#4a5a6a'],SKN_HEADS=['Short','Spiky','Long','Bald','Cap','Beanie'],SKN_BODIES=['Tee','Long sleeve','Striped','Jacket','Overalls'],SKN_LEGS=['Jeans','Shorts','Cargo','Boots'],SKN_KEYS=['sk','hs','hc','bs','bc','ls','lc'];
 const SKP=[{n:'Max',sk:1,hs:0,hc:1,bs:0,bc:4,ls:0,lc:5},{n:'Jack',sk:2,hs:1,hc:0,bs:3,bc:8,ls:2,lc:11},{n:'Luna',sk:0,hs:2,hc:4,bs:1,bc:6,ls:0,lc:8},{n:'Ruby',sk:3,hs:2,hc:5,bs:4,bc:9,ls:1,lc:4},{n:'Finn',sk:0,hs:4,hc:2,bs:2,bc:0,ls:3,lc:10},{n:'Zoe',sk:4,hs:5,hc:0,bs:1,bc:2,ls:0,lc:5},{n:'Kai',sk:1,hs:3,hc:0,bs:3,bc:3,ls:1,lc:11},{n:'Nova',sk:5,hs:1,hc:7,bs:2,bc:7,ls:3,lc:8}];
 const sdc=(h,f)=>{const n=parseInt(h.slice(1),16);return'#'+[16,8,0].map(q=>Math.max(0,Math.min(255,Math.round(((n>>q)&255)*f))).toString(16).padStart(2,'0')).join('')};
+const SKAT=[]; /* skin_atlas.png cells, same order as SKP (null = use the generated skin) */
 function drawSkin(p,cx){const c=cx||SKX,R=(x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(x,y,w,h)};c.clearRect(0,0,64,64);
+ {const pi=SKP.findIndex(q=>SKN_KEYS.every(k=>q[k]==p[k]));if(pi>=0&&SKAT[pi]){c.drawImage(SKAT[pi],0,0);return}}
  const sk=SKN_TONES[p.sk%6],hr=SKN_HAIR[p.hc%8],sh=SKN_COL[p.bc%12],pn=SKN_COL[p.lc%12],hs=p.hs%6,bs=p.bs%5,ls=p.ls%4,shoe='#2a2a30',tee='#e8e8ec';
  R(0,0,32,16,sk);
  if(hs<=2){R(8,0,8,8,hr);R(8,8,8,2,hr);R(8,10,1,1,hr);R(15,10,1,1,hr);
@@ -925,6 +940,27 @@ function drawSkin(p,cx){const c=cx||SKX,R=(x,y,w,h,col)=>{c.fillStyle=col;c.fill
  if(ls==3){const b='#4a3018';R(0,26,16,6,b);R(0,26,16,1,'#6a4a28');R(16,58,16,6,b);R(16,58,16,1,'#6a4a28');R(8,16,4,4,b);R(24,48,4,4,b)}
  else{R(0,30,16,2,shoe);R(16,62,16,2,shoe);R(8,16,4,4,shoe);R(24,48,4,4,shoe)}}
 drawSkin(SKP[0]);skinTx.needsUpdate=true;
+
+/* ---------- ranks (shown in chat as "[BT] Name: text" and on name tags). Add more here. ---------- */
+const RANKS={bt:{tag:'BT',col:'#ffaa00'},yt:{tag:'YouTuber',col:'#ff5555'}};
+let PROFILE={capes:[],rank:''},myCape='';
+function rankOf(m){if(m.rank&&RANKS[m.rank])return m.rank;if(m.name===MP.name&&RANKS[PROFILE.rank])return PROFILE.rank;for(const q of MP.players.values())if(q.name===m.name)return q.rank||'';return ''}
+/* ---------- capes (single source of truth; order = textures/cape_atlas.png, one 64x32 Minecraft-layout cape per row, top to bottom) ---------- */
+const CAPES=[{id:'beta',n:'Beta Tester',a:'#e8731a',b:'#f59a3c',d:'#a8480c'},{id:'discord',n:'Discord Member',a:'#26292e',b:'#5a606b',d:'#14161a'}];
+const CAPE_EMB={beta:['1110','1001','1110','1001','1001','1110'],discord:['011110','111111','101101','111111','011110','001000']};
+function genCape(g,cp){g.clearRect(0,0,64,32);const R=(x,y,w,h,col)=>{g.fillStyle=col;g.fillRect(x,y,w,h)};
+ R(1,1,10,16,cp.a);for(let x=2;x<10;x+=2)R(x,2,1,13,sdc(cp.a,.93));R(1,14,10,3,sdc(cp.a,.82));
+ R(1,1,10,1,cp.d);R(1,16,10,1,cp.d);R(1,1,1,16,cp.d);R(10,1,1,16,cp.d);
+ const e=CAPE_EMB[cp.id]||[],ew=e[0]?e[0].length:0,ex=1+((10-ew)>>1),ey=5;e.forEach((row,y)=>{for(let x=0;x<row.length;x++)if(row[x]=='1')R(ex+x,ey+y,1,1,cp.b)});
+ R(12,1,10,16,sdc(cp.a,.78));R(1,0,10,1,cp.d);R(11,0,10,1,cp.d);R(0,1,1,16,cp.d);R(11,1,1,16,cp.d)}
+const CAPEC=CAPES.map(cp=>{const c=document.createElement('canvas');c.width=64;c.height=32;genCape(c.getContext('2d'),cp);return c}),
+ CAPETEX=CAPEC.map(c=>{const t=new THREE.CanvasTexture(c);t.magFilter=t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t}),
+ CAPEMAT=CAPETEX.map(t=>new THREE.MeshBasicMaterial({map:t,vertexColors:true,alphaTest:.1})),CAPEG=skinBox(10,16,1,0,0,0,32);
+/* cape = 10x16x1 px box hanging from the shoulders, its textured outside facing backwards (same box/UV layout as Minecraft) */
+function mkCape(par,y){const pv=new THREE.Group();pv.position.set(0,y===undefined?.675:y,3*SKS+.004);const m=new THREE.Mesh(CAPEG,CAPEMAT[0]);m.rotation.y=Math.PI;m.position.y=-8*SKS;pv.add(m);pv.visible=false;par.add(pv);return{pv,m,a:0}}
+const capeIdx=id=>CAPES.findIndex(c=>c.id==id);
+function capeSet(c,id){const i=capeIdx(id);if(i<0){c.pv.visible=false;return}c.m.material=CAPEMAT[i];c.pv.visible=true}
+function capeAnim(c,dt,spd,cr,wk){if(!c.pv.visible)return;const t=.12+Math.min(1,spd/5)*.5+cr*.25+Math.abs(Math.sin(wk))*.08*Math.min(1,spd/3);c.a+=(t-c.a)*Math.min(1,8*dt);c.pv.rotation.x=-c.a}
 const limb=(w,h,d,kind,x,y,o,par=body,out=OUTER)=>{const key=kind=='arm'?(x>0?'armR':'armL'):kind=='leg'?(x>0?'legR':'legL'):kind,[bw,bh,bd,u1,v1,u2,v2]=SPEC[key],g=new THREE.Group();
  for(const[uu,vv,gr]of[[u1,v1,0],[u2,v2,1]]){const m=new THREE.Mesh(skinBox(bw,bh,bd,uu,vv,gr),SKM);m.position.y=o*h/2;if(gr)out.push(m);g.add(m)}
  g.position.set(x,y,0);par.add(g);return g};
@@ -932,11 +968,13 @@ const pUp=new THREE.Group();pUp.position.set(0,.675,0);body.add(pUp);let pCr=0;
 const pHead=limb(.45,.45,.45,'head',0,.675,1,pUp);
 limb(.45,.675,.225,mSh,0,.3375,0,pUp);
 const pArmR=limb(.225,.675,.225,mArm,.3375,.675,-1,pUp),pArmL=limb(.225,.675,.225,mArm,-.3375,.675,-1,pUp),pLegR=limb(.225,.675,.225,mLeg,.1125,.675,-1),pLegL=limb(.225,.675,.225,mLeg,-.1125,.675,-1);
+const pCape=mkCape(pUp);
 const tpItem=new THREE.Mesh(new THREE.BufferGeometry(),MAT);tpItem.position.set(0,-.66,-.2);tpItem.visible=false;pArmR.add(tpItem);
 /* skin menu preview: its own scene/renderer, same model + skin texture */
 const pv={cv:$('skp'),sc:new THREE.Scene(),cam:new THREE.PerspectiveCamera(30,440/560,.1,30),pivot:new THREE.Group(),root:new THREE.Group(),outer:[],r:null,fail:false,yaw:Math.PI-.55,pitch:.1,drag:false,t0:0,lx:0,ly:0};
 pv.pivot.rotation.order='YXZ';pv.root.position.y=-.9;pv.pivot.add(pv.root);pv.sc.add(pv.pivot);pv.cam.position.set(0,0,4.7);
 [[.45,.45,.45,'head',0,1.35,1],[.45,.675,.225,mSh,0,1.0125,0],[.225,.675,.225,mArm,.3375,1.35,-1],[.225,.675,.225,mArm,-.3375,1.35,-1],[.225,.675,.225,mLeg,.1125,.675,-1],[.225,.675,.225,mLeg,-.1125,.675,-1]].forEach(a=>limb(...a,pv.root,pv.outer));
+const pvCape=mkCape(pv.root,1.35);pvCape.pv.rotation.x=-.14;
 
 const box=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.004,1.004,1.004)),new THREE.LineBasicMaterial({color:0x000000}));box.visible=false;scene.add(box);
 scene.add(camera);
@@ -966,8 +1004,8 @@ function buildClouds(ci,cj,sh){const S=mk(),M2=new Map(),on=(i,j)=>{const k=i*10
  for(let j=cj-CR;j<=cj+CR;j++)for(let i=ci-CR;i<=ci+CR;i++){if(!on(i,j))continue;
   for(const[n,v,s]of F){if(n[1]==0&&on(i+n[0],j+n[2]))continue;const w=[];for(let k=0;k<4;k++)w.push(v[k*3]*12,v[k*3+1]*4,v[k*3+2]*12);quad(S,w,i*12,CY,j*12,0,Math.max(s,.78))}}
  cloudM.geometry.dispose();cloudM.geometry=S.n?geo(S):new THREE.BufferGeometry()}
-let lavaT=0;
-function animLava(){const n=performance.now();if(n-lavaT<110)return;lavaT=n;const t=n/1000,LP=['#c0300a','#e8590c','#ff7a18','#ffb020','#ffd23a'];
+let lavaT=0,LAVAF=[]; /* LAVAF = frames from textures/lava_atlas.png (empty = procedural lava) */
+function animLava(){const n=performance.now();if(n-lavaT<110)return;lavaT=n;if(LAVAF.length){X.clearRect(LVX,LVY,8,8);X.drawImage(LAVAF[Math.floor(n/150)%LAVAF.length],LVX,LVY);tex.needsUpdate=true;return}const t=n/1000,LP=['#c0300a','#e8590c','#ff7a18','#ffb020','#ffd23a'];
  for(let y=0;y<8;y++)for(let x=0;x<8;x++){const v=Math.sin((x+t*1.6)*.9)+Math.sin((y-t*1.2)*1.1)+Math.sin((x+y+t*1.4)*.7)+Math.sin(Math.hypot(x-3.5,y-3.5)*1.2-t*2);X.fillStyle=LP[Math.max(0,Math.min(4,Math.floor((v+4)/8*5)))];X.fillRect(LVX+x,LVY+y,1,1)}
  tex.needsUpdate=true}
 function updClouds(){animLava();const dr=performance.now()/1000*1.4,sh=Math.floor(dr/12),fr=dr-sh*12,ci=Math.floor((pos[0]-fr)/12),cj=Math.floor(pos[2]/12);
@@ -1174,9 +1212,9 @@ function ray(ex,ey,ez,a,b,c,max,liq){a=a||1e-9;b=b||1e-9;c=c||1e-9;
 var TAPDIR=null;const pray=liq=>ray(pos[0],pos[1]+eyeH,pos[2],...(TAPDIR||dirv()),6,liq);
 /* ---------- mining ---------- */
 const HD={1:.6,2:.5,3:1.5,4:1.5,5:6,6:2,7:2,8:.2,12:.5,13:.3,17:2,18:2,19:.2,29:2.5,30:3.5,37:2,38:2.5,44:3.5},TL={1:'s',2:'s',3:'p',4:'p',5:'p',6:'a',7:'a',12:'s',13:'s',17:'a',18:'a',29:'a',30:'p',37:'p',38:'p',44:'p'},TOOLS={31:['p',2.5],32:['a',2.5],33:['s',2.5],34:['p',4],35:['a',4],36:['s',4],41:['p',6],42:['s',6],43:['a',6],85:['p',7],86:['a',7],87:['s',7],101:['p',8],102:['a',8],103:['s',8],104:['h',5]};
-const CT=[];for(let s=0;s<10;s++){const c=document.createElement('canvas');c.width=c.height=8;const g=c.getContext('2d');g.fillStyle='rgba(0,0,0,.65)';
+const CT=[],CTC=[];for(let s=0;s<10;s++){const c=document.createElement('canvas');c.width=c.height=8;const g=c.getContext('2d');g.fillStyle='rgba(0,0,0,.65)';
  for(let y=0;y<8;y++)for(let x=0;x<8;x++)if(h2(x,y,500)<(s+1)*.085)g.fillRect(x,y,1,1);
- const t=new THREE.CanvasTexture(c);t.magFilter=t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;CT.push(t)}
+ const t=new THREE.CanvasTexture(c);t.magFilter=t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;CT.push(t);CTC.push(c)}
 const crackM=new THREE.Mesh(new THREE.BoxGeometry(1.004,1.004,1.004),new THREE.MeshBasicMaterial({map:CT[0],transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-1}));crackM.visible=false;scene.add(crackM);
 for(let i=60;i<68;i++){HD[i]=3;TL[i]='a'}HD[45]=2;TL[45]='p';HD[46]=.3;HD[47]=2.5;TL[47]='a';HD[50]=.5;TL[50]='p';HD[51]=.4;TL[51]='a';HD[52]=2;HD[53]=2;TL[52]=TL[53]='a';HD[55]=3;TL[55]='p';for(const i of[57,58,59]){HD[i]=4;TL[i]='p'}
 for(const i of[91,92,96,97]){HD[i]=2;TL[i]='a'}HD[90]=1.5;TL[90]='a';HD[94]=5;TL[94]='p';HD[95]=3;TL[95]='p';for(const i of[8,19,93,98,99]){HD[i]=.2;TL[i]='h'}
@@ -1262,12 +1300,13 @@ const skIsPreset=()=>SKP.findIndex(p=>SKN_KEYS.every(k=>p[k]==skSpec[k]));
 function setSpec(sp,save){skSpec={};for(const k of SKN_KEYS)skSpec[k]=sp[k];skUp=false;skSel=skIsPreset();drawSkin(skSpec);applySkin();if(save!==false)saveSkin();if(isInv&&skMode)renderSkins()}
 function swRow(el,pal,key){el.textContent='';pal.forEach((col,i)=>{const b=document.createElement('button');b.className='swb'+(!skUp&&skSpec[key]==i?' sel':'');b.style.background=col;b.title=col;b.onclick=()=>{skSpec[key]=i;setSpec(skSpec)};el.append(b)})}
 function renderSkins(){const L=$('skl');L.innerHTML='';
+ $('skc').style.display=skUp?'none':'';
  const add=(icon,name,sel,fn)=>{const w=document.createElement('div');w.className='skw';const b=document.createElement('button');b.className='sk'+(sel?' sel':'');b.append(icon);if(fn)b.onclick=fn;const n=document.createElement('span');n.textContent=name;w.append(b,n);L.append(w)};
  SKP.forEach((p,i)=>{drawSkin(p,SKT.getContext('2d'));add(headIcon(SKT),p.n,!skUp&&i==skSel,()=>setSpec(p))});
  if(skUp)add(headIcon(SKC),'Upload',true);else if(skSel<0){drawSkin(skSpec,SKT.getContext('2d'));add(headIcon(SKT),'Custom',true)}
  for(const[id,arr,key]of[['skhs',SKN_HEADS,'hs'],['skbs',SKN_BODIES,'bs'],['skls',SKN_LEGS,'ls']]){const el=$(id);if(!el.options.length)arr.forEach((n,i)=>{const o=document.createElement('option');o.value=i;o.textContent=n;el.append(o)});el.value=skSpec[key];el.onchange=()=>{skSpec[key]=+el.value;setSpec(skSpec)}}
  swRow($('skhc'),SKN_HAIR,'hc');swRow($('skbc'),SKN_COL,'bc');swRow($('sklc'),SKN_COL,'lc');swRow($('sksk'),SKN_TONES,'sk');
- $('skm').textContent=skUp?'Uploaded skin loaded.':'Skin: '+(skSel>=0?SKP[skSel].n:'Custom');applySkin()}
+ $('skm').textContent=skUp?'Uploaded skin loaded.':'Skin: '+(skSel>=0?SKP[skSel].n:'Custom');renderCapes();applySkin()}
 function pvRender(dt){if(pv.fail||!pv.r){if(!pv.fail)try{pv.r=new THREE.WebGLRenderer({canvas:pv.cv,antialias:true,alpha:true});pv.r.setPixelRatio(1);pv.r.setSize(440,560,false);pv.r.setClearColor(0,0)}catch(e){pv.fail=true}
   if(pv.fail){try{const g=pv.cv.getContext('2d');g.imageSmoothingEnabled=false;g.clearRect(0,0,440,560);g.drawImage(SKC,0,0,440,440)}catch(e){}return}}
  if(!pv.drag&&performance.now()-pv.t0>2500)pv.yaw+=dt*.6;
@@ -1281,6 +1320,17 @@ function loadSkinImg(src,user){const img=new Image();img.onload=()=>{if(img.widt
  skUp=true;applySkin();saveSkin();if(user)renderSkins()};img.src=src}
 function loadSkin(){try{const s=JSON.parse(localStorage.getItem('cc_skin')||'null');if(s&&s.u)loadSkinImg(s.u,false);else if(s&&Array.isArray(s.c)&&s.c.length==7){skSpec={};SKN_KEYS.forEach((k,i)=>skSpec[k]=(+s.c[i]||0));skUp=false;skSel=skIsPreset();drawSkin(skSpec)}else if(s&&s.p>=0&&s.p<SKP.length){skSpec={...SKP[s.p]};skSel=s.p;drawSkin(skSpec)}}catch(e){}applySkin()}
 $('sku').onclick=()=>$('skf').click();
+/* ---------- cape selection + profile (capes/rank come from the signed-in account's profile) ---------- */
+function renderCapes(){const el=$('skcp');el.textContent='';const mk=(id,name,bg,ok)=>{const b=document.createElement('button');b.className='swb'+(id===''?' cx':'')+(myCape===id?' sel':'');b.style.background=bg;b.title=ok?name:name+' (locked)';b.disabled=!ok;if(id==='')b.textContent='\u2715';b.onclick=()=>capeEquip(id);el.append(b)};
+ mk('','No cape','#222',true);CAPES.forEach(c=>mk(c.id,c.n,'linear-gradient(90deg,'+c.a+' 50%,'+c.b+' 50%)',PROFILE.capes.includes(c.id)));
+ const sm=document.createElement('small');sm.textContent=!signed()?'Sign in to unlock capes.':PROFILE.capes.length?(myCape?CAPES[capeIdx(myCape)].n+' cape':'No cape equipped'):'No capes unlocked yet.';el.append(sm)}
+function capeEquip(id,nosave){if(id&&!PROFILE.capes.includes(id))id='';myCape=id;capeSet(pCape,id);capeSet(pvCape,id);if(!nosave)try{localStorage.setItem('cc_cape',id||'none')}catch(e){}mpSendSkin();if(isInv&&skMode)renderCapes()}
+function capeApply(){let s=null;try{s=localStorage.getItem('cc_cape')}catch(e){}if(s===null)s=PROFILE.capes[0]||'';else if(s=='none')s='';capeEquip(PROFILE.capes.includes(s)?s:'',true)}
+let profFor='';
+function loadProfile(){const A=window.MCAuth;if(!signed()){PROFILE={capes:[],rank:''};profFor='';capeApply();return}if(!A.profile||profFor==A.user.uid)return;profFor=A.user.uid;
+ A.profile().then(p=>{PROFILE={capes:p.capes||[],rank:p.rank||''};capeApply()}).catch(e=>{console.error('profile',e);profFor=''})}
+addEventListener('mcauth',loadProfile);loadProfile();
+
 $('skf').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>loadSkinImg(r.result,true);r.readAsDataURL(f);e.target.value=''};
 $('sko').onchange=()=>[...OUTER,...pv.outer].forEach(m=>{m.visible=$('sko').checked});
 $('play').onclick=()=>{if(scr=='main'){setOpen=false;updateUI()}else cv.requestPointerLock()};
@@ -1345,7 +1395,9 @@ function nameOk(){const i=$('lobname');i.value=cleanName(i.value);if(!i.value){i
 $('lobname').oninput=()=>{const i=$('lobname'),v=cleanName(i.value);if(v!=i.value)i.value=v;i.classList.remove('bad')};
 /* ---------- chat ---------- */
 let chatLast=-1e9;
-function chatAdd(name,text,sys){const l=$('chl'),d=document.createElement('div');if(sys)d.className='sys';d.textContent=(name?'<'+name+'> ':'')+text;l.append(d);while(l.children.length>12)l.firstChild.remove()}
+function chatAdd(name,text,sys,rank){const l=$('chl'),d=document.createElement('div');if(sys)d.className='sys';
+ if(name){const r=RANKS[rank];if(r){const sp=document.createElement('span');sp.textContent='['+r.tag+']';sp.style.color=r.col;d.append(sp,' ')}d.append(name+': '+text)}else d.textContent=text;
+ l.append(d);while(l.children.length>12)l.firstChild.remove()}
 function chatOpenUI(){chatOpen=true;const i=$('chi');i.style.display='block';i.value='';if(locked)document.exitPointerLock();updateUI();i.focus()}
 function chatClose(relock){chatOpen=false;const i=$('chi');i.style.display='none';i.blur();if(relock&&scr=='game'){cv.requestPointerLock();setTimeout(()=>{if(!locked&&!chatOpen)updateUI()},300)}else updateUI()}
 function chatSubmit(){const t=$('chi').value.replace(/[\u0000-\u001f]/g,'').trim();chatClose(true);if(!t)return;
@@ -1369,7 +1421,8 @@ function runCmd(t){const a=t.slice(1).trim().split(/\s+/),c=(a.shift()||'').toLo
   if(!q)say('Player not found: '+w);else if(!q.has)say(q.name+"'s position is not known yet.");else{tpTo(q.tx_,q.ty,q.tz);say('Teleported to '+q.name+'.')}}
  else say('Unknown command. Type /help')}
 /* ---------- accounts + cloud saves ---------- */
-const SOLO={on:false},signed=()=>!!(window.MCAuth&&MCAuth.user);
+const SOLO={on:false};
+function signed(){return !!(window.MCAuth&&MCAuth.user)}
 const packItems=a=>a.map(s=>s?[s.id,s.n]:0),unpackItems=(a,n)=>{const r=[];for(let i=0;i<n;i++){const v=a&&a[i];r.push(Array.isArray(v)&&BL[v[0]]?{id:v[0]|0,n:Math.max(1,Math.min(ms(v[0]),v[1]|0))}:null)}return r};
 function applySkinMsg(s){if(s&&typeof s.u=='string')loadSkinImg(s.u,false);else if(s&&s.p>=0&&s.p<SKP.length){setSpec(SKP[s.p],false)}applySkin()}
 function applyMe(s){if(Array.isArray(s.inv)){unpackItems(s.inv,46).forEach((v,i)=>inv[i]=v);renderHB()}
@@ -1543,7 +1596,7 @@ const mpSkinMsg=()=>skUp||skSel<0?{u:SKC.toDataURL()}:{p:skSel};
 function mpWant(cx,cz){const k=cx+','+cz;if(MP.have.has(k))return;MP.have.add(k);MP.want.push([cx,cz])}
 setInterval(()=>{if(MP.want.length&&MP.ws&&MP.ws.readyState==1)mpSend({t:'need',c:MP.want.splice(0,64)})},120);
 function mpSend(o){if(MP.ws&&MP.ws.readyState==1)MP.ws.send(JSON.stringify(o))}
-function mpSendSkin(){if(MP.ws)mpSend({t:'sk',skin:mpSkinMsg()})}
+function mpSendSkin(){if(MP.ws)mpSend({t:'sk',skin:mpSkinMsg(),cape:myCape})}
 function mpSendBlock(x,y,z,b){const o={t:'b',x,y,z,b},d=DOORS.get(x+','+y+','+z);if(b&&d!==undefined)o.d=d;mpSend(o)}
 function mpChest(){if(MP.ws&&ckey&&CH.has(ckey))mpSend({t:'ch',k:ckey,a:CH.get(ckey)})}
 function mpStatus(s){MP.status=s;mpRender()}
@@ -1554,7 +1607,7 @@ function mpRender(){const el=$('mps');if(!MP.url){el.textContent='';return}
 function mpJoin(url,lobby){mpLeave();claims.clear();MP.rdy=false;MP.joined=false;mpWantFn=null;MP.have.clear();MP.want.length=0;MP.url=url;MP.lobby=lobby;MP.tries=0;$('chl').style.display='flex';mpOpen()}
 function mpOpen(){let ws;try{ws=new WebSocket(MP.url)}catch(e){mpStatus('Bad server address');MP.url='';return}
  MP.ws=ws;MP.ready=false;mpStatus('Connecting...');
- ws.onopen=async()=>{MP.tries=0;MP.lastInv='';let tok='';try{if(signed())tok=await MCAuth.token()}catch(e){}if(MP.ws!==ws)return;ws.send(JSON.stringify({t:'hi',name:MP.name=cleanName($('lobname').value)||'Player',skin:mpSkinMsg(),tok}))};
+ ws.onopen=async()=>{MP.tries=0;MP.lastInv='';let tok='';try{if(signed())tok=await MCAuth.token()}catch(e){}if(MP.ws!==ws)return;ws.send(JSON.stringify({t:'hi',name:MP.name=cleanName($('lobname').value)||'Player',skin:mpSkinMsg(),cape:myCape,tok}))};
  ws.onmessage=e=>{if(MP.ws===ws)mpMsg(e.data)};
  ws.onclose=ev=>{if(MP.ws!==ws)return;MP.ws=null;MP.ready=false;mpClear();
   if(ev.code==4001){MP.url='';mpStatus('Lobby is full');return}
@@ -1566,7 +1619,7 @@ function mpLeave(){mpWantFn=null;TPR.cur=null;$('tpt').style.display='none';if(b
 function mpMsg(s){let m;try{m=JSON.parse(s)}catch(e){return}
  switch(m.t){
  case'init':MP.id=m.id;mpClear();for(const q of m.players)mpAdd(q);for(const k in m.chests)CH.set(k,m.chests[k]);MP.ready=true;claims.clear();for(const c of m.claims||[])claims.set(c.c,c);if(m.seed!==undefined){setSeed(m.seed);pos[0]=SP[0];pos[1]=SP[1];pos[2]=SP[2]}MP.have.clear();MP.want.length=0;if(m.near)for(let a=-m.near.r;a<=m.near.r;a++)for(let b=-m.near.r;b<=m.near.r;b++)MP.have.add((m.near.cx+a)+','+(m.near.cz+b));mpRender();if(m.me)applyMe(m.me);if(!m.spawn)mpSend({t:'spawn',x:SP[0],z:SP[2]});break;
- case'c':chatAdd(m.name,m.m);break;
+ case'c':chatAdd(m.name,m.m,0,rankOf(m));break;
  case'sys':chatAdd('',m.m,1);break;
  case'ready':MP.rdy=true;mpWantFn=mpWant;break;
  case'reset':resetArea();break;
@@ -1581,7 +1634,7 @@ function mpMsg(s){let m;try{m=JSON.parse(s)}catch(e){return}
  case'p':{const q=MP.players.get(m.id);if(q)mpPos(q,m);break}
  case'join':mpAdd(m.p);mpRender();break;
  case'leave':mpDrop(m.id);mpRender();break;
- case'sk':{const q=MP.players.get(m.id);if(q)mpSkin(q,m.skin);break}
+ case'sk':{const q=MP.players.get(m.id);if(q){mpSkin(q,m.skin);if(m.cape!==undefined)capeSet(q.cp,m.cape)}break}
  case'ch':CH.set(m.k,m.a);if(ckey==m.k)renderChest();break;
  case'full':mpStatus('Lobby is full');break}}
 /* apply a block change from another player without echoing it back; remeshing is deferred to the frame loop */
@@ -1599,11 +1652,11 @@ function mpAdd(o){if(MP.players.has(o.id))mpDrop(o.id);
  const mat=new THREE.MeshBasicMaterial({map:tx,vertexColors:true,alphaTest:.1}),g=new THREE.Group();g.visible=false;
  const L=(h,key,x,y,oo,par)=>{par=par||g;const[bw,bh,bd,u1,v1,u2,v2]=SPEC[key],gg=new THREE.Group();for(const[uu,vv,gr]of[[u1,v1,0],[u2,v2,1]]){const m=new THREE.Mesh(skinBox(bw,bh,bd,uu,vv,gr),mat);m.position.y=oo*h/2;gg.add(m)}gg.position.set(x,y,0);par.add(gg);return gg};
  const up=new THREE.Group();up.position.set(0,.675,0);g.add(up);const head=L(.45,'head',0,.675,1,up);L(.675,'torso',0,.3375,0,up);const aR=L(.675,'armR',.3375,.675,-1,up),aL=L(.675,'armL',-.3375,.675,-1,up),lR=L(.675,'legR',.1125,.675,-1),lL=L(.675,'legL',-.1125,.675,-1);
- const it=new THREE.Mesh(new THREE.BufferGeometry(),MAT);it.visible=false;aR.add(it);scene.add(g);
+ const it=new THREE.Mesh(new THREE.BufferGeometry(),MAT);it.visible=false;aR.add(it);scene.add(g);const cp=mkCape(up);capeSet(cp,o.cape);
  const name=String(o.name||'Player'),nc=document.createElement('canvas');nc.width=256;nc.height=48;const nx=nc.getContext('2d');nx.font='bold 26px ui-monospace,Menlo,Consolas,monospace';nx.textAlign='center';nx.textBaseline='middle';
- const w=Math.min(250,nx.measureText(name).width+18);nx.fillStyle='rgba(0,0,0,.5)';nx.fillRect(128-w/2,4,w,40);nx.fillStyle='#fff';nx.fillText(name,128,25,236);
+ const rk=RANKS[o.rank],pre=rk?'['+rk.tag+'] ':'',w1=nx.measureText(pre).width,w2=nx.measureText(name).width,sc=Math.min(1,236/(w1+w2)),tw=(w1+w2)*sc,bw=Math.min(250,tw+18);nx.fillStyle='rgba(0,0,0,.5)';nx.fillRect(128-bw/2,4,bw,40);nx.save();nx.translate(128-tw/2,25);nx.scale(sc,1);nx.textAlign='left';if(rk){nx.fillStyle=rk.col;nx.fillText(pre,0,0)}nx.fillStyle='#fff';nx.fillText(name,w1,0);nx.restore();
  const tag=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(nc),transparent:true,depthTest:false,fog:false}));tag.scale.set(1.6,.3,1);tag.renderOrder=5;tag.visible=false;scene.add(tag);
- const q={id:o.id,name,g,up,cr:0,spd:0,amp:0,mat,tx,cv:cv2,head,aR,aL,lR,lL,it,tag,sh:mkShadow(),has:false,x:0,y:0,z:0,yaw:0,pitch:0,tx_:0,ty:0,tz:0,tyaw:0,tpitch:0,c:0,h:-1,sw:0,wk:0,own:false};
+ const q={id:o.id,name,cp,rank:RANKS[o.rank]?o.rank:'',g,up,cr:0,spd:0,amp:0,mat,tx,cv:cv2,head,aR,aL,lR,lL,it,tag,sh:mkShadow(),has:false,x:0,y:0,z:0,yaw:0,pitch:0,tx_:0,ty:0,tz:0,tyaw:0,tpitch:0,c:0,h:-1,sw:0,wk:0,own:false};
  MP.players.set(o.id,q);mpSkin(q,o.skin);mpHeld(q,o.h|0);if(o.x!==undefined)mpPos(q,o)}
 function mpSkin(q,s){const c=q.cv.getContext('2d'),done=()=>{q.tx.needsUpdate=true};
  if(s&&typeof s.u=='string'&&s.u.startsWith('data:image/png;base64,')){const img=new Image();img.onload=()=>{c.clearRect(0,0,64,64);c.drawImage(img,0,0,64,64);done()};img.src=s.u}
@@ -1629,7 +1682,7 @@ function mpFrame(dt){if(!MP.players.size)return;const k=Math.min(1,12*dt);
   q.wk+=dt*Math.min(q.spd,9)*1.7;q.amp+=(Math.min(1,q.spd/2.2)*(Math.abs(q.ty-q.y)>.5?.35:1)-q.amp)*Math.min(1,12*dt);const lg=Math.sin(q.wk)*q.amp*.85;
   q.cr+=((q.c?1:0)-q.cr)*Math.min(1,12*dt);q.sw=Math.max(0,q.sw-dt*4);const sw=Math.sin(q.sw*Math.PI);
   q.lR.rotation.x=lg;q.lL.rotation.x=-lg;q.aL.rotation.x=lg;q.aR.rotation.x=-lg+sw*1.6;
-  q.up.rotation.x=-.55*q.cr;q.up.position.set(0,.675-.12*q.cr,-.05*q.cr);q.lR.position.z=q.lL.position.z=.1*q.cr;q.head.rotation.x=q.pitch+.55*q.cr;
+  q.up.rotation.x=-.55*q.cr;q.up.position.set(0,.675-.12*q.cr,-.05*q.cr);q.lR.position.z=q.lL.position.z=.1*q.cr;q.head.rotation.x=q.pitch+.55*q.cr;capeAnim(q.cp,dt,q.spd,q.cr,q.wk);
   const d2=(q.x-pos[0])**2+(q.z-pos[2])**2;q.tag.position.set(q.x,q.y+2.15-.3*q.cr,q.z);let tv=d2<64*64;
   if(tv&&q.c){q.vt=(q.vt||0)-dt;if(q.vt<=0){q.vt=.1;q.seen=lineClear(camera.position.x,camera.position.y,camera.position.z,q.x,q.y+1.4,q.z)}tv=q.seen!==false}
   q.tag.visible=tv;
@@ -1677,7 +1730,7 @@ if(locked||isInv||chatOpen||scr=='game'){update(dt);tickEnts(dt);mineTick(dt);fu
  body.visible=scr=='game'&&view>0;body.position.set(pos[0],pos[1],pos[2]);body.scale.y=1;body.rotation.y=yaw;
  putShadow(pSh,pos[0],pos[1]+.05,pos[2],.9);if(scr!='game')pSh.visible=false;const spd=Math.hypot(vx,vz);wk+=dt*Math.min(spd,8)*1.7;const lg=Math.sin(wk)*Math.min(1,spd/2.5)*.85;
  pCr+=((crouching?1:0)-pCr)*Math.min(1,12*dt);pUp.rotation.x=-.55*pCr;pUp.position.set(0,.675-.12*pCr,-.05*pCr);pLegR.position.z=pLegL.position.z=.1*pCr;
- pLegR.rotation.x=lg;pLegL.rotation.x=-lg;pArmL.rotation.x=lg;pArmR.rotation.x=-lg+sw*1.6;pHead.rotation.x=pitch+.55*pCr;sky.position.copy(camera.position);
+ pLegR.rotation.x=lg;pLegL.rotation.x=-lg;pArmL.rotation.x=lg;pArmR.rotation.x=-lg+sw*1.6;pHead.rotation.x=pitch+.55*pCr;capeAnim(pCape,dt,spd,pCr,wk);sky.position.copy(camera.position);
  const eb=getB(Math.floor(pos[0]),Math.floor(ey),Math.floor(pos[2])),uw=eb==88?2:ISW[eb]?1:0,dk=uw==1?Math.min(1,Math.max(0,(WL-ey)/32)):0;
  if(uw!=wasUw||Math.abs(dk-lastDk)>.01){wasUw=uw;lastDk=dk;const o=$('uw').style;o.display=uw?'block':'none';
   o.background=uw==2?'rgba(215,60,10,.85)':'rgba('+(42-38*dk|0)+','+(93-81*dk|0)+','+(176-146*dk|0)+','+(.3+.5*dk)+')';
@@ -1801,9 +1854,20 @@ function blit(im,rows,n,off,skip){const tw=im.width/8,th=im.height/rows,c=docume
  for(let k=0;k<n;k++){const t=off+k;if(skip&&skip.has(t))continue;g.clearRect(0,0,8,8);g.drawImage(im,(k%8)*tw,(k>>3)*th,tw,th,0,0,8,8);
   let any=true;try{const d=g.getImageData(0,0,8,8).data;any=false;for(let q=3;q<256;q+=4)if(d[q]){any=true;break}}catch(e){}
   if(!any)continue;const cx=t%8,cy=t>>3;X.clearRect(cx*8,cy*8,8,8);X.drawImage(c,cx*8,cy*8)}}
+/* cut an atlas PNG into cols x rows cells scaled to ow x oh; fully transparent cells give null (= keep the generated art) */
+function grabCells(im,cols,rows,ow,oh){const cw=im.width/cols,ch=im.height/rows,out=[];for(let r=0;r<rows;r++)for(let k=0;k<cols;k++){const c=document.createElement('canvas');c.width=ow;c.height=oh;const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.drawImage(im,k*cw,r*ch,cw,ch,0,0,ow,oh);let any=false;try{const d=g.getImageData(0,0,ow,oh).data;for(let q=3;q<d.length;q+=4)if(d[q]){any=true;break}}catch(e){any=true}out.push(any?c:null)}return out}
+const sqRows=im=>Math.max(1,Math.round(im.height/(im.width/8)));
 function loadExtTextures(){X.imageSmoothingEnabled=false;
  loadImg('textures/texture_atlas.png',im=>{blit(im,Math.ceil(NB/8),NB,0,ANIM);tex.needsUpdate=true;refreshIcons()});
- loadImg('textures/item_atlas.png',im=>{blit(im,Math.ceil(NI/8),NI,NB,null);tex.needsUpdate=true;refreshIcons()})}
+ loadImg('textures/item_atlas.png',im=>{blit(im,Math.ceil(NI/8),NI,NB,null);tex.needsUpdate=true;refreshIcons()});
+ /* breakblock_atlas.png: destroy_stage_0..9, 8 columns of 8x8 tiles, left-to-right, top-to-bottom */
+ loadImg('textures/breakblock_atlas.png',im=>{grabCells(im,8,sqRows(im),8,8).forEach((c,i)=>{if(i<10&&c){const g=CTC[i].getContext('2d');g.clearRect(0,0,8,8);g.drawImage(c,0,0);CT[i].needsUpdate=true}})});
+ /* lava_atlas.png: animation frames, 8 columns of 8x8 tiles, played in order (empty tiles are skipped) */
+ loadImg('textures/lava_atlas.png',im=>{const f=grabCells(im,8,sqRows(im),8,8).filter(Boolean);if(f.length){LAVAF=f;lavaT=0}});
+ /* cape_atlas.png: one 64x32 cape (Minecraft layout) per row, in CAPES order */
+ loadImg('textures/cape_atlas.png',im=>{grabCells(im,1,Math.max(1,Math.round(im.height/(im.width/2))),64,32).forEach((c,i)=>{if(i<CAPES.length&&c){const g=CAPEC[i].getContext('2d');g.clearRect(0,0,64,32);g.drawImage(c,0,0);CAPETEX[i].needsUpdate=true}})});
+ /* skin_atlas.png: one 64x64 Minecraft skin per tile, 8 columns, in SKP order (Max, Jack, Luna, Ruby, Finn, Zoe, Kai, Nova) */
+ loadImg('textures/skin_atlas.png',im=>{grabCells(im,8,sqRows(im),64,64).forEach((c,i)=>{if(i<SKP.length)SKAT[i]=c});if(!skUp){drawSkin(skSpec);applySkin()}if(isInv&&skMode)renderSkins()})}
 loadExtTextures();
 (()=>{const ids=[...document.querySelectorAll('#menu input[id],#skn input[id]')].filter(i=>(i.type=='range'||i.type=='checkbox')&&!['tch','aj','ms'].includes(i.id));
  let st={};try{st=JSON.parse(localStorage.getItem('cc_set')||'{}')}catch(e){}
