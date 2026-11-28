@@ -1,0 +1,22 @@
+{
+  "type": "skin",
+  "optional": false,
+  "default": "peach",
+  "atlas": {
+    "image": "textures/skin_atlas.png",
+    "width": 640,
+    "height": 512,
+    "tileWidth": 64,
+    "tileHeight": 64
+  },
+  "items": [
+    {"name": "Porcelain", "link": "porcelain", "type": "skin", "positionX": 0, "positionY": 0},
+    {"name": "Fair", "link": "fair", "type": "skin", "positionX": 1, "positionY": 0},
+    {"name": "Peach", "link": "peach", "type": "skin", "positionX": 2, "positionY": 0},
+    {"name": "Olive", "link": "olive", "type": "skin", "positionX": 3, "positionY": 0},
+    {"name": "Tan", "link": "tan", "type": "skin", "positionX": 4, "positionY": 0},
+    {"name": "Bronze", "link": "bronze", "type": "skin", "positionX": 5, "positionY": 0},
+    {"name": "Brown", "link": "brown", "type": "skin", "positionX": 6, "positionY": 0},
+    {"name": "Deep", "link": "deep", "type": "skin", "positionX": 7, "positionY": 0}
+  ]
+}

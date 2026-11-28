@@ -1,0 +1,15 @@
+{
+  "type": "accessories",
+  "optional": true,
+  "default": "empty",
+  "atlas": {
+    "image": "textures/accessories_atlas.png",
+    "width": 640,
+    "height": 640,
+    "tileWidth": 64,
+    "tileHeight": 64
+  },
+  "items": [
+    {"name": "Crown", "link": "crown", "type": "accessories", "positionX": 0, "positionY": 0}
+  ]
+}

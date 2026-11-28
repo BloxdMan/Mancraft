@@ -1,0 +1,26 @@
+{
+  "type": "hair",
+  "optional": true,
+  "default": "short_brown",
+  "atlas": {
+    "image": "textures/skin_atlas.png",
+    "width": 640,
+    "height": 512,
+    "tileWidth": 64,
+    "tileHeight": 64
+  },
+  "items": [
+    {"name": "Short Brown", "link": "short_brown", "type": "hair", "positionX": 0, "positionY": 5},
+    {"name": "Short Black", "link": "short_black", "type": "hair", "positionX": 1, "positionY": 5},
+    {"name": "Short Blonde", "link": "short_blonde", "type": "hair", "positionX": 2, "positionY": 5},
+    {"name": "Spiky Black", "link": "spiky_black", "type": "hair", "positionX": 3, "positionY": 5},
+    {"name": "Spiky Red", "link": "spiky_red", "type": "hair", "positionX": 4, "positionY": 5},
+    {"name": "Long Blonde", "link": "long_blonde", "type": "hair", "positionX": 5, "positionY": 5},
+    {"name": "Long Brown", "link": "long_brown", "type": "hair", "positionX": 6, "positionY": 5},
+    {"name": "Ginger Ponytail", "link": "ginger_ponytail", "type": "hair", "positionX": 7, "positionY": 5},
+    {"name": "Black Curls", "link": "black_curls", "type": "hair", "positionX": 0, "positionY": 6},
+    {"name": "Silver Bob", "link": "silver_bob", "type": "hair", "positionX": 1, "positionY": 6},
+    {"name": "Pink Bob", "link": "pink_bob", "type": "hair", "positionX": 2, "positionY": 6},
+    {"name": "Purple Mohawk", "link": "purple_mohawk", "type": "hair", "positionX": 3, "positionY": 6}
+  ]
+}

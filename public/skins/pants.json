@@ -1,0 +1,23 @@
+{
+  "type": "pants",
+  "optional": true,
+  "default": "blue_jeans",
+  "atlas": {
+    "image": "textures/skin_atlas.png",
+    "width": 640,
+    "height": 512,
+    "tileWidth": 64,
+    "tileHeight": 64
+  },
+  "items": [
+    {"name": "Blue Jeans", "link": "blue_jeans", "type": "pants", "positionX": 0, "positionY": 3},
+    {"name": "Black Jeans", "link": "black_jeans", "type": "pants", "positionX": 1, "positionY": 3},
+    {"name": "Khaki Cargo", "link": "khaki_cargo", "type": "pants", "positionX": 2, "positionY": 3},
+    {"name": "Grey Joggers", "link": "grey_joggers", "type": "pants", "positionX": 3, "positionY": 3},
+    {"name": "Denim Shorts", "link": "denim_shorts", "type": "pants", "positionX": 4, "positionY": 3},
+    {"name": "Red Shorts", "link": "red_shorts", "type": "pants", "positionX": 5, "positionY": 3},
+    {"name": "Overalls", "link": "overalls", "type": "pants", "positionX": 6, "positionY": 3},
+    {"name": "Camo Pants", "link": "camo_pants", "type": "pants", "positionX": 7, "positionY": 3},
+    {"name": "Black Trousers", "link": "black_trousers", "type": "pants", "positionX": 8, "positionY": 3}
+  ]
+}

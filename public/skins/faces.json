@@ -1,0 +1,22 @@
+{
+  "type": "face",
+  "optional": false,
+  "default": "blue_eyes",
+  "atlas": {
+    "image": "textures/skin_atlas.png",
+    "width": 640,
+    "height": 512,
+    "tileWidth": 64,
+    "tileHeight": 64
+  },
+  "items": [
+    {"name": "Blue Eyes", "link": "blue_eyes", "type": "face", "positionX": 0, "positionY": 1},
+    {"name": "Green Eyes", "link": "green_eyes", "type": "face", "positionX": 1, "positionY": 1},
+    {"name": "Brown Eyes", "link": "brown_eyes", "type": "face", "positionX": 2, "positionY": 1},
+    {"name": "Big Smile", "link": "big_smile", "type": "face", "positionX": 3, "positionY": 1},
+    {"name": "Layqov", "link": "layqov", "type": "face", "positionX": 4, "positionY": 1},
+    {"name": "Mustache", "link": "mustache", "type": "face", "positionX": 5, "positionY": 1},
+    {"name": "Shocked", "link": "shocked", "type": "face", "positionX": 6, "positionY": 1},
+    {"name": "Glasses", "link": "glasses", "type": "face", "positionX": 7, "positionY": 1}
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "shirt",
+  "optional": true,
+  "default": "blue_jacket",
+  "atlas": {
+    "image": "textures/skin_atlas.png",
+    "width": 640,
+    "height": 512,
+    "tileWidth": 64,
+    "tileHeight": 64
+  },
+  "items": [
+    {"name": "White Tee", "link": "white_tee", "type": "shirt", "positionX": 0, "positionY": 2},
+    {"name": "Red Tee", "link": "red_tee", "type": "shirt", "positionX": 1, "positionY": 2},
+    {"name": "Blue Jacket", "link": "blue_jacket", "type": "shirt", "positionX": 2, "positionY": 2},
+    {"name": "Leather Jacket", "link": "leather_jacket", "type": "shirt", "positionX": 3, "positionY": 2},
+    {"name": "Green Hoodie", "link": "green_hoodie", "type": "shirt", "positionX": 4, "positionY": 2},
+    {"name": "Black Costume", "link": "black_costume", "type": "shirt", "positionX": 5, "positionY": 2},
+    {"name": "Red Flannel", "link": "red_flannel", "type": "shirt", "positionX": 6, "positionY": 2},
+    {"name": "Purple Long Sleeve", "link": "purple_longsleeve", "type": "shirt", "positionX": 7, "positionY": 2}
+  ]
+}

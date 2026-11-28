@@ -64,6 +64,7 @@ export class Lobby{
   async maybeReset(){const now=Date.now();if(now-this.lastReset<RESET_MS)return;this.lastReset=now;await this.st.storage.put('lastReset',now);
     for(let cx=-26;cx<=25;cx++)for(let cz=-26;cz<=25;cz++){const k=cx+','+cz,s=this.col.get(k);if(!s)continue;for(const e of s)delete this.edits[e];this.col.delete(k)}
     for(const k of Object.keys(this.chests)){const p=k.split(',');if(!p.length||p.length<3)continue;const cx=Number(p[0])>>4,cz=Number(p[2])>>4;if(cx>=-26&&cx<=25&&cz>=-26&&cz<=25)delete this.chests[k]}
+    {let cc=0;for(const col of [...this.claims.keys()]){const p=col.split(',').map(Number);if(p[0]>=-26&&p[0]<=25&&p[1]>=-26&&p[1]<=25){this.claims.delete(col);this.all({t:'unclaim',c:col});cc++}}if(cc)await this.saveClaims()}
     this.dirty=true;this.all({t:'reset'})}
   saveClaims(){return this.st.storage.put('claims',Object.fromEntries(this.claims))}
   deny(c,m){this.send(c,{t:'deny',m})}
@@ -115,12 +116,12 @@ export class Lobby{
     case'b':if(!Number.isInteger(m.x)||!Number.isInteger(m.z)||!Number.isInteger(m.y)||!num(m.y,0,191)||!num(m.x,-1e6,1e6)||!num(m.z,-1e6,1e6)||!Number.isInteger(m.b)||!num(m.b,0,255))return;
       if(this.safe(m.x,m.z))return;
       {const ax=m.x>>4,az=m.z>>4,col=ax+','+az,cl=this.claims.get(col);
-       if(cl&&cl.o!==c.uid){this.deny(c,'This chunk is claimed by '+cl.n+'.');return}
+       if(cl&&cl.o!==c.uid){this.deny(c,m.b==126?'This chunk is owned by '+cl.n+'.':'This chunk is claimed by '+cl.n+'.');return}
        const same=cl&&cl.x==m.x&&cl.y==m.y&&cl.z==m.z;
        if(m.b==126&&!same){
-        if(ax>=-26&&ax<=25&&az>=-26&&az<=25){this.deny(c,'Claimstones only work outside the spawn area (x/z beyond \u00b1420).');return}
-        if(cl){this.deny(c,'This chunk is already claimed.');return}
-        let n=0;for(const v of this.claims.values())if(v.o===c.uid)n++;if(n>=8){this.deny(c,'You already have 8 claimstones placed.');return}
+        if(m.x>=-420&&m.x<=420&&m.z>=-420&&m.z<=420){this.deny(c,'Cannot place a Claimstone inside the reset area (-420 to 420).');return}
+        if(cl){this.deny(c,'You already have a Claimstone in this chunk.');return}
+        let n=0;for(const v of this.claims.values())if(v.o===c.uid)n++;if(n>=8){this.deny(c,'You can place at most 8 Claimstones in this lobby.');return}
         this.claims.set(col,{o:c.uid,n:c.name,x:m.x,y:m.y,z:m.z});await this.saveClaims();this.all({t:'claim',c:col,o:c.uid,n:c.name,x:m.x,y:m.y,z:m.z})}
        else if(same&&m.b!=126){this.claims.delete(col);await this.saveClaims();this.all({t:'unclaim',c:col})}}
       {const d=Number.isInteger(m.d)&&m.b?m.d:undefined,k=m.x+','+m.y+','+m.z;this.edits[k]=d===undefined?[m.b]:[m.b,d];this.index(k);this.dirty=true;this.all({t:'b',x:m.x,y:m.y,z:m.z,b:m.b,d},c)}break;

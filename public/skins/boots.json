@@ -1,0 +1,22 @@
+{
+  "type": "boots",
+  "optional": true,
+  "default": "brown_boots",
+  "atlas": {
+    "image": "textures/skin_atlas.png",
+    "width": 640,
+    "height": 512,
+    "tileWidth": 64,
+    "tileHeight": 64
+  },
+  "items": [
+    {"name": "Brown Boots", "link": "brown_boots", "type": "boots", "positionX": 0, "positionY": 4},
+    {"name": "Black Boots", "link": "black_boots", "type": "boots", "positionX": 1, "positionY": 4},
+    {"name": "Hiking Boots", "link": "hiking_boots", "type": "boots", "positionX": 2, "positionY": 4},
+    {"name": "Rain Boots", "link": "rain_boots", "type": "boots", "positionX": 3, "positionY": 4},
+    {"name": "Cowboy Boots", "link": "cowboy_boots", "type": "boots", "positionX": 4, "positionY": 4},
+    {"name": "White Sneakers", "link": "white_sneakers", "type": "boots", "positionX": 5, "positionY": 4},
+    {"name": "Red Sneakers", "link": "red_sneakers", "type": "boots", "positionX": 6, "positionY": 4},
+    {"name": "Sandals", "link": "sandals", "type": "boots", "positionX": 7, "positionY": 4}
+  ]
+}
